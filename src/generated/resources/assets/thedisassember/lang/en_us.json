@@ -1,0 +1,15 @@
+{
+  "block.thedisassember.basic_block": "Basic Disassembler",
+  "item.thedisassember.diamond_saw": "DiamondSaw",
+  "item.thedisassember.diamond_teeth": "DiamondTeeth",
+  "item.thedisassember.gold_saw": "GoldSaw",
+  "item.thedisassember.gold_teeth": "GoldTeeth",
+  "item.thedisassember.iron_saw": "IronSaw",
+  "item.thedisassember.iron_teeth": "IronTeeth",
+  "item.thedisassember.netherite_saw": "NetheriteSaw",
+  "item.thedisassember.netherite_teeth": "NetheriteTeeth",
+  "item.thedisassember.stone_saw": "StoneSaw",
+  "item.thedisassember.stone_teeth": "StoneTeeth",
+  "item.thedisassember.wood_saw": "WoodSaw",
+  "item.thedisassember.wood_teeth": "WoodTeeth"
+}

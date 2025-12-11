@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_teeth": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "thedisassember:gold_teeth"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "thedisassember:gold_saw_shaped"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_teeth",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "thedisassember:gold_saw_shaped"
+    ]
+  },
+  "sends_telemetry_event": false
+}

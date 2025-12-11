@@ -1,0 +1,79 @@
+package snaypertihcreator.thedisassember.blocks;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import snaypertihcreator.thedisassember.blocksEntity.ModBlocksEntity;
+import snaypertihcreator.thedisassember.blocksEntity.Tier1DisassemblerBlockEntity;
+
+public class DisassemberBlock extends Block implements EntityBlock {
+    private final TierTheDisassember tier;
+
+    public DisassemberBlock(TierTheDisassember tier) {
+        super(Properties.of());
+        this.tier = tier;
+    }
+
+    public TierTheDisassember getTier() {
+        return tier;
+    }
+
+    @Override
+    public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
+        return new Tier1DisassemblerBlockEntity(pos, state);
+    }
+
+    @Override
+    public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
+        if (world.isClientSide) return InteractionResult.sidedSuccess(true);
+
+        BlockEntity be = world.getBlockEntity(pos);
+        if (!(be instanceof Tier1DisassemblerBlockEntity entity)) throw new IllegalStateException("Container provider is missing!");;
+
+        NetworkHooks.openScreen((ServerPlayer) player, entity, pos);
+
+        return InteractionResult.sidedSuccess(false);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level wolrd, BlockState state, BlockEntityType<T> type) {
+        if (wolrd.isClientSide) return null;
+
+        if (type == ModBlocksEntity.TIER1_DISASSEMBER_BE.get())
+            return (lvl, pos, st, be) -> Tier1DisassemblerBlockEntity.tick(lvl, pos, st, (Tier1DisassemblerBlockEntity) be);
+
+
+        return null;
+
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity be = world.getBlockEntity(pos);
+            if (be instanceof Tier1DisassemblerBlockEntity) {
+                be.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
+                    for (int i = 0; i < handler.getSlots(); i++) {
+                        Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+                    }
+                });
+            }
+        }
+        super.onRemove(state, world, pos, newState, isMoving);
+    }
+}

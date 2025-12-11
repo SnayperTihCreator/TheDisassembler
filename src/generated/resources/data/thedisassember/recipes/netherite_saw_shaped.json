@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "thedisassember:netherite_teeth"
+    },
+    "B": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "thedisassember:netherite_saw"
+  },
+  "show_notification": true
+}

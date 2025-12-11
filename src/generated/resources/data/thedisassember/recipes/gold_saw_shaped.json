@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "thedisassember:gold_teeth"
+    },
+    "B": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "thedisassember:gold_saw"
+  },
+  "show_notification": true
+}

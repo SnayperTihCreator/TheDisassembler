@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "thedisassember:diamond_teeth"
+    },
+    "B": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "pattern": [
+    " A ",
+    "ABA",
+    " A "
+  ],
+  "result": {
+    "item": "thedisassember:diamond_saw"
+  },
+  "show_notification": true
+}
