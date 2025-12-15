@@ -1,6 +1,7 @@
 package snaypertihcreator.thedisassember;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,10 +21,9 @@ import snaypertihcreator.thedisassember.creativetabs.ModCreativeTabs;
 import snaypertihcreator.thedisassember.items.ModItems;
 import snaypertihcreator.thedisassember.menus.ModMenuTypes;
 import snaypertihcreator.thedisassember.networking.ModMessages;
-import snaypertihcreator.thedisassember.providers.ModEnLangProvider;
-import snaypertihcreator.thedisassember.providers.ModModelProvider;
-import snaypertihcreator.thedisassember.providers.ModRecipeProvider;
-import snaypertihcreator.thedisassember.providers.ModRuLangProvider;
+import snaypertihcreator.thedisassember.providers.*;
+
+import java.util.concurrent.CompletableFuture;
 
 
 @Mod(TheDisassemberMod.MODID)
@@ -60,11 +60,14 @@ public class TheDisassemberMod
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         ExistingFileHelper helper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> provider = event.getLookupProvider();
 
         generator.addProvider(event.includeClient(), new ModModelProvider(output, helper));
         generator.addProvider(event.includeClient(), new ModRecipeProvider(output));
         generator.addProvider(event.includeClient(), new ModEnLangProvider(output));
         generator.addProvider(event.includeClient(), new ModRuLangProvider(output));
+        ModBlockTagProvider bProvider = generator.addProvider(event.includeClient(), new ModBlockTagProvider(output, provider, helper));
+        generator.addProvider(event.includeClient(), new ModItemTagProvider(output, provider,bProvider.contentsGetter(), helper));
 
     }
 }

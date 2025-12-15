@@ -1,0 +1,22 @@
+package snaypertihcreator.thedisassember.recipes;
+
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
+import snaypertihcreator.thedisassember.TheDisassemberMod;
+
+public class ModRecipes {
+    public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TheDisassemberMod.MODID);
+
+    public static final RegistryObject<RecipeSerializer<DisassemblingRecipe>> DISASSEMBLING_SERIALIZER =
+            SERIALIZERS.register("disassembling", () -> DisassemblingRecipe.Serializer.INSTANCE);
+
+    public static final RecipeType<DisassemblingRecipe> DISASSEMBLING_TYPE = new RecipeType<>() {
+        @Override
+        public String toString() {
+            return TheDisassemberMod.MODID + ":disassembling";
+        }
+    };
+}

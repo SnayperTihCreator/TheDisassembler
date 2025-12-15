@@ -42,7 +42,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                     ingredient,
                     RecipeCategory.MISC,
                     teethResult.get(),
-                    4
+                    2
             )
                     .unlockedBy("has_" + material.getName(), criteria)
                     .save(consumer, TheDisassemberMod.MODID+":"+teethResult.getId().getPath()+"_stonecutting");
