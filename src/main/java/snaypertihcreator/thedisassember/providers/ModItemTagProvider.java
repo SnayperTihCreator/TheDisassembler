@@ -23,5 +23,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         ModItems.SAW_ITEMS.forEach((key, value) -> this.tag(ModTags.SAWS).add(value.get()));
         ModItems.TEETH_ITEMS.forEach((key, value) -> this.tag(ModTags.TEETHS).add(value.get()));
+        ModItems.BLADE_ITEMS.forEach((key, value) -> this.tag(ModTags.BLADES).add(value.get()));
     }
 }

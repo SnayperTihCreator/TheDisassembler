@@ -22,6 +22,7 @@ public class ModCreativeTabs {
                 ModItems.TEETH_ITEMS.values().forEach(item -> output.accept(item.get()));
 
                 output.accept(ModBlocks.BASIC_BLOCK.get());
+                output.accept(ModBlocks.ADVANCED_BLOCK.get());
             })
             .build());
 }

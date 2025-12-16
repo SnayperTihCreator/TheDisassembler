@@ -1,10 +1,10 @@
 {
   "values": [
     "thedisassember:iron_saw",
-    "thedisassember:netherite_saw",
     "thedisassember:wood_saw",
     "thedisassember:stone_saw",
     "thedisassember:gold_saw",
-    "thedisassember:diamond_saw"
+    "thedisassember:diamond_saw",
+    "thedisassember:netherite_saw"
   ]
 }

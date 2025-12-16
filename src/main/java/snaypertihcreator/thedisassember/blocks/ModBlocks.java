@@ -16,6 +16,7 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, TheDisassemberMod.MODID);
 
     public static final RegistryObject<DisassemberBlock> BASIC_BLOCK = registryBlock("basic_block", () -> new DisassemberBlock(TierTheDisassember.BASIC));
+    public static final RegistryObject<DisassemberBlock> ADVANCED_BLOCK = registryBlock("advanced_block", () -> new DisassemberBlock(TierTheDisassember.ADVANCED));
 
     public static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block){
         RegistryObject<T> result = BLOCKS.register(name, block);

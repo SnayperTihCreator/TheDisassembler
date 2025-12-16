@@ -16,8 +16,13 @@ public class ModEnLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(ModBlocks.BASIC_BLOCK.get(), "Basic Disassembler");
-        add("menu." + TheDisassemberMod.MODID + ".base_block", "Disassembly");
-        add(TheDisassemberMod.MODID+".creative_tab", "The Disassembler");
+        add("menu.thedisassember.base_block", "Disassembly");
+        add("thedisassember.creative_tab", "The Disassembler");
+        add("tooltip.thedisassember.saw.description", "Saws that are used for automatic disassemblers");
+        add("tooltip.thedisassember.material.core", "The core");
+        add("tooltip.thedisassember.material.teeth", "Teeth");
+        add("tooltip.thedisassember.durability", "Durability");
+        add("tooltip.thedisassember.hold_shift", "Click on Shift for details");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
             String adj = material.getLang().getEnName();

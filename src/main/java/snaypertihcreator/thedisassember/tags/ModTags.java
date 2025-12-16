@@ -20,4 +20,5 @@ public class ModTags {
 
     public static final TagKey<Item> SAWS = registerItem("saws");
     public static final TagKey<Item> TEETHS = registerItem("teeths");
+    public static final TagKey<Item> BLADES = registerItem("blades");
 }

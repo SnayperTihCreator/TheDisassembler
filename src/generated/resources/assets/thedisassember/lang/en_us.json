@@ -19,5 +19,10 @@
   "item.thedisassember.wood_saw": "Wood Saw",
   "item.thedisassember.wood_teeth": "Wood Teeth",
   "menu.thedisassember.base_block": "Disassembly",
-  "thedisassember.creative_tab": "The Disassembler"
+  "thedisassember.creative_tab": "The Disassembler",
+  "tooltip.thedisassember.durability": "Durability",
+  "tooltip.thedisassember.hold_shift": "Click on Shift for details",
+  "tooltip.thedisassember.material.core": "The core",
+  "tooltip.thedisassember.material.teeth": "Teeth",
+  "tooltip.thedisassember.saw.description": "Saws that are used for automatic disassemblers"
 }

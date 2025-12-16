@@ -15,8 +15,13 @@ public class ModRuLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(ModBlocks.BASIC_BLOCK.get(), "Базовый разборщик");
-        add("menu." + TheDisassemberMod.MODID + ".base_block", "Разборка");
-        add(TheDisassemberMod.MODID+".creative_tab", "Разбощик");
+        add("menu.thedisassember.base_block", "Разборка");
+        add("thedisassember.creative_tab", "Разбощик");
+        add("tooltip.thedisassember.saw.description", "Saws that are used for automatic disassemblers");
+        add("tooltip.thedisassember.material.core", "Сердцевина");
+        add("tooltip.thedisassember.material.teeth", "Зубья");
+        add("tooltip.thedisassember.durability", "Прочность");
+        add("tooltip.thedisassember.hold_shift", "Нажмите на Shift для подробностей");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
 

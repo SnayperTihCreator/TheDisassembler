@@ -1,24 +1,21 @@
 package snaypertihcreator.thedisassember.client.screens;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 import snaypertihcreator.thedisassember.menus.Tier1DisassemblerMenu;
 import snaypertihcreator.thedisassember.networking.ModMessages;
 import snaypertihcreator.thedisassember.networking.PackSpined;
 
+public class Tier1DisassemblerScreen extends DisassemblerScreen<Tier1DisassemblerMenu> {
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "textures/gui/disassembler_gui.png");
 
-public class Tier1DisassemblerScreen extends AbstractContainerScreen<Tier1DisassemblerMenu> {
-    private final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "textures/gui/disassembler_gui.png");
-
-    public Tier1DisassemblerScreen(Tier1DisassemblerMenu menu, Inventory inventory, Component component){
+    public Tier1DisassemblerScreen(Tier1DisassemblerMenu menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
         this.imageWidth = 177;
         this.imageHeight = 189;
@@ -26,38 +23,55 @@ public class Tier1DisassemblerScreen extends AbstractContainerScreen<Tier1Disass
     }
 
     @Override
+    protected ResourceLocation getTexture() {
+        return TEXTURE;
+    }
+
+    @Override
     protected void init() {
         super.init();
-
         this.addRenderableWidget(Button.builder(Component.literal("Разборка"),
-                button -> {
-                    this.setFocused(null);
-                    ModMessages.sendToServer(new PackSpined());
-                })
+                        button -> {
+                            // Убираем фокус, чтобы не мешал
+                            this.setFocused(null);
+                            ModMessages.sendToServer(new PackSpined());
+                        })
                 .bounds(this.leftPos + 62, this.topPos + 84, 63, 12)
                 .build());
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
-
-        // Вычисляем центр экрана
-        int x = (width - imageWidth) / 2;
-        int y = (height - imageHeight) / 2;
-
-        guiGraphics.blit(TEXTURE, x, y, 0, 0, imageWidth, imageHeight);
-
+    protected void renderBgExtras(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY) {
         int progressWidth = menu.getScaledProgress(22);
-        guiGraphics.blit(TEXTURE, x+78, y+43, 177, 0, progressWidth, 15);
+        guiGraphics.blit(TEXTURE, x + 78, y + 43, 177, 0, progressWidth, 15);
     }
 
     @Override
     public void render(@NotNull GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, delta);
-        renderTooltip(guiGraphics, mouseX, mouseY);
+
+        int x = (width - imageWidth) / 2;
+        int y = (height - imageHeight) / 2;
+
+        // 1. Отображение Процентов
+//        int percent = menu.getProgressPercent();
+//        if (percent > 0) {
+//            String percentStr = percent + "%";
+//            // Рисуем текст поверх всего
+//            guiGraphics.drawString(this.font, percentStr, x + 82, y + 60, 0xFFFFFF, true);
+//        }
+
+        if (this.menu.getSlot(36).hasItem()) {
+            if (menu.isRecipeValid()) {
+                guiGraphics.drawString(this.font, "✔", x + 30, y + 46, 0x00FF00, true);
+            } else {
+                guiGraphics.drawString(this.font, "✖", x + 30, y + 46, 0xFF0000, true);
+
+                // Тултип ошибки, если навели на стрелку
+                if (isHovering(78, 43, 22, 15, mouseX, mouseY)) {
+                    guiGraphics.renderTooltip(this.font, Component.translatable("tooltip.thedisassember.no_recipe").withStyle(ChatFormatting.RED), mouseX, mouseY);
+                }
+            }
+        }
     }
 }

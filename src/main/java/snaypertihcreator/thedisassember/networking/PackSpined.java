@@ -3,6 +3,8 @@ package snaypertihcreator.thedisassember.networking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
+import snaypertihcreator.thedisassember.blocksEntity.Tier1DisassemblerBlockEntity;
+import snaypertihcreator.thedisassember.menus.DisassemblerMenu;
 import snaypertihcreator.thedisassember.menus.Tier1DisassemblerMenu;
 
 import java.util.function.Supplier;
@@ -17,7 +19,9 @@ public class PackSpined {
 
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
-            if (player != null && player.containerMenu instanceof Tier1DisassemblerMenu menu) menu.entity.spined();
+            if (player != null && player.containerMenu instanceof Tier1DisassemblerMenu menu){
+                if (menu.entity instanceof Tier1DisassemblerBlockEntity entity) entity.spined();
+            }
         });
         return true;
     }

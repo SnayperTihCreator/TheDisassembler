@@ -1,7 +1,8 @@
 package snaypertihcreator.thedisassember.blocks;
 
 public enum TierTheDisassember {
-    BASIC(1);
+    BASIC(1),
+    ADVANCED(2);
 
 
     private final int level;

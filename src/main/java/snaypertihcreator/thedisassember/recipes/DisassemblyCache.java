@@ -17,6 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import snaypertihcreator.thedisassember.ModCommonConfig;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,7 @@ public class DisassemblyCache {
         recipeMap.clear();
     }
 
-    public static CraftingRecipe getRecipe(ItemStack stack) {
+    public static @Nullable CraftingRecipe getRecipe(ItemStack stack) {
         if (stack.isEmpty()) return null;
         return recipeMap.get(stack.getItem());
     }

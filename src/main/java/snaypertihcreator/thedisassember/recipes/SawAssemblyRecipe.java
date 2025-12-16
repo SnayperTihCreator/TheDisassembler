@@ -22,47 +22,58 @@ public class SawAssemblyRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(@NotNull CraftingContainer inv, @NotNull Level world) {
-        boolean hasBlade = false;
-        boolean hasTeeth = false;
-
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack stack = inv.getItem(i);
-            if (!stack.isEmpty()) {
-                if (stack.getItem() instanceof SawBladeItem) {
-                    if (hasBlade) return false; // Нельзя два лезвия
-                    hasBlade = true;
-                } else if (stack.getItem() instanceof SawTeethItem) {
-                    if (hasTeeth) return false; // Нельзя двое зубьев
-                    hasTeeth = true;
-                } else {
-                    return false; // Лишние предметы запрещены
-                }
-            }
+        if (inv.getWidth() < 3 || inv.getHeight() < 3) {
+            return false;
         }
-        return hasBlade && hasTeeth;
+
+        // 0 1 2
+        // 3 4 5
+        // 6 7 8
+
+        ItemStack center = inv.getItem(4);
+        ItemStack top = inv.getItem(1);
+        ItemStack left = inv.getItem(3);
+        ItemStack right = inv.getItem(5);
+        ItemStack bottom = inv.getItem(7);
+
+        if (!(center.getItem() instanceof SawBladeItem)) {
+            return false;
+        }
+
+        if (!(top.getItem() instanceof SawTeethItem) ||
+                !(left.getItem() instanceof SawTeethItem) ||
+                !(right.getItem() instanceof SawTeethItem) ||
+                !(bottom.getItem() instanceof SawTeethItem)) {
+            return false;
+        }
+        if (!ItemStack.isSameItem(top, left) ||
+                !ItemStack.isSameItem(top, right) ||
+                !ItemStack.isSameItem(top, bottom)) {
+            return false;
+        }
+
+        // 4. Проверяем, что углы пустые (0, 2, 6, 8)
+        return inv.getItem(0).isEmpty() && inv.getItem(2).isEmpty() &&
+                inv.getItem(6).isEmpty() && inv.getItem(8).isEmpty();
     }
 
     @Override
     public @NotNull ItemStack assemble(@NotNull CraftingContainer inv, @NotNull RegistryAccess access) {
-        SawBladeItem blade = null;
-        SawTeethItem teeth = null;
+        ItemStack bladeStack = inv.getItem(4);
+        ItemStack teethStack = inv.getItem(1);
 
-        for (int i = 0; i < inv.getContainerSize(); i++) {
-            ItemStack stack = inv.getItem(i);
-            if (stack.getItem() instanceof SawBladeItem b) blade = b;
-            if (stack.getItem() instanceof SawTeethItem t) teeth = t;
-        }
+        if (bladeStack.getItem() instanceof SawBladeItem blade &&
+                teethStack.getItem() instanceof SawTeethItem teeth) {
 
-        if (blade != null && teeth != null) {
-            // ВАЖНО: Убедитесь, что этот метод внутри HandSawItem работает и не возвращает null!
             return HandSawItem.createSaw(blade.getMaterial(), teeth.getMaterial());
         }
+
         return ItemStack.EMPTY;
     }
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
-        return width * height >= 2;
+        return width >= 3 && height >= 3;
     }
 
     @Override

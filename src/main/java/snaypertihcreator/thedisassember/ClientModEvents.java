@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassember.client.screens.Tier1DisassemblerScreen;
+import snaypertihcreator.thedisassember.client.screens.Tier2DisassemblerScreen;
 import snaypertihcreator.thedisassember.items.ModItems;
 import snaypertihcreator.thedisassember.menus.ModMenuTypes;
 
@@ -22,6 +23,7 @@ public class ClientModEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER1_DISASSEMBLER_MENU.get(), Tier1DisassemblerScreen::new));
+        event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER2_DISASSEMBLER_MENU.get(), Tier2DisassemblerScreen::new));
     }
 
     @SubscribeEvent

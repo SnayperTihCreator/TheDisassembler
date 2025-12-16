@@ -1,10 +1,7 @@
 package snaypertihcreator.thedisassember.blocksEntity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -12,54 +9,37 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
+import snaypertihcreator.thedisassember.items.HandSawItem;
 import snaypertihcreator.thedisassember.menus.Tier1DisassemblerMenu;
 import snaypertihcreator.thedisassember.recipes.DisassemblingRecipe;
 import snaypertihcreator.thedisassember.recipes.DisassemblyCache;
 import snaypertihcreator.thedisassember.recipes.ModRecipes;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
-public class Tier1DisassemblerBlockEntity extends BlockEntity implements MenuProvider {
+public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
-    private static final double AUTO_RECIPE_CHANCE = 0.75;
-    private static final Random RANDOM = new Random();
+    private int isValidRecipe = 0;
 
-    private final SimpleContainer inventoryWrapper = new SimpleContainer(1);
+    public Tier1DisassemblerBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlocksEntity.TIER1_DISASSEMBER_BE.get(), pos, state, 10);
+    }
 
-    private final ItemStackHandler handler = new ItemStackHandler(10){
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-        }
-    };
-    private final LazyOptional<IItemHandler> lazyHandler = LazyOptional.of(() -> handler);
-
-    protected final ContainerData data;
-    private int progress = 0;
-    private int maxProgress = 100;
-
-    public Tier1DisassemblerBlockEntity(BlockPos pos, BlockState state){
-        super(ModBlocksEntity.TIER1_DISASSEMBER_BE.get(), pos, state);
-
-        this.data = new ContainerData() {
+    @Override
+    protected ContainerData createContainerData() {
+        return new ContainerData() {
             @Override
             public int get(int index) {
-                return switch (index){
+                return switch (index) {
                     case 0 -> Tier1DisassemblerBlockEntity.this.progress;
                     case 1 -> Tier1DisassemblerBlockEntity.this.maxProgress;
+                    case 2 -> Tier1DisassemblerBlockEntity.this.isValidRecipe;
                     default -> 0;
                 };
             }
@@ -69,144 +49,123 @@ public class Tier1DisassemblerBlockEntity extends BlockEntity implements MenuPro
                 switch (index) {
                     case 0 -> Tier1DisassemblerBlockEntity.this.progress = value;
                     case 1 -> Tier1DisassemblerBlockEntity.this.maxProgress = value;
+                    case 2 -> Tier1DisassemblerBlockEntity.this.isValidRecipe = value;
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 3;
             }
         };
     }
 
-    public void spined(){
+    @Override
+    protected boolean isItemValid(int slot, ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    protected void onInventoryChanged(int slot) {
+        checkRecipeValidity();
+    }
+
+    @Override
+    public int getInputSlot() {
+        return 0;
+    }
+
+    @Override
+    public int[] getOutputSlots() {
+        return IntStream.range(1, 10).toArray();
+    }
+
+    public void spined() {
         if (level == null || level.isClientSide) return;
 
-        ItemStack inputStack = handler.getStackInSlot(0);
+        checkRecipeValidity();
 
-        if (inputStack.isEmpty()) return;
-
-        inventoryWrapper.setItem(0, inputStack);
-        Optional<DisassemblingRecipe> disassembleRecipe = level.getRecipeManager()
-                .getRecipeFor(ModRecipes.DISASSEMBLING_TYPE, inventoryWrapper, level);
-
-        CraftingRecipe autoRecipe = DisassemblyCache.getRecipe(inputStack);
-
-        if (disassembleRecipe.isEmpty() && autoRecipe == null) return;
-
-        if (disassembleRecipe.isEmpty() && autoRecipe != null){
-            int requiredCount = autoRecipe.getResultItem(level.registryAccess()).getCount();
-            if (inputStack.getCount() < requiredCount) return;
-        }
-
-        if (!hasFreeSlot()) return;
-
+        if (this.isValidRecipe == 0 || !hasFreeOutputSlot()) return;
         this.progress += 5;
-        if (this.progress >= this.maxProgress){
-            if (disassembleRecipe.isPresent()) craftDisassembleRecipe(disassembleRecipe.get());
-            else craftAutoRecipe(autoRecipe);
+        if (this.progress >= this.maxProgress) {
+            tryDisassembleCurrentItem();
             this.progress = 0;
         }
         setChanged();
     }
 
-    private void craftDisassembleRecipe(DisassemblingRecipe recipe){
-        handler.extractItem(0, recipe.getCountInput(), false);
-        List<ItemStack> resultsToGive = new ArrayList<>();
+    private void checkRecipeValidity() {
+        if (level == null) return;
+        ItemStack inputStack = handler.getStackInSlot(0);
 
-        recipe.getResults().forEach(element -> {
-            if (RANDOM.nextFloat() <= element.chance()) resultsToGive.add(element.stack().copy());
-        });
-        insertOutputItems(resultsToGive);
-    }
+        if (inputStack.isEmpty()) {
+            this.isValidRecipe = 0;
+            this.progress = 0;
+            return;
+        }
 
-    private void craftAutoRecipe(CraftingRecipe recipe){
-        if (recipe == null) return;
-        int countToExtract = recipe.getResultItem(Objects.requireNonNull(level).registryAccess()).getCount();
+        // 1. Проверка на пилу
+        if (inputStack.getItem() instanceof HandSawItem) {
+            this.isValidRecipe = 1;
+            return;
+        }
 
-        handler.extractItem(0, countToExtract, false);
-        List<ItemStack> resultsToGive = new ArrayList<>();
-        List<Ingredient> ingredients = recipe.getIngredients();
+        // 2. Проверка кастомных рецептов
+        SimpleContainer tempInv = new SimpleContainer(1);
+        tempInv.setItem(0, inputStack);
+        Optional<DisassemblingRecipe> disassembleRecipe = level.getRecipeManager()
+                .getRecipeFor(ModRecipes.DISASSEMBLING_TYPE, tempInv, level);
 
-        ingredients.forEach(element -> {
-            if (element.isEmpty()) return;
-            if (RANDOM.nextDouble() <= AUTO_RECIPE_CHANCE){
-                ItemStack[] matchingStacks = element.getItems();
-                if (matchingStacks.length > 0) {
-                    ItemStack stackToAdd = matchingStacks[0].copy();
-                    stackToAdd.setCount(1);
-                    resultsToGive.add(stackToAdd);
-                }
-            }
-        });
-        insertOutputItems(resultsToGive);
-    }
+        if (disassembleRecipe.isPresent()) {
+            this.isValidRecipe = 1;
+            return;
+        }
 
-    private void insertOutputItems(List<ItemStack> items) {
-        for (ItemStack resultStack : items) {
-            ItemStack remaining = resultStack;
-            for (int i = 1; i < handler.getSlots(); i++) {
-                if (remaining.isEmpty()) break;
-                remaining = handler.insertItem(i, remaining, false);
-            }
-            if (!remaining.isEmpty()) {
-
-                Block.popResource(Objects.requireNonNull(level), worldPosition, remaining);
+        // 3. Проверка ванильных рецептов через кэш
+        CraftingRecipe autoRecipe = DisassemblyCache.getRecipe(inputStack);
+        if (autoRecipe != null) {
+            int requiredCount = autoRecipe.getResultItem(level.registryAccess()).getCount();
+            if (inputStack.getCount() >= requiredCount) {
+                this.isValidRecipe = 1;
+                return;
             }
         }
+
+        this.isValidRecipe = 0;
     }
 
-    @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return lazyHandler.cast();
+    private boolean hasFreeOutputSlot() {
+        for (int slot : getOutputSlots()) {
+            if (handler.getStackInSlot(slot).isEmpty() ||
+                    (handler.getStackInSlot(slot).getCount() < handler.getStackInSlot(slot).getMaxStackSize())) {
+                return true;
+            }
         }
-        return super.getCapability(cap, side);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyHandler.invalidate();
+        return false;
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, Tier1DisassemblerBlockEntity entity) {
         if (level.isClientSide()) return;
+
         if (entity.progress > 0) {
             entity.progress--;
             setChanged(level, pos, state);
         }
     }
 
-    private boolean hasFreeSlot() {
-        for (int i = 1; i < handler.getSlots(); i++) {
-            if (handler.getStackInSlot(i).isEmpty()) return true;
-        }
-        return false;
-    }
-
     @Override
-    protected void saveAdditional(CompoundTag nbt) {
-        nbt.put("inventory", handler.serializeNBT());
-        nbt.putInt("progress", progress);
-        super.saveAdditional(nbt);
-    }
-
-    @Override
-    public void load(@NotNull CompoundTag nbt) {
-        super.load(nbt);
-        handler.deserializeNBT(nbt.getCompound("inventory"));
-        progress = nbt.getInt("progress");
+    public void onLoad() {
+        super.onLoad();
+        checkRecipeValidity();
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("menu."+TheDisassemberMod.MODID+".base_block");
+        return Component.translatable("menu." + TheDisassemberMod.MODID + ".base_block");
     }
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerID, @NotNull Inventory inventory, @NotNull Player player) {
         return new Tier1DisassemblerMenu(containerID, inventory, this, this.data);
     }
-
 }

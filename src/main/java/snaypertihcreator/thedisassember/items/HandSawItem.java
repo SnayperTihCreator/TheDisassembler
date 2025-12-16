@@ -48,11 +48,14 @@ public class HandSawItem extends Item {
     }
 
     public static ItemStack createSaw(SawMaterial core, SawMaterial teeth) {
-        ItemStack stack = new ItemStack(ModItems.SAW_ITEMS.get(SawMaterial.WOOD).get());
+        Item baseItem = ModItems.SAW_ITEMS.get(core).get();
+        ItemStack stack = new ItemStack(baseItem);
+
         CompoundTag tag = stack.getOrCreateTag();
         tag.putString(NBT_CORE, core.name());
         tag.putString(NBT_TEETH, teeth.name());
         stack.setTag(tag);
+
         return stack;
     }
 

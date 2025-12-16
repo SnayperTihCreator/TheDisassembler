@@ -15,4 +15,10 @@ public class ModBlocksEntity {
                     Tier1DisassemblerBlockEntity::new,
                     ModBlocks.BASIC_BLOCK.get()
             ).build(null));
+
+    public static final RegistryObject<BlockEntityType<Tier2DisassemblerBlockEntity>> TIER2_DISASSEMBER_BE = BLOCKS_ENTITY.register(
+            "disassember2_be", () -> BlockEntityType.Builder.of(
+                    Tier2DisassemblerBlockEntity::new,
+                    ModBlocks.ADVANCED_BLOCK.get()
+            ).build(null));
 }
