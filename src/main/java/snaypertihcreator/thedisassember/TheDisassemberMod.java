@@ -11,7 +11,9 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
@@ -47,6 +49,8 @@ public class TheDisassemberMod
         bus.addListener(this::gatherData);
         MinecraftForge.EVENT_BUS.register(this);
         bus.addListener(this::addCreative);
+
+        context.registerConfig(ModConfig.Type.COMMON, ModCommonConfig.SPEC, "thedisassember-common.toml");
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {}

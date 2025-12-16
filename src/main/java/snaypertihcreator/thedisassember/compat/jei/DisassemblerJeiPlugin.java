@@ -7,7 +7,6 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.vehicle.Minecart;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
@@ -38,7 +37,7 @@ public class DisassemblerJeiPlugin implements IModPlugin {
     }
 
     @Override
-    public void registerRecipes(IRecipeRegistration registration) {
+    public void registerRecipes(@NotNull IRecipeRegistration registration) {
         RecipeType<DisassemblingRecipe> type = new RecipeType<>(DisassemblerRecipeCategory.UID, DisassemblingRecipe.class);
         List<DisassemblingRecipe> allRecipes = new ArrayList<>();
         Level world = Minecraft.getInstance().level;
@@ -56,6 +55,8 @@ public class DisassemblerJeiPlugin implements IModPlugin {
         cachedRecipes.forEach((key, recipe) -> {
             ItemStack resultItem = new ItemStack(key);
 
+
+
             boolean hasCustom = allRecipes.stream().anyMatch(r -> r.getInput().test(resultItem));
             if (hasCustom) return;
 
@@ -65,7 +66,20 @@ public class DisassemblerJeiPlugin implements IModPlugin {
             recipe.getIngredients().forEach(ingredient -> {
                 if (ingredient.isEmpty()) return;
                 ItemStack[] stacks = ingredient.getItems();
-                if (stacks.length > 0) results.add(new DisassemblingRecipe.Result(stacks[0], 0.75f));
+                if (stacks.length > 0) {
+                    ItemStack itemToAdd = stacks[0].copy();
+                    boolean found = false;
+                    for (DisassemblingRecipe.Result existingResult : results) {
+                        if (ItemStack.isSameItemSameTags(existingResult.stack(), itemToAdd)) {
+                            existingResult.stack().grow(1);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) {
+                        results.add(new DisassemblingRecipe.Result(itemToAdd, 0.75f));
+                    }
+                }
             });
 
             ResourceLocation fakeId = ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "auto_generated_" + resultItem.getDescriptionId());

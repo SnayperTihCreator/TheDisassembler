@@ -3,11 +3,13 @@ package snaypertihcreator.thedisassember.compat.jei;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -21,13 +23,13 @@ import java.util.List;
 public class DisassemblerRecipeCategory implements IRecipeCategory<DisassemblingRecipe> {
 
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "disassembling");
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "textures/gui/disassembler_gui.png");
+    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "textures/gui/disassembler_jei.png");
 
     private final IDrawable background;
     private final IDrawable icon;
 
     public DisassemblerRecipeCategory(IGuiHelper helper) {
-        this.background = helper.createDrawable(TEXTURE, 75, 30, 100, 60);
+        this.background = helper.createDrawable(TEXTURE, 0, 0, 112, 60);
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.BASIC_BLOCK.get().asItem()));
     }
 
@@ -42,41 +44,51 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
     }
 
     @Override
-    public IDrawable getBackground() {
-        return background;
+    public int getWidth() {
+        return background.getWidth();
     }
 
     @Override
-    public IDrawable getIcon() {
-        return icon;
+    public int getHeight() {
+        return background.getHeight();
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, DisassemblingRecipe recipe, IFocusGroup focuses) {
-        // 1. ВХОД (Координаты относительно вырезанного background)
-        // Если background вырезан с X=75, а слот был на X=80, то здесь X = 80 - 75 = 5.
-        builder.addSlot(RecipeIngredientRole.INPUT, 5, 5)
-                .addIngredients(recipe.getInput());
+    public IDrawable getIcon() {return icon;}
 
-        // 2. ВЫХОДЫ
+    @Override
+    public void draw(@NotNull DisassemblingRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
+        background.draw(guiGraphics);
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, DisassemblingRecipe recipe, @NotNull IFocusGroup focuses) {
+        ItemStack stackInput = recipe.getInput().getItems()[0].copyWithCount(recipe.getCountInput());
+
+        builder.addSlot(RecipeIngredientRole.INPUT, 1, 26).addItemStack(stackInput);
         List<DisassemblingRecipe.Result> results = recipe.getResults();
 
-        // Рисуем сетку 3x3 (или как у вас в GUI)
-        int startX = 5; // Смещение относительно фона
-        int startY = 30; // Смещение относительно фона
+        int startX = 60;
+        int startY = 8;
 
         for (int i = 0; i < results.size(); i++) {
-            if (i >= 9) break; // Максимум 9 слотов
-
+            if (i >= 9) return;
             DisassemblingRecipe.Result result = results.get(i);
             int row = i / 3;
             int col = i % 3;
-
             builder.addSlot(RecipeIngredientRole.OUTPUT, startX + col * 18, startY + row * 18)
                     .addItemStack(result.stack())
-                    .addTooltipCallback((recipeSlotView, tooltip) -> {
+                    .addRichTooltipCallback((view, tooltip) -> {
                         float chance = result.chance() * 100;
-                        tooltip.add(Component.literal("§7Шанс: §6" + String.format("%.0f", chance) + "%"));
+                        int maxCount = result.stack().getCount();
+
+                        if (chance < 100) {
+                            tooltip.add(Component.literal("§7Кол-во: §f0-" + maxCount));
+                            tooltip.add(Component.literal("§7Шанс: §6" + String.format("%.0f", chance) + "% §7(за шт.)"));
+                        } else {
+                            tooltip.add(Component.literal("§7Кол-во: §a" + maxCount));
+                            tooltip.add(Component.literal("§7Шанс: §a100%"));
+                        }
                     });
         }
     }
