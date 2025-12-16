@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "thedisassember:item/saw"
+    "layer0": "thedisassember:item/saw_base",
+    "layer1": "thedisassember:item/saw_overlay"
   }
 }

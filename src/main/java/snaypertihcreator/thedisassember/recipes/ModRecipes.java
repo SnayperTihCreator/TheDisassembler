@@ -2,6 +2,7 @@ package snaypertihcreator.thedisassember.recipes;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -12,6 +13,9 @@ public class ModRecipes {
 
     public static final RegistryObject<RecipeSerializer<DisassemblingRecipe>> DISASSEMBLING_SERIALIZER =
             SERIALIZERS.register("disassembling", () -> DisassemblingRecipe.Serializer.INSTANCE);
+
+    public static final RegistryObject<RecipeSerializer<SawAssemblyRecipe>> SAW_ASSEMBLY =
+            SERIALIZERS.register("saw_assembly", () -> new SimpleCraftingRecipeSerializer<>(SawAssemblyRecipe::new));
 
     public static final RecipeType<DisassemblingRecipe> DISASSEMBLING_TYPE = new RecipeType<>() {
         @Override

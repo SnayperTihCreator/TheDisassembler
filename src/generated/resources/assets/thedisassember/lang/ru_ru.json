@@ -1,15 +1,23 @@
 {
   "block.thedisassember.basic_block": "Базовый разборщик",
+  "item.thedisassember.diamond_blade": "Алмазная сердцевина",
   "item.thedisassember.diamond_saw": "Алмазная пила",
   "item.thedisassember.diamond_teeth": "Алмазные зубья",
+  "item.thedisassember.gold_blade": "Золотая сердцевина",
   "item.thedisassember.gold_saw": "Золотая пила",
   "item.thedisassember.gold_teeth": "Золотые зубья",
+  "item.thedisassember.iron_blade": "Железная сердцевина",
   "item.thedisassember.iron_saw": "Железная пила",
   "item.thedisassember.iron_teeth": "Железные зубья",
+  "item.thedisassember.netherite_blade": "Незеритовая сердцевина",
   "item.thedisassember.netherite_saw": "Незеритовая пила",
   "item.thedisassember.netherite_teeth": "Незеритовые зубья",
+  "item.thedisassember.stone_blade": "Каменная сердцевина",
   "item.thedisassember.stone_saw": "Каменная пила",
   "item.thedisassember.stone_teeth": "Каменные зубья",
+  "item.thedisassember.wood_blade": "Деревянная сердцевина",
   "item.thedisassember.wood_saw": "Деревянная пила",
-  "item.thedisassember.wood_teeth": "Деревянные зубья"
+  "item.thedisassember.wood_teeth": "Деревянные зубья",
+  "menu.thedisassember.base_block": "Разборка",
+  "thedisassember.creative_tab": "Разбощик"
 }

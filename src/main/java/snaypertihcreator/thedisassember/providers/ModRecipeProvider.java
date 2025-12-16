@@ -1,18 +1,17 @@
 package snaypertihcreator.thedisassember.providers;
 
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.StonecutterRecipe;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
-import snaypertihcreator.thedisassember.items.MaterialType;
-import snaypertihcreator.thedisassember.items.ModItems;
-import snaypertihcreator.thedisassember.items.SawItem;
-import snaypertihcreator.thedisassember.items.TeethItem;
+import snaypertihcreator.thedisassember.items.*;
+import snaypertihcreator.thedisassember.recipes.ModRecipes;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
@@ -22,40 +21,38 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
-        for (MaterialType material: MaterialType.values()){
-            String sawKey = material.getName() + "_saw";
-            String teethKey = material.getName() + "_teeth";
 
-            if (!ModItems.SAW_ITEMS.containsKey(sawKey) || !ModItems.TEETH_ITEMS.containsKey(teethKey)) {
-                continue;
-            }
+        Arrays.stream(SawMaterial.values()).forEach(mat -> {
+                    ItemLike teeth = ModItems.TEETH_ITEMS.get(mat).get();
+                    ItemLike blade = ModItems.BLADE_ITEMS.get(mat).get();
+                    ItemLike saw = ModItems.SAW_ITEMS.get(mat).get();
 
-            RegistryObject<SawItem> sawResult = ModItems.SAW_ITEMS.get(sawKey);
-            RegistryObject<TeethItem> teethResult = ModItems.TEETH_ITEMS.get(teethKey);
-            Ingredient ingredient = material.getIngredient();
+                    // 1. Зубья (2 шт)
+                    SingleItemRecipeBuilder.stonecutting(mat.getRepairIngredient(),
+                            RecipeCategory.MISC, teeth, 2)
+                            .unlockedBy("has_mat_teeth", has(Items.STICK))
+                            .save(consumer);
 
-            InventoryChangeTrigger.TriggerInstance criteria;
-            if (material.isTag()) criteria = has(material.getTag());
-            else criteria = has(material.getItem());
+                    // 2. Лезвие (1 шт)
+                    ShapedRecipeBuilder.shaped(RecipeCategory.MISC, blade)
+                            .pattern(" XX")
+                            .pattern("XX ")
+                            .define('X', mat.getRepairIngredient())
+                            .unlockedBy("has_mat_blade", has(Items.STICK))
+                            .save(consumer);
 
-            SingleItemRecipeBuilder.stonecutting(
-                    ingredient,
-                    RecipeCategory.MISC,
-                    teethResult.get(),
-                    2
-            )
-                    .unlockedBy("has_" + material.getName(), criteria)
-                    .save(consumer, TheDisassemberMod.MODID+":"+teethResult.getId().getPath()+"_stonecutting");
+                    // 3. Стандартная пила (Основа + Зубья из одного материала)
+                    ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, saw)
+                            .pattern(" T ")
+                            .pattern("TBT")
+                            .pattern(" T ")
+                            .define('T', teeth)
+                            .define('B', blade)
+                            .unlockedBy("has_blade", has(blade))
+                            .save(consumer);
 
-            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, sawResult.get())
-                    .pattern(" A ")
-                    .pattern("ABA")
-                    .pattern(" A ")
-                    .define('A', teethResult.get())
-                    .define('B', ingredient)
-                    .unlockedBy("has_teeth", has(teethResult.get()))
-                    .save(consumer, TheDisassemberMod.MODID+":"+sawResult.getId().getPath()+"_shaped"
-                    );
-        }
+        });
+        SpecialRecipeBuilder.special(ModRecipes.SAW_ASSEMBLY.get())
+                .save(consumer, TheDisassemberMod.MODID + ":saw_assembly_manual");
     }
 }

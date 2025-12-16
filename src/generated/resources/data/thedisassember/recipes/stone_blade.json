@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "pattern": [
+    " XX",
+    "XX "
+  ],
+  "result": {
+    "item": "thedisassember:stone_blade"
+  },
+  "show_notification": true
+}

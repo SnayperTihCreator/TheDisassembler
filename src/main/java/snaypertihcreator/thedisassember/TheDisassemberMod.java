@@ -24,6 +24,7 @@ import snaypertihcreator.thedisassember.items.ModItems;
 import snaypertihcreator.thedisassember.menus.ModMenuTypes;
 import snaypertihcreator.thedisassember.networking.ModMessages;
 import snaypertihcreator.thedisassember.providers.*;
+import snaypertihcreator.thedisassember.recipes.ModRecipes;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -44,6 +45,7 @@ public class TheDisassemberMod
         ModBlocksEntity.BLOCKS_ENTITY.register(bus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(bus);
         ModMenuTypes.MENUS.register(bus);
+        ModRecipes.SERIALIZERS.register(bus);
         ModMessages.register();
 
         bus.addListener(this::gatherData);

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "pattern": [
+    " XX",
+    "XX "
+  ],
+  "result": {
+    "item": "thedisassember:gold_blade"
+  },
+  "show_notification": true
+}

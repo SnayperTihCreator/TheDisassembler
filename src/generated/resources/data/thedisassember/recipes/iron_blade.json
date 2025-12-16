@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "X": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    " XX",
+    "XX "
+  ],
+  "result": {
+    "item": "thedisassember:iron_blade"
+  },
+  "show_notification": true
+}
