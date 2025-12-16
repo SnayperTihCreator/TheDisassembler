@@ -2,6 +2,7 @@ package snaypertihcreator.thedisassember.recipes;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import net.minecraft.CharPredicate;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +28,10 @@ public class DisassemblingRecipe implements Recipe<SimpleContainer> {
         this.input = input;
         this.countInput = countInput;
         this.results = results;
+    }
+
+    public Ingredient getInput() {
+        return input;
     }
 
     public record Result(ItemStack stack, float chance) {
