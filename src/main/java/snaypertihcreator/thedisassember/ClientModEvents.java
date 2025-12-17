@@ -4,11 +4,14 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
+import snaypertihcreator.thedisassember.blocksEntity.ModBlocksEntity;
+import snaypertihcreator.thedisassember.client.renderers.Tier2DisassemblerRenderer;
 import snaypertihcreator.thedisassember.client.screens.Tier1DisassemblerScreen;
 import snaypertihcreator.thedisassember.client.screens.Tier2DisassemblerScreen;
 import snaypertihcreator.thedisassember.items.ModItems;
@@ -24,6 +27,12 @@ public class ClientModEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER1_DISASSEMBLER_MENU.get(), Tier1DisassemblerScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER2_DISASSEMBLER_MENU.get(), Tier2DisassemblerScreen::new));
+    }
+
+    @SubscribeEvent
+    public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event){
+        event.registerBlockEntityRenderer(ModBlocksEntity.TIER2_DISASSEMBER_BE.get(),
+                Tier2DisassemblerRenderer::new);
     }
 
     @SubscribeEvent

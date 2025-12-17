@@ -16,6 +16,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +35,8 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     protected static final Random RANDOM = new Random();
 
     protected final ItemStackHandler handler;
-    protected final LazyOptional<IItemHandler> lazyHandler;
+    protected final LazyOptional<IItemHandler> internalLazyHandler;
+    protected final LazyOptional<IItemHandler> automationLazyHandler;
 
     protected int progress = 0;
     protected int maxProgress = 100;
@@ -55,15 +57,69 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
                 return DisassemblerBlockEntity.this.isItemValid(slot, stack);
             }
         };
-        this.lazyHandler = LazyOptional.of(() -> handler);
+        this.internalLazyHandler = LazyOptional.of(() -> handler);
+
+        this.automationLazyHandler = LazyOptional.of(() -> new IItemHandlerModifiable() {
+            @Override
+            public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+                handler.setStackInSlot(slot, stack);
+            }
+            @Override
+            public int getSlots() { return handler.getSlots(); }
+            @Override
+            public @NotNull ItemStack getStackInSlot(int slot) { return handler.getStackInSlot(slot); }
+            @Override
+            public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+                if (!canAutomationInsert(slot)) return stack;
+                return handler.insertItem(slot, stack, simulate);
+            }
+            @Override
+            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+                return handler.extractItem(slot, amount, simulate);
+            }
+            @Override
+            public int getSlotLimit(int slot) { return handler.getSlotLimit(slot); }
+            @Override
+            public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+                return canAutomationInsert(slot) && handler.isItemValid(slot, stack);
+            }
+        });
+
         this.data = createContainerData();
     }
 
     protected abstract ContainerData createContainerData();
+    protected abstract boolean canAutomationInsert(int slot);
     protected abstract boolean isItemValid(int slot, ItemStack stack);
     protected abstract void onInventoryChanged(int slot);
     public abstract int getInputSlot();
     public abstract int[] getOutputSlots();
+
+    public boolean canDisassembleCurrentItem() {
+        if (level == null) return false;
+
+        ItemStack inputStack = handler.getStackInSlot(getInputSlot());
+        if (inputStack.isEmpty()) return false;
+
+        if (inputStack.getItem() instanceof HandSawItem) return true;
+
+        SimpleContainer tempContainer = new SimpleContainer(1);
+        tempContainer.setItem(0, inputStack);
+        Optional<DisassemblingRecipe> customRecipe = level.getRecipeManager()
+                .getRecipeFor(ModRecipes.DISASSEMBLING_TYPE, tempContainer, level);
+
+        if (customRecipe.isPresent()) {
+            return inputStack.getCount() >= customRecipe.get().getCountInput();
+        }
+
+        CraftingRecipe autoRecipe = DisassemblyCache.getRecipe(inputStack);
+        if (autoRecipe != null) {
+            int craftingResultCount = autoRecipe.getResultItem(level.registryAccess()).getCount();
+            return inputStack.getCount() >= craftingResultCount;
+        }
+
+        return false;
+    }
 
     protected void tryDisassembleCurrentItem() {
         // Логика только на сервере
@@ -160,14 +216,15 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
 
     @Override
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) return lazyHandler.cast();
+        if (cap == ForgeCapabilities.ITEM_HANDLER) return automationLazyHandler.cast();
         return super.getCapability(cap, side);
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
-        lazyHandler.invalidate();
+        internalLazyHandler.invalidate();
+        automationLazyHandler.invalidate();
     }
 
     @Override
@@ -183,4 +240,5 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         handler.deserializeNBT(nbt.getCompound("inventory"));
         progress = nbt.getInt("progress");
     }
+
 }

@@ -2,25 +2,17 @@ package snaypertihcreator.thedisassember.blocksEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
-import snaypertihcreator.thedisassember.items.HandSawItem;
 import snaypertihcreator.thedisassember.menus.Tier1DisassemblerMenu;
-import snaypertihcreator.thedisassember.recipes.DisassemblingRecipe;
-import snaypertihcreator.thedisassember.recipes.DisassemblyCache;
-import snaypertihcreator.thedisassember.recipes.ModRecipes;
-
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
@@ -66,9 +58,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
     }
 
     @Override
-    protected void onInventoryChanged(int slot) {
-        checkRecipeValidity();
-    }
+    protected void onInventoryChanged(int slot) {checkRecipeValidity();}
 
     @Override
     public int getInputSlot() {
@@ -80,58 +70,34 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return IntStream.range(1, 10).toArray();
     }
 
+    @Override
+    protected boolean canAutomationInsert(int slot) {
+        return slot == 0;
+    }
+
     public void spined() {
         if (level == null || level.isClientSide) return;
 
-        checkRecipeValidity();
+        boolean canWork = canDisassembleCurrentItem() && hasFreeOutputSlot();
 
-        if (this.isValidRecipe == 0 || !hasFreeOutputSlot()) return;
+        if (!canWork) return;
+
         this.progress += 5;
         if (this.progress >= this.maxProgress) {
             tryDisassembleCurrentItem();
             this.progress = 0;
+            checkRecipeValidity();
         }
         setChanged();
     }
 
     private void checkRecipeValidity() {
-        if (level == null) return;
-        ItemStack inputStack = handler.getStackInSlot(0);
-
-        if (inputStack.isEmpty()) {
+        if (canDisassembleCurrentItem()) {
+            this.isValidRecipe = 1;
+        } else {
             this.isValidRecipe = 0;
             this.progress = 0;
-            return;
         }
-
-        // 1. Проверка на пилу
-        if (inputStack.getItem() instanceof HandSawItem) {
-            this.isValidRecipe = 1;
-            return;
-        }
-
-        // 2. Проверка кастомных рецептов
-        SimpleContainer tempInv = new SimpleContainer(1);
-        tempInv.setItem(0, inputStack);
-        Optional<DisassemblingRecipe> disassembleRecipe = level.getRecipeManager()
-                .getRecipeFor(ModRecipes.DISASSEMBLING_TYPE, tempInv, level);
-
-        if (disassembleRecipe.isPresent()) {
-            this.isValidRecipe = 1;
-            return;
-        }
-
-        // 3. Проверка ванильных рецептов через кэш
-        CraftingRecipe autoRecipe = DisassemblyCache.getRecipe(inputStack);
-        if (autoRecipe != null) {
-            int requiredCount = autoRecipe.getResultItem(level.registryAccess()).getCount();
-            if (inputStack.getCount() >= requiredCount) {
-                this.isValidRecipe = 1;
-                return;
-            }
-        }
-
-        this.isValidRecipe = 0;
     }
 
     private boolean hasFreeOutputSlot() {
@@ -149,7 +115,6 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
         if (entity.progress > 0) {
             entity.progress--;
-            setChanged(level, pos, state);
         }
     }
 

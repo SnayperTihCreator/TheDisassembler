@@ -44,7 +44,7 @@ public class HandSawItem extends Item {
     }
 
     public int getToolLevel(ItemStack stack) {
-        return getTeeth(stack).getTierLevel();
+        return getTeeth(stack).getSpeedLevel();
     }
 
     public static ItemStack createSaw(SawMaterial core, SawMaterial teeth) {

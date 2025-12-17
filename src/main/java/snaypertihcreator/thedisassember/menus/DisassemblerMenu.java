@@ -60,7 +60,12 @@ public abstract class DisassemblerMenu extends AbstractContainerMenu {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 int slotIndex = startIndex + (row * 3 + col);
-                this.addSlot(new SlotItemHandler(handler, slotIndex, x + (col * 18), y + (row * 18)));
+                this.addSlot(new SlotItemHandler(handler, slotIndex, x + (col * 18), y + (row * 18)){
+                    @Override
+                    public boolean mayPlace(@NotNull ItemStack stack) {
+                        return false;
+                    }
+                });
             }
         }
     }
