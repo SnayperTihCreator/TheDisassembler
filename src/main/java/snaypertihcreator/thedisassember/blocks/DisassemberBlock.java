@@ -31,10 +31,6 @@ public class DisassemberBlock extends Block implements EntityBlock {
         this.tier = tier;
     }
 
-    public TierTheDisassember getTier() {
-        return tier;
-    }
-
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return switch (tier.getLevel()){
@@ -45,11 +41,12 @@ public class DisassemberBlock extends Block implements EntityBlock {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (world.isClientSide) return InteractionResult.sidedSuccess(true);
 
         BlockEntity be = world.getBlockEntity(pos);
-        if (!(be instanceof DisassemblerBlockEntity entity)) throw new IllegalStateException("Container provider is missing!");;
+        if (!(be instanceof DisassemblerBlockEntity entity)) throw new IllegalStateException("Container provider is missing!");
 
         NetworkHooks.openScreen((ServerPlayer) player, entity, pos);
 
@@ -69,6 +66,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void onRemove(BlockState state, @NotNull Level world, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity be = world.getBlockEntity(pos);
