@@ -1,4 +1,5 @@
 {
+  "block.thedisassember.advanced_block": "Advanced Disassembler",
   "block.thedisassember.basic_block": "Basic Disassembler",
   "item.thedisassember.diamond_blade": "Diamond Blade",
   "item.thedisassember.diamond_saw": "Diamond Saw",
@@ -18,7 +19,9 @@
   "item.thedisassember.wood_blade": "Wood Blade",
   "item.thedisassember.wood_saw": "Wood Saw",
   "item.thedisassember.wood_teeth": "Wood Teeth",
-  "menu.thedisassember.base_block": "Disassembly",
+  "menu.thedisassember.advanced_block": "Advanced Disassembler",
+  "menu.thedisassember.base_block": "Basic Disassembler",
+  "menujei.thedisassember": "Disassembly",
   "thedisassember.creative_tab": "The Disassembler",
   "tooltip.thedisassember.durability": "Durability",
   "tooltip.thedisassember.hold_shift": "Click on Shift for details",

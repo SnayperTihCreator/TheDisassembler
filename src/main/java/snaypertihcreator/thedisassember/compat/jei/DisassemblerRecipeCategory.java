@@ -3,6 +3,8 @@ package snaypertihcreator.thedisassember.compat.jei;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.drawable.IDrawableAnimated;
+import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -27,10 +29,13 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
 
     private final IDrawable background;
     private final IDrawable icon;
+    private final IDrawableAnimated arrow;
 
     public DisassemblerRecipeCategory(IGuiHelper helper) {
         this.background = helper.createDrawable(TEXTURE, 0, 0, 112, 60);
         this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.BASIC_BLOCK.get().asItem()));
+        IDrawableStatic arrowStatic = helper.createDrawable(TEXTURE, 114, 0, 22, 15);
+        this.arrow = helper.createAnimatedDrawable(arrowStatic, 100, IDrawableAnimated.StartDirection.LEFT, false);
     }
 
     @Override
@@ -40,7 +45,7 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("menu." + TheDisassemberMod.MODID + ".base_block");
+        return Component.translatable("menujei." + TheDisassemberMod.MODID);
     }
 
     @Override
@@ -59,6 +64,7 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
     @Override
     public void draw(@NotNull DisassemblingRecipe recipe, @NotNull IRecipeSlotsView recipeSlotsView, @NotNull GuiGraphics guiGraphics, double mouseX, double mouseY) {
         background.draw(guiGraphics);
+        arrow.draw(guiGraphics, 28, 26);
     }
 
     @Override

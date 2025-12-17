@@ -16,11 +16,17 @@ public class ModEnLangProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add(ModBlocks.BASIC_BLOCK.get(), "Basic Disassembler");
-        add("menu.thedisassember.base_block", "Disassembly");
+        add(ModBlocks.ADVANCED_BLOCK.get(), "Advanced Disassembler");
+
+        add("menujei.thedisassember", "Disassembly");
+        add("menu.thedisassember.base_block", "Basic Disassembler");
+        add("menu.thedisassember.advanced_block", "Advanced Disassembler");
         add("thedisassember.creative_tab", "The Disassembler");
+
         add("tooltip.thedisassember.saw.description", "Saws that are used for automatic disassemblers");
         add("tooltip.thedisassember.material.core", "The core");
         add("tooltip.thedisassember.material.teeth", "Teeth");
+
         add("tooltip.thedisassember.durability", "Durability");
         add("tooltip.thedisassember.hold_shift", "Click on Shift for details");
 

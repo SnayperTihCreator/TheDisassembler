@@ -3,6 +3,7 @@ package snaypertihcreator.thedisassember.compat.jei;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
+import snaypertihcreator.thedisassember.blocks.ModBlocks;
 import snaypertihcreator.thedisassember.recipes.DisassemblingRecipe;
 import snaypertihcreator.thedisassember.recipes.DisassemblyCache;
 import snaypertihcreator.thedisassember.recipes.ModRecipes;
@@ -24,8 +26,13 @@ import java.util.Map;
 import java.util.Objects;
 
 
+@SuppressWarnings("unused")
 @JeiPlugin
 public class DisassemblerJeiPlugin implements IModPlugin {
+    public static final RecipeType<DisassemblingRecipe> DISASSEMBLING_TYPE =
+            new RecipeType<>(DisassemblerRecipeCategory.UID, DisassemblingRecipe.class);
+
+
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "jei_plugin");
@@ -37,8 +44,13 @@ public class DisassemblerJeiPlugin implements IModPlugin {
     }
 
     @Override
+    public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
+        registration.addRecipeCatalyst(ModBlocks.BASIC_BLOCK.get().asItem(), DISASSEMBLING_TYPE);
+        registration.addRecipeCatalyst(ModBlocks.ADVANCED_BLOCK.get().asItem(), DISASSEMBLING_TYPE);
+    }
+
+    @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        RecipeType<DisassemblingRecipe> type = new RecipeType<>(DisassemblerRecipeCategory.UID, DisassemblingRecipe.class);
         List<DisassemblingRecipe> allRecipes = new ArrayList<>();
         Level world = Minecraft.getInstance().level;
 
@@ -50,7 +62,7 @@ public class DisassemblerJeiPlugin implements IModPlugin {
 
         Map<Item, CraftingRecipe> cachedRecipes = DisassemblyCache.getAllRecipes();
 
-        if (cachedRecipes == null) return;
+        if (cachedRecipes.isEmpty()) return;
 
         cachedRecipes.forEach((key, recipe) -> {
             ItemStack resultItem = new ItemStack(key);
@@ -87,6 +99,10 @@ public class DisassemblerJeiPlugin implements IModPlugin {
             allRecipes.add(fakeRecipe);
         });
 
-        registration.addRecipes(type, allRecipes);
+        registration.addRecipes(DISASSEMBLING_TYPE, allRecipes);
     }
+
+
+
+
 }
