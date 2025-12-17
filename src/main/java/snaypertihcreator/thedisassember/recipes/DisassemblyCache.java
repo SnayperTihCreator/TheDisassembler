@@ -5,7 +5,6 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -18,9 +17,9 @@ import snaypertihcreator.thedisassember.ModCommonConfig;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = TheDisassemberMod.MODID)
 public class DisassemblyCache {
@@ -31,21 +30,36 @@ public class DisassemblyCache {
     public static void onServerStarted(ServerStartedEvent event) {
         recipeMap.clear();
 
-        Level level = event.getServer().overworld();
-        List<CraftingRecipe> craftingRecipes = level.getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING);
-        List<? extends String> excludedConfigItems = ModCommonConfig.EXCLUDED_ITEMS.get();
+        try (Level level = event.getServer().overworld()) {
+            List<CraftingRecipe> craftingRecipes = level.getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING);
+            List<? extends String> excludedConfigItems = ModCommonConfig.EXCLUDED_ITEMS.get();
 
-        craftingRecipes.forEach(recipe -> {
-            ItemStack resultStack = recipe.getResultItem(level.registryAccess());
+            craftingRecipes.forEach(recipe -> {
+                ItemStack resultStack = recipe.getResultItem(level.registryAccess());
 
-            if (isExclude(resultStack, excludedConfigItems)) return;
-            if (resultStack.isEmpty()) return;
+                if (isExclude(resultStack, excludedConfigItems)) return;
+                if (resultStack.isEmpty()) return;
 
-            Item resultItem = resultStack.getItem();
-            if (!recipeMap.containsKey(resultItem)){
-                recipeMap.put(resultItem, recipe);
-            }
-        });
+                AtomicInteger inputCount = new AtomicInteger(0);
+                Set<Item> uniqueIngredients = new HashSet<>();
+                recipe.getIngredients().forEach(ingredient -> {
+                    if (ingredient.isEmpty()) return;
+                    inputCount.set(inputCount.get() + 1);
+                    ItemStack[] items = ingredient.getItems();
+                    if (items.length > 0) uniqueIngredients.add(items[0].getItem());
+                });
+
+                int outputCount = resultStack.getCount();
+
+                if (inputCount.get() == 1 && outputCount == 9) return;
+                if (inputCount.get() == 9 && outputCount == 1 && uniqueIngredients.size() == 1) return;
+
+                Item resultItem = resultStack.getItem();
+                if (!recipeMap.containsKey(resultItem)) recipeMap.put(resultItem, recipe);
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static boolean isExclude(ItemStack stack, List<? extends String> configList){
@@ -76,11 +90,6 @@ public class DisassemblyCache {
     public static @Nullable CraftingRecipe getRecipe(ItemStack stack) {
         if (stack.isEmpty()) return null;
         return recipeMap.get(stack.getItem());
-    }
-
-    public static boolean hasRecipe(ItemStack stack) {
-        if (stack.isEmpty()) return false;
-        return recipeMap.containsKey(stack.getItem());
     }
 
     public static Map<Item, CraftingRecipe> getAllRecipes(){
