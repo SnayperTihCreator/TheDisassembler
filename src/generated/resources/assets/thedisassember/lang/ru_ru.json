@@ -35,7 +35,7 @@
   "menu.thedisassember.advanced_block": "Улучшенный разборщик",
   "menu.thedisassember.base_block": "Базовый разборщик",
   "menujei.thedisassember": "Разборка",
-  "thedisassember.creative_tab": "Разборка",
+  "thedisassember.creative_tab": "Разборщики",
   "tooltip.thedisassember.durability": "Прочность: %s/%s",
   "tooltip.thedisassember.hold_shift": "Нажмите на Shift для подробностей",
   "tooltip.thedisassember.material.core": "Основа: %s",

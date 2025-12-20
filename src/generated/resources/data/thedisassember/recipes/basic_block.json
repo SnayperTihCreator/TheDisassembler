@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_axe"
+    },
+    "B": {
+      "item": "minecraft:iron_pickaxe"
+    },
+    "G": {
+      "item": "minecraft:smooth_stone"
+    },
+    "S": {
+      "item": "thedisassember:iron_saw"
+    },
+    "V": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "pattern": [
+    "ASB",
+    "GVG",
+    "GGG"
+  ],
+  "result": {
+    "item": "thedisassember:basic_block"
+  },
+  "show_notification": true
+}

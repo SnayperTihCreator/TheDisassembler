@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "thedisassember:iron_saw"
+    },
+    "B": {
+      "item": "minecraft:iron_pickaxe"
+    },
+    "G": {
+      "item": "minecraft:smooth_basalt"
+    },
+    "P": {
+      "item": "minecraft:furnace"
+    },
+    "S": {
+      "item": "thedisassember:diamond_saw"
+    }
+  },
+  "pattern": [
+    "ASB",
+    "GPG",
+    "GGG"
+  ],
+  "result": {
+    "item": "thedisassember:advanced_block"
+  },
+  "show_notification": true
+}

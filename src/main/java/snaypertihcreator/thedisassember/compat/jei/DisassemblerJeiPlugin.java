@@ -2,28 +2,31 @@ package snaypertihcreator.thedisassember.compat.jei;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 import snaypertihcreator.thedisassember.blocks.ModBlocks;
+import snaypertihcreator.thedisassember.items.ModItems;
+import snaypertihcreator.thedisassember.items.SawMaterial;
 import snaypertihcreator.thedisassember.recipes.DisassemblingRecipe;
 import snaypertihcreator.thedisassember.recipes.DisassemblyCache;
 import snaypertihcreator.thedisassember.recipes.ModRecipes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 @SuppressWarnings("unused")
@@ -51,6 +54,11 @@ public class DisassemblerJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
+        registerRecipesAssembler(registration);
+        registerRecipesSawAssembly(registration);
+    }
+
+    private void registerRecipesAssembler(IRecipeRegistration registration){
         List<DisassemblingRecipe> allRecipes = new ArrayList<>();
         Level world = Minecraft.getInstance().level;
 
@@ -102,7 +110,35 @@ public class DisassemblerJeiPlugin implements IModPlugin {
         registration.addRecipes(DISASSEMBLING_TYPE, allRecipes);
     }
 
+    private void registerRecipesSawAssembly(IRecipeRegistration registration){
+        List<CraftingRecipe> sawRecipes = new ArrayList<>();
+
+        Arrays.stream(SawMaterial.values()).forEach(mat -> {
+            Ingredient bladeIng = Ingredient.of(ModItems.BLADE_ITEMS.get(mat).get());
+            Ingredient teethIng = Ingredient.of(ModItems.TEETH_ITEMS.get(mat).get());
+            ItemStack sawStack = new ItemStack(ModItems.SAW_ITEMS.get(mat).get());
+
+            NonNullList<Ingredient> inputs = NonNullList.withSize(9, Ingredient.EMPTY);
+
+            inputs.set(1, teethIng); // Верх
+            inputs.set(3, teethIng); // Лево
+            inputs.set(4, bladeIng); // Центр
+            inputs.set(5, teethIng); // Право
+            inputs.set(7, teethIng); // Низ
+
+            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "jei_saw_assembly_" + mat.name());
+
+            ShapedRecipe recipe = new ShapedRecipe(
+                    id,
+                    "", // Группа
+                    CraftingBookCategory.MISC,
+                    3, 3,
+                    inputs,
+                    sawStack
+            );
 
 
-
+        });
+        registration.addRecipes(RecipeTypes.CRAFTING, sawRecipes);
+    }
 }

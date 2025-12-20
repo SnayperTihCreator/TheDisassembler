@@ -1,4 +1,6 @@
-// 1.20.1	2025-12-16T20:17:35.1025216	Recipes
+// 1.20.1	2025-12-20T21:10:34.6624966	Recipes
+3e1ad0c5fe35b34e937cb329860e686c9788f9e8 data/thedisassember/advancements/recipes/misc/advanced_block.json
+978b4b603e771fd2ebe5d994ef85290769b4d202 data/thedisassember/advancements/recipes/misc/basic_block.json
 751c93884d4edb872231ade11b1b2074b374cf76 data/thedisassember/advancements/recipes/misc/diamond_blade.json
 a7b921531eb583e202b2213578f28bdcd693eb73 data/thedisassember/advancements/recipes/misc/diamond_teeth.json
 5e8c69c77f74450c4140255123bf35bc811b877c data/thedisassember/advancements/recipes/misc/gold_blade.json
@@ -17,6 +19,8 @@ cea144f839d96b9071ed15e4c9a0dc207b9e3d11 data/thedisassember/advancements/recipe
 51925695a82be72e8b21bca5fdcf3bfc6f2b9cc8 data/thedisassember/advancements/recipes/tools/netherite_saw.json
 be64f3fa7a4fbe7ae98a096fd687b3bf8d37c468 data/thedisassember/advancements/recipes/tools/stone_saw.json
 58a3003c2d1b1fc9cbeffe2c88cdbc0e1d914138 data/thedisassember/advancements/recipes/tools/wood_saw.json
+ba7c7bfc9d59032cb29536c3f55b5e28a315233b data/thedisassember/recipes/advanced_block.json
+fc78dd8d12faa1a5bc13235a8e02dc7eb9e69ee1 data/thedisassember/recipes/basic_block.json
 5a73f5694252d2f761e83ab4ecacbca38afef613 data/thedisassember/recipes/diamond_blade.json
 70e131af4c91faf04615e494abb1fe08a255a850 data/thedisassember/recipes/diamond_saw.json
 c36113106b2a3b35673b04abfbf01ce89e8b70fe data/thedisassember/recipes/diamond_teeth.json

@@ -20,7 +20,7 @@ public class ModRuLangProvider extends LanguageProvider {
         add("menujei.thedisassember", "Разборка");
         add("menu.thedisassember.base_block", "Базовый разборщик");
         add("menu.thedisassember.advanced_block", "Улучшенный разборщик");
-        add("thedisassember.creative_tab", "Разборка");
+        add("thedisassember.creative_tab", "Разборщики");
         add("tooltip.thedisassember.no_recipe", "Не найден рецепт");
 
         add("tooltip.thedisassember.hold_shift", "Нажмите на Shift для подробностей");

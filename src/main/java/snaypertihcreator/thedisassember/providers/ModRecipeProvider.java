@@ -3,11 +3,11 @@ package snaypertihcreator.thedisassember.providers;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.StonecutterRecipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
+import snaypertihcreator.thedisassember.blocks.ModBlocks;
 import snaypertihcreator.thedisassember.items.*;
 import snaypertihcreator.thedisassember.recipes.ModRecipes;
 
@@ -54,5 +54,29 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         });
         SpecialRecipeBuilder.special(ModRecipes.SAW_ASSEMBLY.get())
                 .save(consumer, TheDisassemberMod.MODID + ":saw_assembly_manual");
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BASIC_BLOCK.get())
+                .pattern("ASB")
+                .pattern("GVG")
+                .pattern("GGG")
+                .define('A', Items.IRON_AXE)
+                .define('B', Items.IRON_PICKAXE)
+                .define('S', ModItems.SAW_ITEMS.get(SawMaterial.IRON).get())
+                .define('V', Items.CRAFTING_TABLE)
+                .define('G', Items.SMOOTH_STONE)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                .save(consumer);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ADVANCED_BLOCK.get())
+                .pattern("ASB")
+                .pattern("GPG")
+                .pattern("GGG")
+                .define('A', ModItems.SAW_ITEMS.get(SawMaterial.IRON).get())
+                .define('B', Items.IRON_PICKAXE)
+                .define('S', ModItems.SAW_ITEMS.get(SawMaterial.DIAMOND).get())
+                .define('P', Items.FURNACE)
+                .define('G', Items.SMOOTH_BASALT)
+                .unlockedBy("has_basalt", has(Items.SMOOTH_BASALT))
+                .save(consumer);
     }
 }
