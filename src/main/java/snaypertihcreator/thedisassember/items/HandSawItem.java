@@ -78,8 +78,9 @@ public class HandSawItem extends Item {
             return super.getName(stack);
         }
 
-        Component coreName = Component.translatable("item.thedisassember." + core.getName() + "_saw");
-        return coreName.copy().append(Component.literal(" (" + teeth.getLang().getRuName().plural() + ")"));
+        Component coreNameComp = Component.translatable("material.thedisassember." + core.getName() + ".adj");
+        Component teethNameComp = Component.translatable("material.thedisassember." + teeth.getName() + ".plural");
+        return Component.translatable("item.thedisassember.saw_name", coreNameComp, teethNameComp);
     }
 
     @Override
@@ -91,15 +92,19 @@ public class HandSawItem extends Item {
             SawMaterial c = getCore(stack);
             SawMaterial t = getTeeth(stack);
 
-            tooltip.add(Component.translatable("tooltip.thedisassember.material.core")
-                    .append(Component.literal(" " + c.getLang().getEnName())).withStyle(ChatFormatting.GOLD));
-            tooltip.add(Component.translatable("tooltip.thedisassember.material.teeth")
-                    .append(Component.literal(" " + t.getLang().getEnName())).withStyle(ChatFormatting.AQUA));
+            Component coreName = Component.translatable("material.thedisassember."+c.getName()+".adj");
+            tooltip.add(Component.translatable("tooltip.thedisassember.material.core", coreName)
+                    .withStyle(ChatFormatting.GOLD));
+
+            Component teethName = Component.translatable("material.thedisassember."+t.getName()+".plural");
+            tooltip.add(Component.translatable("tooltip.thedisassember.material.teeth", teethName)
+                    .withStyle(ChatFormatting.AQUA));
 
             int max = getMaxDamage(stack);
             int current = max - stack.getDamageValue();
-            tooltip.add(Component.translatable("tooltip.thedisassember.durability")
-                    .append(Component.literal(" " + current + "/" + max)).withStyle(ChatFormatting.GREEN));
+
+            tooltip.add(Component.translatable("tooltip.thedisassember.durability", current, max)
+                    .withStyle(ChatFormatting.GREEN));
         } else {
             tooltip.add(Component.translatable("tooltip.thedisassember.hold_shift").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         }
@@ -114,7 +119,7 @@ public class HandSawItem extends Item {
     }
     @Override
     public int getBarColor(@NotNull ItemStack stack) {
-        float f = Math.max(0.0F, ((float)this.getMaxDamage(stack) - (float)stack.getDamageValue()) / (float)this.getMaxDamage(stack));
+        float f = Math.max(0.0F, ((float)this.getMaxDamage(stack) - stack.getDamageValue()) / this.getMaxDamage(stack));
         return net.minecraft.util.Mth.hsvToRgb(f / 3.0F, 1.0F, 1.0F);
     }
 }

@@ -58,7 +58,10 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
     }
 
     @Override
-    protected void onInventoryChanged(int slot) {checkRecipeValidity();}
+    protected void onInventoryChanged(int slot) {
+        super.onInventoryChanged(slot);
+        checkRecipeValidity();
+    }
 
     @Override
     public int getInputSlot() {
@@ -110,7 +113,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return false;
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, Tier1DisassemblerBlockEntity entity) {
+    public static void tick(Level level, BlockPos ignoredPos, BlockState ignoredState, Tier1DisassemblerBlockEntity entity) {
         if (level.isClientSide()) return;
 
         if (entity.progress > 0) {

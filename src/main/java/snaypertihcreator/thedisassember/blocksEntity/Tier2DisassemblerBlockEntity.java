@@ -85,6 +85,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     @Override
     protected void onInventoryChanged(int slot) {
+        super.onInventoryChanged(slot);
         if ((slot == 2) && (level != null) && !level.isClientSide)
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
     }
@@ -181,11 +182,11 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag nbt) {
+    protected void saveAdditional(@NotNull CompoundTag nbt) {
+        super.saveAdditional(nbt);
         nbt.putInt("burnTime", burnTime);
         nbt.putInt("burnDuration", burnDuration);
         nbt.putBoolean("isActive", isActive);
-        super.saveAdditional(nbt);
     }
 
     @Override

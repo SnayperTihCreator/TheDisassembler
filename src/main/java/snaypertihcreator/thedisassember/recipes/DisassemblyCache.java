@@ -17,7 +17,6 @@ import snaypertihcreator.thedisassember.ModCommonConfig;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 
 import javax.annotation.Nullable;
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -30,36 +29,33 @@ public class DisassemblyCache {
     public static void onServerStarted(ServerStartedEvent event) {
         recipeMap.clear();
 
-        try (Level level = event.getServer().overworld()) {
-            List<CraftingRecipe> craftingRecipes = level.getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING);
-            List<? extends String> excludedConfigItems = ModCommonConfig.EXCLUDED_ITEMS.get();
+        @SuppressWarnings("resource") Level level = event.getServer().overworld();
+        List<CraftingRecipe> craftingRecipes = level.getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING);
+        List<? extends String> excludedConfigItems = ModCommonConfig.EXCLUDED_ITEMS.get();
 
-            craftingRecipes.forEach(recipe -> {
-                ItemStack resultStack = recipe.getResultItem(level.registryAccess());
+        craftingRecipes.forEach(recipe -> {
+            ItemStack resultStack = recipe.getResultItem(level.registryAccess());
 
-                if (isExclude(resultStack, excludedConfigItems)) return;
-                if (resultStack.isEmpty()) return;
+            if (isExclude(resultStack, excludedConfigItems)) return;
+            if (resultStack.isEmpty()) return;
 
-                AtomicInteger inputCount = new AtomicInteger(0);
-                Set<Item> uniqueIngredients = new HashSet<>();
-                recipe.getIngredients().forEach(ingredient -> {
-                    if (ingredient.isEmpty()) return;
-                    inputCount.set(inputCount.get() + 1);
-                    ItemStack[] items = ingredient.getItems();
-                    if (items.length > 0) uniqueIngredients.add(items[0].getItem());
-                });
-
-                int outputCount = resultStack.getCount();
-
-                if (inputCount.get() == 1 && outputCount == 9) return;
-                if (inputCount.get() == 9 && outputCount == 1 && uniqueIngredients.size() == 1) return;
-
-                Item resultItem = resultStack.getItem();
-                if (!recipeMap.containsKey(resultItem)) recipeMap.put(resultItem, recipe);
+            AtomicInteger inputCount = new AtomicInteger(0);
+            Set<Item> uniqueIngredients = new HashSet<>();
+            recipe.getIngredients().forEach(ingredient -> {
+                if (ingredient.isEmpty()) return;
+                inputCount.set(inputCount.get() + 1);
+                ItemStack[] items = ingredient.getItems();
+                if (items.length > 0) uniqueIngredients.add(items[0].getItem());
             });
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+            int outputCount = resultStack.getCount();
+
+            if (inputCount.get() == 1 && outputCount == 9) return;
+            if (inputCount.get() == 9 && outputCount == 1 && uniqueIngredients.size() == 1) return;
+
+            Item resultItem = resultStack.getItem();
+            if (!recipeMap.containsKey(resultItem)) recipeMap.put(resultItem, recipe);
+        });
     }
 
     public static boolean isExclude(ItemStack stack, List<? extends String> configList){
