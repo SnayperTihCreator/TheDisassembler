@@ -32,7 +32,6 @@ public class Tier1DisassemblerScreen extends DisassemblerScreen<Tier1Disassemble
         super.init();
         this.addRenderableWidget(Button.builder(Component.literal("Разборка"),
                         button -> {
-                            // Убираем фокус, чтобы не мешал
                             this.setFocused(null);
                             ModMessages.sendToServer(new PackSpined());
                         })

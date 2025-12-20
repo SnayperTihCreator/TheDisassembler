@@ -4,6 +4,8 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -11,7 +13,6 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -26,6 +27,7 @@ import snaypertihcreator.thedisassember.networking.ModMessages;
 import snaypertihcreator.thedisassember.providers.*;
 import snaypertihcreator.thedisassember.recipes.ModRecipes;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -33,6 +35,7 @@ import java.util.concurrent.CompletableFuture;
 public class TheDisassemberMod
 {
     public static final String MODID = "thedisassember";
+    @SuppressWarnings("unused")
     private static final Logger LOGGER = LogUtils.getLogger();
 
     public TheDisassemberMod(FMLJavaModLoadingContext context)
@@ -68,12 +71,26 @@ public class TheDisassemberMod
         ExistingFileHelper helper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> provider = event.getLookupProvider();
 
-        generator.addProvider(event.includeClient(), new ModModelProvider(output, helper));
-        generator.addProvider(event.includeClient(), new ModRecipeProvider(output));
-        generator.addProvider(event.includeClient(), new ModEnLangProvider(output));
-        generator.addProvider(event.includeClient(), new ModRuLangProvider(output));
-        ModBlockTagProvider bProvider = generator.addProvider(event.includeClient(), new ModBlockTagProvider(output, provider, helper));
-        generator.addProvider(event.includeClient(), new ModItemTagProvider(output, provider,bProvider.contentsGetter(), helper));
+        boolean includeClient = event.includeClient();
 
+        generator.addProvider(includeClient, new ModModelProvider(output, helper));
+        generator.addProvider(includeClient, new ModEnLangProvider(output));
+        generator.addProvider(includeClient, new ModRuLangProvider(output));
+
+        boolean includeServer = event.includeServer();
+
+        ModBlockTagProvider blockTags = new ModBlockTagProvider(output, provider, helper);
+        generator.addProvider(includeServer, blockTags);
+        generator.addProvider(includeServer, new ModItemTagProvider(output, provider, blockTags.contentsGetter(), helper));
+        generator.addProvider(includeServer, new ModRecipeProvider(output));
+
+        List<LootTableProvider.SubProviderEntry> lstProviders = java.util.List.of(
+                new LootTableProvider.SubProviderEntry(ModBlockLootTables::new, LootContextParamSets.BLOCK)
+        );
+        generator.addProvider(includeServer, new LootTableProvider(
+                output,
+                java.util.Set.of(),
+                lstProviders
+        ));
     }
 }

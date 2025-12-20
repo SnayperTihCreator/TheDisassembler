@@ -17,6 +17,7 @@ import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
+import snaypertihcreator.thedisassember.blocks.DisassemberBlock;
 import snaypertihcreator.thedisassember.items.HandSawItem;
 import snaypertihcreator.thedisassember.menus.Tier2DisassemblerMenu;
 
@@ -30,6 +31,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     public Tier2DisassemblerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlocksEntity.TIER2_DISASSEMBER_BE.get(), pos, state, 12);
+
     }
 
     public boolean isActive() {return this.isActive;}
@@ -109,9 +111,11 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
     public static void tick(@NotNull Level level, BlockPos pos, BlockState state, Tier2DisassemblerBlockEntity entity) {
         if (level.isClientSide) return;
 
-        boolean wasActive = entity.isActive;
-        boolean dirty = false;
+        boolean wasLit = state.getValue(DisassemberBlock.LIT); // Горит ли текстура сейчас?
+        boolean wasActive = entity.isActive;                   // Работала ли машина в прошлом тике?
+        boolean dirty = false;                                 // Нужно ли сохранять NBT?
 
+        // --- ЛОГИКА СЖИГАНИЯ ТОПЛИВА ---
         if (entity.isBurning()) {
             entity.burnTime--;
             dirty = true;
@@ -122,6 +126,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
         boolean hasInputAndDisk = entity.canDisassembleCurrentItem() && !disk.isEmpty();
 
+        // Попытка зажечь новое топливо, если старое кончилось
         if (!entity.isBurning() && !fuel.isEmpty() && hasInputAndDisk) {
             if (entity.hasFreeOutputSlot()) {
                 entity.burnTime = ForgeHooks.getBurnTime(fuel, null);
@@ -159,6 +164,13 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
             }
         } else if (entity.progress > 0) {
             entity.progress = Math.max(0, entity.progress - 2);
+        }
+
+        boolean shouldBeLit = entity.isBurning();
+
+        if (wasLit != shouldBeLit) {
+            level.setBlock(pos, state.setValue(DisassemberBlock.LIT, shouldBeLit), 3);
+            dirty = true;
         }
 
         if (wasActive != entity.isActive) {

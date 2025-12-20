@@ -5,7 +5,8 @@
     "6": "thedisassember:block/thedisassember_front",
     "7": "thedisassember:block/thedisassember_left",
     "9": "thedisassember:block/thedisassember_side",
-    "10": "thedisassember:block/thedisassember_bottom"
+    "10": "thedisassember:block/thedisassember_bottom",
+    "particle": "thedisassember:block/thedisassember_top"
   },
   "elements": [
     {
