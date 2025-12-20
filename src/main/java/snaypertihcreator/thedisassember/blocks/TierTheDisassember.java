@@ -1,9 +1,10 @@
 package snaypertihcreator.thedisassember.blocks;
 
-// уровни разборщиков
+// уровни антиверстака
 public enum TierTheDisassember {
     BASIC(1),
     ADVANCED(2);
+    //TODO добавить третий уровень
 
 
     private final int level;

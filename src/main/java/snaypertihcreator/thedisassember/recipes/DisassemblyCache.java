@@ -83,7 +83,7 @@ public class DisassemblyCache {
         return false;
     }
 
-    // Запускается при остановке сервера
+    // Очистка мапы при остановке сервера
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         recipeMap.clear();

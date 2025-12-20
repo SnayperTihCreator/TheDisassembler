@@ -36,7 +36,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     public boolean isActive() {return this.isActive;}
 
-    // это надо
+    // Рабочая часть(не трогать)
     @Override
     protected ContainerData createContainerData() {
         return new ContainerData() {
@@ -61,7 +61,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         };
     }
 
-    // тут проверка для того что предмет тот
+    // Проверка соответсвия слота предмету
     @Override
     protected boolean isItemValid(int slot, ItemStack stack) {
         if (slot == 0) return true; // Вход
@@ -74,13 +74,13 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
     @Override
     public int getInputSlot() { return 0; }
 
-    // номерв выходных слотов
+    // номер выходных слотов
     @Override
     public int[] getOutputSlots() {
         return IntStream.range(3, 12).toArray();
     }
 
-    // куда могу вставлять воронки и тд
+    // проверка слота для установки воронки
     @Override
     protected boolean canAutomationInsert(int slot) {
         return slot < 3;
@@ -107,18 +107,18 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return tag;
     }
 
-    // просто НАДО
+    // Рабочая часть(не трогать)
     @Override
     public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    // если горит
+    // проверка процесса плавки
     private boolean isBurning() {
         return this.burnTime > 0;
     }
 
-    //метод который вызывает кажный тик
+    //метод процесса плавки
     public static void tick(@NotNull Level level, BlockPos pos, BlockState state, Tier2DisassemblerBlockEntity entity) {
         if (level.isClientSide) return;
 
@@ -185,7 +185,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
             dirty = true;
         }
 
-        // если не работает
+        // если не активно
         if (wasActive != entity.isActive) {
             dirty = true;
             level.sendBlockUpdated(pos, state, state, 3);
@@ -196,7 +196,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         }
     }
 
-    // получить свобоные слоты
+    // проверка на свободные слоты
     private boolean hasFreeOutputSlot() {
         for (int slot : getOutputSlots()) {
             ItemStack stack = handler.getStackInSlot(slot);
@@ -207,7 +207,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return false;
     }
 
-    // сохранения состояний
+    // сохранение состояния
     @Override
     protected void saveAdditional(@NotNull CompoundTag nbt) {
         super.saveAdditional(nbt);
@@ -216,7 +216,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         nbt.putBoolean("isActive", isActive);
     }
 
-    // загрузка их
+    // загрузка состояния
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
@@ -225,7 +225,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         isActive = nbt.getBoolean("isActive");
     }
 
-    // получить имя для меню
+    // получение имя для меню
     @Override
     public @NotNull Component getDisplayName() {
         return Component.translatable("menu." + TheDisassemberMod.MODID + ".advanced_block");

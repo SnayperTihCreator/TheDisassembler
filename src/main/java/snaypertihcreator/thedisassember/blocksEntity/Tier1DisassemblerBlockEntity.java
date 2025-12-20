@@ -94,7 +94,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
         setChanged();
     }
 
-    // может ли он его разобрать
+    // проверка на разборку предмета
     private void checkRecipeValidity() {
         if (canDisassembleCurrentItem()) {
             this.isValidRecipe = 1;
@@ -104,7 +104,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
         }
     }
 
-    // опять проверяем можем ли разобрать
+    // проверка на свободные слоты
     private boolean hasFreeOutputSlot() {
         for (int slot : getOutputSlots()) {
             if (handler.getStackInSlot(slot).isEmpty() ||
@@ -115,7 +115,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return false;
     }
 
-    // деградируем каждый тик
+    // обновление прогрессбара
     public static void tick(Level level, BlockPos ignoredPos, BlockState ignoredState, Tier1DisassemblerBlockEntity entity) {
         if (level.isClientSide()) return;
 
@@ -124,7 +124,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
         }
     }
 
-    // загрузка
+    // получение ответа сервера
     @Override
     public void onLoad() {
         super.onLoad();

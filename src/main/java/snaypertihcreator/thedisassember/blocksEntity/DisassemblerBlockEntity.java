@@ -47,8 +47,6 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     @Nullable
     protected CraftingRecipe cachedVanillaRecipe;
 
-    // ХУЙ ЗНАЕТ ЗАЧЕМ ЭТО ПРТОСТО НАДО
-    // Я ХУЙ ЗНАЕТ ПОД ЧЕМ Я ЭТО ПИСАЛ
     public DisassemblerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int slotCount) {
         super(type, pos, state);
 
@@ -95,7 +93,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         this.data = createContainerData();
     }
 
-    // Создние Conteiner дата это для общения между им и меню
+    // Создние Conteiner-даты для общения между антиверстаком и меню
     protected abstract ContainerData createContainerData();
     // Можно ли взаимодествовать со слотом
     protected abstract boolean canAutomationInsert(int slot);
@@ -105,7 +103,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     public abstract int getInputSlot();
     // получить номера слотов для выхода
     public abstract int[] getOutputSlots();
-    // метод для вызова обновленя инветоря
+    // метод для вызова обновленя инветаря
     protected void onInventoryChanged(int slot){
         if (slot != getInputSlot()) return;
         updateRecipeCache();
@@ -136,7 +134,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         cachedVanillaRecipe = DisassemblyCache.getRecipe(inputStack);
     }
 
-    // можем ли его разобрать
+    // проверка рецепта на возможность разборки
     public boolean canDisassembleCurrentItem() {
         if (level == null) return false;
 
@@ -223,7 +221,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         return list;
     }
 
-    // ложем предметы выходы
+    // перекладывает предмет в слот результата
     protected void distributeOutputs(List<ItemStack> items) {
         for (ItemStack stack : items) {
             ItemStack remaining = stack;
@@ -235,14 +233,14 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         }
     }
 
-    // надо хуй знает зачем
+    // Рабочая зона(не трогать)
     @Override
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == ForgeCapabilities.ITEM_HANDLER) return automationLazyHandler.cast();
         return super.getCapability(cap, side);
     }
 
-    // тоже надо
+    // Рабочая зона(не трогать)
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
@@ -258,7 +256,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         nbt.putInt("progress", progress);
     }
 
-    // загркзка их
+    // загркзка состояний
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
@@ -266,7 +264,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         progress = nbt.getInt("progress");
     }
 
-    // загрузка при сервере
+    // получение ответа сервера
     @Override
     public void onLoad() {
         super.onLoad();

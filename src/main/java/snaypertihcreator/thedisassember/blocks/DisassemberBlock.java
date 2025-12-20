@@ -55,7 +55,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
         };
     }
 
-    // когда жмякаем правой мышкой по блоку
+    // UI при открытии антиверстака
     @Override
     @SuppressWarnings("deprecation")
     public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
@@ -69,7 +69,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
         return InteractionResult.sidedSuccess(false);
     }
 
-    // тикер - то что будет вызывать метод каждый тик
+    // Создание и получение тикера
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         if (world.isClientSide) return null;
@@ -82,7 +82,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
 
     }
 
-    // когда уберам предмет
+    // Удаление антиверстака
     @Override
     @SuppressWarnings("deprecation")
     public void onRemove(BlockState state, @NotNull Level world, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {

@@ -52,9 +52,8 @@ public class TheDisassemberMod
         context.registerConfig(ModConfig.Type.COMMON, ModCommonConfig.SPEC, "thedisassember-common.toml");
     }
 
-    /**
-     * Метод для DataGen - короче динамическая генерация(переводы и тд)
-     */
+
+    //Метод для DataGen - короче динамическая генерация(переводы и тд)
     private void gatherData(GatherDataEvent event) {
 
 

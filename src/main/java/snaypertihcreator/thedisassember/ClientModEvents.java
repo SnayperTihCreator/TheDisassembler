@@ -21,25 +21,26 @@ import java.util.Collection;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+// регистрация окна для меню
 @Mod.EventBusSubscriber(modid = TheDisassemberMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientModEvents {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER1_DISASSEMBLER_MENU.get(), Tier1DisassemblerScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER2_DISASSEMBLER_MENU.get(), Tier2DisassemblerScreen::new));
-        // Выше строчки для регистрации окна для меню
-    }
 
+    }
+    // кастомный рендер для блока
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event){
         event.registerBlockEntityRenderer(ModBlocksEntity.TIER2_DISASSEMBER_BE.get(),
                 Tier2DisassemblerRenderer::new);
-        // тут кастомный рендер для блока
-    }
 
+    }
+    // регистрация установки цвета предметам от материала
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        // тут регистрация для установки цвета предметам от материала
+
         registerComponentColor(event, ModItems.TEETH_ITEMS.values(),
                 item -> item.getMaterial().getColor());
 
@@ -51,7 +52,7 @@ public class ClientModEvents {
                 (item, stack) -> item.getTeeth(stack).getColor());
     }
 
-    /** Метод для регистрации цвета компонента*/
+    //Метод для регистрации цвета компонента
     private static <T extends Item> void registerComponentColor(
             RegisterColorHandlersEvent.Item event,
             Collection<RegistryObject<T>> objects,
@@ -65,7 +66,7 @@ public class ClientModEvents {
         }, items);
     }
 
-    /** Метод для регистрации цвета самой пилы*/
+    //Метод для регистрации цвета самой пилы
     private static <T extends Item> void  registerToolColor(
             RegisterColorHandlersEvent.Item event,
             Collection<RegistryObject<T>> objects,
