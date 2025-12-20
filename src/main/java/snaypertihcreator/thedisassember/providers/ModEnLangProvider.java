@@ -22,6 +22,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("menu.thedisassember.base_block", "Basic Disassembler");
         add("menu.thedisassember.advanced_block", "Advanced Disassembler");
         add("thedisassember.creative_tab", "The Disassembler");
+        add("tooltip.thedisassember.no_recipe", "Не найден рецепт");
 
         add("tooltip.thedisassember.hold_shift", "Click on Shift for details");
         add("tooltip.thedisassember.saw.description", "Saws that are used for automatic disassemblers");

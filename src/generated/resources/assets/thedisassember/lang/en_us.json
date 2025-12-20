@@ -40,5 +40,6 @@
   "tooltip.thedisassember.hold_shift": "Click on Shift for details",
   "tooltip.thedisassember.material.core": "Core Material: %s",
   "tooltip.thedisassember.material.teeth": "Teeth Material: %s",
+  "tooltip.thedisassember.no_recipe": "Не найден рецепт",
   "tooltip.thedisassember.saw.description": "Saws that are used for automatic disassemblers"
 }
