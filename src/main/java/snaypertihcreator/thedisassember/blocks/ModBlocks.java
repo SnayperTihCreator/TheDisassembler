@@ -18,12 +18,14 @@ public class ModBlocks {
     public static final RegistryObject<DisassemberBlock> BASIC_BLOCK = registryBlock("basic_block", () -> new DisassemberBlock(TierTheDisassember.BASIC));
     public static final RegistryObject<DisassemberBlock> ADVANCED_BLOCK = registryBlock("advanced_block", () -> new DisassemberBlock(TierTheDisassember.ADVANCED));
 
+    // регистрация блока
     public static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block){
         RegistryObject<T> result = BLOCKS.register(name, block);
         registryItemBlock(name, result);
         return result;
     }
 
+    // регистрация предмета самого блока
     public static <T extends Block> void registryItemBlock(String name, RegistryObject<T> block){
         ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }

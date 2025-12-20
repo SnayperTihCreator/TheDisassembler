@@ -10,6 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassember.menus.DisassemblerMenu;
 
+// рендер самого меню
 public abstract class DisassemblerScreen<T extends DisassemblerMenu> extends AbstractContainerScreen<T> {
 
     public DisassemblerScreen(T menu, Inventory inventory, Component component) {

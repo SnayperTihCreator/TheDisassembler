@@ -22,6 +22,7 @@ import snaypertihcreator.thedisassember.recipes.DisassemblingRecipe;
 
 import java.util.List;
 
+// Я ХУЙ ПОД ЧЕМ Я ЭТО ПИСАЛ. Это короче как рецепт рендерится в JEI
 public class DisassemblerRecipeCategory implements IRecipeCategory<DisassemblingRecipe> {
 
     public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "disassembling");

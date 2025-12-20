@@ -5,6 +5,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import java.util.function.Supplier;
 
+// материалы для пил, зубъев и серцевин
 public enum SawMaterial {
 
     WOOD("wood", 0x866526, 1, 1,// Уровень 1
@@ -47,16 +48,21 @@ public enum SawMaterial {
         this.lang = lang;
     }
 
+    // прочность материала
     public int getMaxUses() {
         int baseDurability = 32;
         return baseDurability * (int) Math.pow(2, this.tierLevel - 1);
     }
 
+    // имя материала
     public String getName() { return name; }
+    // цвет материала
     public int getColor() { return color; }
-    public int getTierLevel() { return tierLevel; }
+    // скорость материала
     public int getSpeedLevel() {return speedLevel;}
+    // материал для починки
     public Ingredient getRepairIngredient() { return repairIngredient.get(); }
+    // переводы
     public MaterialLang getLang() { return lang; }
 
 }

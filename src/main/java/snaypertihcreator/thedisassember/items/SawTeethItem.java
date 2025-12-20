@@ -2,6 +2,7 @@ package snaypertihcreator.thedisassember.items;
 
 import net.minecraft.world.item.Item;
 
+// Класс компонент - зубье пилы
 public class SawTeethItem extends Item {
     private final SawMaterial material;
 

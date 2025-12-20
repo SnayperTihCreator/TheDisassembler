@@ -10,6 +10,7 @@ import snaypertihcreator.thedisassember.TheDisassemberMod;
 import snaypertihcreator.thedisassember.blocks.ModBlocks;
 import snaypertihcreator.thedisassember.items.ModItems;
 
+// Регистратор креатив меню
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TheDisassemberMod.MODID);
 

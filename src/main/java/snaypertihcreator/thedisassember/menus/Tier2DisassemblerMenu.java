@@ -22,6 +22,7 @@ public class Tier2DisassemblerMenu extends DisassemblerMenu {
         this(containerID, inventory, Objects.requireNonNull(inventory.player.level().getBlockEntity(buf.readBlockPos())), new SimpleContainerData(4));
     }
 
+    // Серверный конструктор
     public Tier2DisassemblerMenu(int containerID, Inventory inventory, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.TIER2_DISASSEMBLER_MENU.get(), containerID, inventory, entity, data, 4);
 
@@ -43,10 +44,12 @@ public class Tier2DisassemblerMenu extends DisassemblerMenu {
     @Override
     protected int getMaxProgressValue() { return this.data.get(3); }
 
+    // Получаем если горит
     public boolean isBurning() {
         return this.data.get(0) > 0;
     }
 
+    // изменяем огенек
     public int getScaledFuelProgress(int size) {
         int burnTime = this.data.get(0);
         int burnDuration = this.data.get(1);
@@ -54,6 +57,7 @@ public class Tier2DisassemblerMenu extends DisassemblerMenu {
         return burnTime > 0 ? burnTime * size / burnDuration : 0;
     }
 
+    // метод для переноса предметов через shift
     @Override
     protected boolean moveStackToMachine(ItemStack stack) {
         int INPUT_SLOT = TE_INVENTORY_FIRST_SLOT_INDEX;

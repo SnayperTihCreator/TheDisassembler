@@ -39,11 +39,13 @@ public class DisassemberBlock extends Block implements EntityBlock {
         registerDefaultState(getStateDefinition().any().setValue(LIT, false));
     }
 
+    // состояния блока
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LIT);
     }
 
+    // метод для создания блока контролера
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return switch (tier.getLevel()){
@@ -53,6 +55,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
         };
     }
 
+    // когда жмякаем правой мышкой по блоку
     @Override
     @SuppressWarnings("deprecation")
     public @NotNull InteractionResult use(@NotNull BlockState state, Level world, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
@@ -66,6 +69,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
         return InteractionResult.sidedSuccess(false);
     }
 
+    // тикер - то что будет вызывать метод каждый тик
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         if (world.isClientSide) return null;
@@ -78,6 +82,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
 
     }
 
+    // когда уберам предмет
     @Override
     @SuppressWarnings("deprecation")
     public void onRemove(BlockState state, @NotNull Level world, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {

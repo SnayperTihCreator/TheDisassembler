@@ -1,5 +1,6 @@
 package snaypertihcreator.thedisassember.blocks;
 
+// уровни разборщиков
 public enum TierTheDisassember {
     BASIC(1),
     ADVANCED(2);

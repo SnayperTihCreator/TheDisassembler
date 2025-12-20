@@ -7,6 +7,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 
+// Регистратор меню
 public class ModMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, TheDisassemberMod.MODID);
 

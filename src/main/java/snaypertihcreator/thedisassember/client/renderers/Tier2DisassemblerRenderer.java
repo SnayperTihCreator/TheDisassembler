@@ -19,9 +19,10 @@ import java.util.Objects;
 
 public class Tier2DisassemblerRenderer implements BlockEntityRenderer<Tier2DisassemblerBlockEntity> {
 
-    public Tier2DisassemblerRenderer(BlockEntityRendererProvider.Context context) {
+    public Tier2DisassemblerRenderer(BlockEntityRendererProvider.Context ignoredContext) {
     }
 
+    // тут рендерим предмет на самом блоке
     @Override
     public void render(Tier2DisassemblerBlockEntity entity, float partialTick, @NotNull PoseStack poseStack,
                        @NotNull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {

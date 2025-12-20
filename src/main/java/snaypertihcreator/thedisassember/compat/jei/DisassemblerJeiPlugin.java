@@ -28,7 +28,7 @@ import snaypertihcreator.thedisassember.recipes.ModRecipes;
 
 import java.util.*;
 
-
+// Сам плагин для JEI
 @SuppressWarnings("unused")
 @JeiPlugin
 public class DisassemblerJeiPlugin implements IModPlugin {

@@ -2,6 +2,7 @@ package snaypertihcreator.thedisassember.items;
 
 
 
+//Класс для хранения переводов
 public class MaterialLang {
     public record Declensions(String feminine, String plural){}
 

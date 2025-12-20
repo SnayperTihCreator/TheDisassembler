@@ -2,6 +2,7 @@ package snaypertihcreator.thedisassember.items;
 
 import net.minecraft.world.item.Item;
 
+//Класс компонент серцевина
 public class SawBladeItem extends Item {
     private final SawMaterial material;
 

@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+// Сама пила
 public class HandSawItem extends Item {
     private static final String NBT_CORE = "SawCore";
     private static final String NBT_TEETH = "SawTeeth";
@@ -26,6 +27,7 @@ public class HandSawItem extends Item {
         this.teeth = teeth;
     }
 
+    // получить материал серцевины
     public SawMaterial getCore(ItemStack stack) {
         if (stack.getTag() != null && stack.getTag().contains(NBT_CORE)) {
             try {
@@ -34,6 +36,7 @@ public class HandSawItem extends Item {
         }
         return core;
     }
+    // получить материал зубъев
     public SawMaterial getTeeth(ItemStack stack) {
         if (stack.getTag() != null && stack.getTag().contains(NBT_TEETH)) {
             try {
@@ -43,10 +46,12 @@ public class HandSawItem extends Item {
         return teeth;
     }
 
+    // получить уровень скорости предмета
     public int getToolLevel(ItemStack stack) {
         return getTeeth(stack).getSpeedLevel();
     }
 
+    // метод для создания пилы из материалов
     public static ItemStack createSaw(SawMaterial core, SawMaterial teeth) {
         Item baseItem = ModItems.SAW_ITEMS.get(core).get();
         ItemStack stack = new ItemStack(baseItem);
@@ -59,16 +64,19 @@ public class HandSawItem extends Item {
         return stack;
     }
 
+    // получить макс прочтность
     @Override
     public int getMaxDamage(ItemStack stack) {
         return getCore(stack).getMaxUses();
     }
 
+    // проверить можно ли поченить ли этим предметов
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack pToRepair, @NotNull ItemStack pRepair) {
         return getCore(pToRepair).getRepairIngredient().test(pRepair) || super.isValidRepairItem(pToRepair, pRepair);
     }
 
+    // получить отображаемое имя
     @Override
     public @NotNull Component getName(@NotNull ItemStack stack) {
         SawMaterial core = getCore(stack);
@@ -83,6 +91,7 @@ public class HandSawItem extends Item {
         return Component.translatable("item.thedisassember.saw_name", coreNameComp, teethNameComp);
     }
 
+    // подсказки
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.thedisassember.saw.description").withStyle(ChatFormatting.GRAY));
@@ -110,6 +119,7 @@ public class HandSawItem extends Item {
         }
     }
 
+    // все ниже это для бара прочности
     @Override
     public boolean isBarVisible(@NotNull ItemStack stack) { return stack.isDamaged(); }
 

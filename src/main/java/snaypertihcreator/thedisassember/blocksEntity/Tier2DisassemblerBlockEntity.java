@@ -36,6 +36,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     public boolean isActive() {return this.isActive;}
 
+    // это надо
     @Override
     protected ContainerData createContainerData() {
         return new ContainerData() {
@@ -60,6 +61,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         };
     }
 
+    // тут проверка для того что предмет тот
     @Override
     protected boolean isItemValid(int slot, ItemStack stack) {
         if (slot == 0) return true; // Вход
@@ -68,23 +70,28 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return true;
     }
 
+    // номер входа предмета
     @Override
     public int getInputSlot() { return 0; }
 
+    // номерв выходных слотов
     @Override
     public int[] getOutputSlots() {
         return IntStream.range(3, 12).toArray();
     }
 
+    // куда могу вставлять воронки и тд
     @Override
     protected boolean canAutomationInsert(int slot) {
         return slot < 3;
     }
 
+    // гетер для рендера самой пилы
     public ItemStack getRenderSaw(){
         return handler.getStackInSlot(2);
     }
 
+    // метод при обновлении ячеек
     @Override
     protected void onInventoryChanged(int slot) {
         super.onInventoryChanged(slot);
@@ -92,6 +99,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
     }
 
+    // обновление NBT тегов
     @Override
     public @NotNull CompoundTag getUpdateTag() {
         CompoundTag tag = new CompoundTag();
@@ -99,15 +107,18 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return tag;
     }
 
+    // просто НАДО
     @Override
     public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+    // если горит
     private boolean isBurning() {
         return this.burnTime > 0;
     }
 
+    //метод который вызывает кажный тик
     public static void tick(@NotNull Level level, BlockPos pos, BlockState state, Tier2DisassemblerBlockEntity entity) {
         if (level.isClientSide) return;
 
@@ -168,11 +179,13 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
         boolean shouldBeLit = entity.isBurning();
 
+        // если уже не горит
         if (wasLit != shouldBeLit) {
             level.setBlock(pos, state.setValue(DisassemberBlock.LIT, shouldBeLit), 3);
             dirty = true;
         }
 
+        // если не работает
         if (wasActive != entity.isActive) {
             dirty = true;
             level.sendBlockUpdated(pos, state, state, 3);
@@ -183,6 +196,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         }
     }
 
+    // получить свобоные слоты
     private boolean hasFreeOutputSlot() {
         for (int slot : getOutputSlots()) {
             ItemStack stack = handler.getStackInSlot(slot);
@@ -193,6 +207,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return false;
     }
 
+    // сохранения состояний
     @Override
     protected void saveAdditional(@NotNull CompoundTag nbt) {
         super.saveAdditional(nbt);
@@ -201,6 +216,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         nbt.putBoolean("isActive", isActive);
     }
 
+    // загрузка их
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);
@@ -209,11 +225,13 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         isActive = nbt.getBoolean("isActive");
     }
 
+    // получить имя для меню
     @Override
     public @NotNull Component getDisplayName() {
         return Component.translatable("menu." + TheDisassemberMod.MODID + ".advanced_block");
     }
 
+    // Создание меню
     @Override
     public @Nullable AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
         return new Tier2DisassemblerMenu(id, inv, this, this.data);
