@@ -27,20 +27,23 @@ public class ClientModEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER1_DISASSEMBLER_MENU.get(), Tier1DisassemblerScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER2_DISASSEMBLER_MENU.get(), Tier2DisassemblerScreen::new));
+        // Выше строчки для регистрации окна для меню
     }
 
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event){
         event.registerBlockEntityRenderer(ModBlocksEntity.TIER2_DISASSEMBER_BE.get(),
                 Tier2DisassemblerRenderer::new);
+        // тут кастомный рендер для блока
     }
 
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        registerComponetColor(event, ModItems.TEETH_ITEMS.values(),
+        // тут регистрация для установки цвета предметам от материала
+        registerComponentColor(event, ModItems.TEETH_ITEMS.values(),
                 item -> item.getMaterial().getColor());
 
-        registerComponetColor(event, ModItems.BLADE_ITEMS.values(),
+        registerComponentColor(event, ModItems.BLADE_ITEMS.values(),
                 item -> item.getMaterial().getColor());
 
         registerToolColor(event, ModItems.SAW_ITEMS.values(),
@@ -48,7 +51,8 @@ public class ClientModEvents {
                 (item, stack) -> item.getTeeth(stack).getColor());
     }
 
-    private static <T extends Item> void registerComponetColor(
+    /** Метод для регистрации цвета компонента*/
+    private static <T extends Item> void registerComponentColor(
             RegisterColorHandlersEvent.Item event,
             Collection<RegistryObject<T>> objects,
             Function<T, Integer> colorProvider)
@@ -61,6 +65,7 @@ public class ClientModEvents {
         }, items);
     }
 
+    /** Метод для регистрации цвета самой пилы*/
     private static <T extends Item> void  registerToolColor(
             RegisterColorHandlersEvent.Item event,
             Collection<RegistryObject<T>> objects,

@@ -9,7 +9,9 @@ import snaypertihcreator.thedisassember.items.SawMaterial;
 
 import java.util.Arrays;
 
-
+/**
+ * Провайдер для англиской локализации
+ */
 public class ModEnLangProvider extends LanguageProvider {
     public ModEnLangProvider(PackOutput output) {super(output, TheDisassemberMod.MODID, "en_us");}
 

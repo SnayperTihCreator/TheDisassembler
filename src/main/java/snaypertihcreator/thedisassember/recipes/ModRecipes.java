@@ -8,6 +8,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 
+/**
+ * Разберешься зачем это
+ * */
 public class ModRecipes {
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TheDisassemberMod.MODID);
 

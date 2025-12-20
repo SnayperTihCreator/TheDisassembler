@@ -4,16 +4,19 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
 import snaypertihcreator.thedisassember.blocksEntity.Tier1DisassemblerBlockEntity;
-import snaypertihcreator.thedisassember.menus.DisassemblerMenu;
 import snaypertihcreator.thedisassember.menus.Tier1DisassemblerMenu;
 
 import java.util.function.Supplier;
 
+/**
+ * Это метод для бармолды
+ */
 public class PackSpined {
     public PackSpined() {}
-    public PackSpined(FriendlyByteBuf buf) {}
-    public void toBytes(FriendlyByteBuf buf) {}
+    public PackSpined(FriendlyByteBuf ignoredBuf) {}
+    public void toBytes(FriendlyByteBuf ignoredBuf) {}
 
+    @SuppressWarnings("UnusedReturnValue")
     public boolean handle(Supplier<NetworkEvent.Context> supplier){
         NetworkEvent.Context context = supplier.get();
 

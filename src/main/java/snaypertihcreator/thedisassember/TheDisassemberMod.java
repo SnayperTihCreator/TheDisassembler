@@ -9,13 +9,9 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import snaypertihcreator.thedisassember.blocks.ModBlocks;
@@ -41,7 +37,6 @@ public class TheDisassemberMod
     public TheDisassemberMod(FMLJavaModLoadingContext context)
     {
         IEventBus bus = context.getModEventBus();
-        bus.addListener(this::commonSetup);
 
         ModItems.ITEMS.register(bus);
         ModBlocks.BLOCKS.register(bus);
@@ -53,19 +48,16 @@ public class TheDisassemberMod
 
         bus.addListener(this::gatherData);
         MinecraftForge.EVENT_BUS.register(this);
-        bus.addListener(this::addCreative);
 
         context.registerConfig(ModConfig.Type.COMMON, ModCommonConfig.SPEC, "thedisassember-common.toml");
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event) {}
-
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {}
-
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {}
-
+    /**
+     * Метод для DataGen - короче динамическая генерация(переводы и тд)
+     */
     private void gatherData(GatherDataEvent event) {
+
+
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         ExistingFileHelper helper = event.getExistingFileHelper();

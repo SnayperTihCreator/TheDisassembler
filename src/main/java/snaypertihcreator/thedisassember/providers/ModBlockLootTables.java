@@ -9,6 +9,9 @@ import snaypertihcreator.thedisassember.blocks.ModBlocks;
 
 import java.util.Set;
 
+/**
+ * Провайдер для регистрации таблицы лута
+ */
 public class ModBlockLootTables extends BlockLootSubProvider {
     public ModBlockLootTables(){
         super(Set.of(), FeatureFlags.REGISTRY.allFlags());

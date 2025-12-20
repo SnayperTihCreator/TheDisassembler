@@ -9,6 +9,9 @@ import snaypertihcreator.thedisassember.items.SawMaterial;
 
 import java.util.Arrays;
 
+/**
+ * Провайдер для русской локализации
+ */
 public class ModRuLangProvider extends LanguageProvider {
     public ModRuLangProvider(PackOutput output) {super(output, TheDisassemberMod.MODID, "ru_ru");}
 

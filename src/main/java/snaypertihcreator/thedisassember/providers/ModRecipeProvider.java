@@ -14,6 +14,9 @@ import snaypertihcreator.thedisassember.recipes.ModRecipes;
 import java.util.Arrays;
 import java.util.function.Consumer;
 
+/**
+ * Провайдер рецептов
+ */
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
     public ModRecipeProvider(PackOutput output){
         super(output);

@@ -20,11 +20,15 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Класс для сбора рецептов верстака
+ */
 @Mod.EventBusSubscriber(modid = TheDisassemberMod.MODID)
 public class DisassemblyCache {
 
-    private static final Map<Item, CraftingRecipe> recipeMap = new HashMap<>();
+    private static final Map<Item, CraftingRecipe> recipeMap = new HashMap<>(); //Хранить найдены рецепты
 
+    // Запускается при запуске сервера
     @SubscribeEvent
     public static void onServerStarted(ServerStartedEvent event) {
         recipeMap.clear();
@@ -58,6 +62,7 @@ public class DisassemblyCache {
         });
     }
 
+    // Проверяет если предмет находится в списке исключения
     public static boolean isExclude(ItemStack stack, List<? extends String> configList){
         ResourceLocation itemID = ForgeRegistries.ITEMS.getKey(stack.getItem());
         if (itemID == null) return false;
@@ -78,16 +83,19 @@ public class DisassemblyCache {
         return false;
     }
 
+    // Запускается при остановке сервера
     @SubscribeEvent
     public static void onServerStopping(ServerStoppingEvent event) {
         recipeMap.clear();
     }
 
+    // гетер для доступа к рецепту
     public static @Nullable CraftingRecipe getRecipe(ItemStack stack) {
         if (stack.isEmpty()) return null;
         return recipeMap.get(stack.getItem());
     }
 
+    // гетер для получение всех найденных рецептов
     public static Map<Item, CraftingRecipe> getAllRecipes(){
         return recipeMap;
     }

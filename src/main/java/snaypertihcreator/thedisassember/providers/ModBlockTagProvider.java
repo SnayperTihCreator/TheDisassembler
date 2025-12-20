@@ -11,6 +11,9 @@ import snaypertihcreator.thedisassember.blocks.ModBlocks;
 
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Провайдер для регистрации тегов для блоков
+ */
 public class ModBlockTagProvider extends BlockTagsProvider {
     public ModBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider,
                                    ExistingFileHelper helper){

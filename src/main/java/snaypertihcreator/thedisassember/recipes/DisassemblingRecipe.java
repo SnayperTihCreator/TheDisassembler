@@ -2,7 +2,6 @@ package snaypertihcreator.thedisassember.recipes;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import net.minecraft.CharPredicate;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +16,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс рецептов для самого разборщика
+ */
 public class DisassemblingRecipe implements Recipe<SimpleContainer> {
     private final ResourceLocation id;
     private final Ingredient input;

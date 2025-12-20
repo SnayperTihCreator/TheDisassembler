@@ -13,6 +13,9 @@ import snaypertihcreator.thedisassember.tags.ModTags;
 import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Провайдер для регистрации тегов для предметов
+ */
 public class ModItemTagProvider extends ItemTagsProvider {
     public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> provider,
                               CompletableFuture<TagLookup<Block>> tagLookup, @Nullable ExistingFileHelper helper){

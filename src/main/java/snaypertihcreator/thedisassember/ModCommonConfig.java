@@ -17,7 +17,7 @@ public class ModCommonConfig {
                 "You can specify Item IDs (e.g. 'minecraft:bedrock') or Tags (start with #, e.g. '#minecraft:wool').")
                 .defineList("excluded_items", List.of(
                         "#minecraft:trim_templates",
-                        "minecraft:netherite_upgrade_smithing_template"
+                        "minecraft:netherite_upgrade_smithing_template" // короче сдеся это те предметы которые нужно исключить
                 ), entry -> true);
         BUILDER.pop();
 

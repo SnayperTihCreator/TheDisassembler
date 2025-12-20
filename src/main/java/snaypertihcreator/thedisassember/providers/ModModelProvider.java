@@ -11,6 +11,9 @@ import snaypertihcreator.thedisassember.items.ModItems;
 
 import java.util.Objects;
 
+/**
+ * Провайдер текстурок предметов
+ */
 public class ModModelProvider extends ItemModelProvider {
     public ModModelProvider(PackOutput output, ExistingFileHelper helper){
         super(output, TheDisassemberMod.MODID, helper);

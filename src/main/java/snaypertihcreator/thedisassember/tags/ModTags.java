@@ -10,10 +10,12 @@ import snaypertihcreator.thedisassember.TheDisassemberMod;
 
 public class ModTags {
 
+    /** Регистрируем тег для блоков */
     public static TagKey<Block> registerBlock(String name){
         return BlockTags.create(ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, name));
     }
 
+    /** Регистрируем тег для предметов */
     public static TagKey<Item> registerItem(String name){
         return ItemTags.create(ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, name));
     }

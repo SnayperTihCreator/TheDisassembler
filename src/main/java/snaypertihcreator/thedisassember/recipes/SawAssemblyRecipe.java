@@ -13,9 +13,12 @@ import snaypertihcreator.thedisassember.items.HandSawItem;
 import snaypertihcreator.thedisassember.items.SawBladeItem;
 import snaypertihcreator.thedisassember.items.SawTeethItem;
 
+/**
+ * Короче это класс кастоный крафт для пил
+ * чтобы их можно комбинировать
+ */
 public class SawAssemblyRecipe extends CustomRecipe {
 
-    // ВАЖНО: Конструктор должен принимать Category, чтобы совпадать с сериализатором
     public SawAssemblyRecipe(ResourceLocation id, CraftingBookCategory category) {
         super(id, category);
     }

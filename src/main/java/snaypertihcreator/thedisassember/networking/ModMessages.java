@@ -7,6 +7,9 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 
+/**
+ * Точно не помню это нужно чтобы для передачи между сервером и клентом
+ */
 public class ModMessages {
     private static SimpleChannel INSTANCE;
     private static int packetId = 0;
