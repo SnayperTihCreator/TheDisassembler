@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -75,9 +76,9 @@ public class DisassemberBlock extends Block implements EntityBlock {
         if (world.isClientSide) return null;
 
         if (type == ModBlocksEntity.TIER1_DISASSEMBER_BE.get())
-            return (lvl, pos, st, be) -> Tier1DisassemblerBlockEntity.tick(lvl, pos, st, (Tier1DisassemblerBlockEntity) be);
+            return createTickerHelper(type, ModBlocksEntity.TIER1_DISASSEMBER_BE.get(), Tier1DisassemblerBlockEntity::tick);
         if (type == ModBlocksEntity.TIER2_DISASSEMBER_BE.get())
-            return (lvl, pos, st, be) -> Tier2DisassemblerBlockEntity.tick(lvl, pos, st, (Tier2DisassemblerBlockEntity) be);
+            return createTickerHelper(type, ModBlocksEntity.TIER2_DISASSEMBER_BE.get(), Tier2DisassemblerBlockEntity::tick);
         return null;
 
     }
@@ -86,16 +87,35 @@ public class DisassemberBlock extends Block implements EntityBlock {
     @Override
     @SuppressWarnings("deprecation")
     public void onRemove(BlockState state, @NotNull Level world, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
-        if (state.getBlock() != newState.getBlock()) {
+        if (state.getBlock() != newState.getBlock() && !isMoving) {
             BlockEntity be = world.getBlockEntity(pos);
             if (be instanceof DisassemblerBlockEntity) {
-                be.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-                    for (int i = 0; i < handler.getSlots(); i++) {
-                        Containers.dropItemStack(world, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
-                    }
-                });
+                dropContents(world, pos, be);
             }
         }
         super.onRemove(state, world, pos, newState, isMoving);
+    }
+
+    // выкидываем предметы в мир
+    private void dropContents(Level world, BlockPos pos, BlockEntity be) {
+        if (!world.isClientSide) {
+            be.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
+                SimpleContainer container = new SimpleContainer(handler.getSlots());
+                for (int i = 0; i < handler.getSlots(); i++) {
+                    container.setItem(i, handler.getStackInSlot(i));
+                }
+                Containers.dropContents(world, pos, container);
+            });
+            if (be instanceof DisassemblerBlockEntity disassembler) {
+                disassembler.clearContent();
+            }
+        }
+    }
+
+    // вспомагалка для типов
+    @SuppressWarnings("unchecked")
+    @Nullable
+    protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(BlockEntityType<A> actualType, BlockEntityType<E> targetType, BlockEntityTicker<? super E> ticker) {
+        return targetType == actualType ? (BlockEntityTicker<A>) ticker : null;
     }
 }

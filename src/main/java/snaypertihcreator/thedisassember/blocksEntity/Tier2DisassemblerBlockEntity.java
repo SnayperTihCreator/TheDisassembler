@@ -196,16 +196,6 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         }
     }
 
-    // проверка на свободные слоты
-    private boolean hasFreeOutputSlot() {
-        for (int slot : getOutputSlots()) {
-            ItemStack stack = handler.getStackInSlot(slot);
-            if (stack.isEmpty() || stack.getCount() < stack.getMaxStackSize()) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     // сохранение состояния
     @Override

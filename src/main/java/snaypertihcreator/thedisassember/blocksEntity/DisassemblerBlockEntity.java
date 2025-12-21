@@ -7,7 +7,6 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -43,9 +42,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     protected final ContainerData data;
 
     @Nullable
-    protected DisassemblingRecipe cachedCustomRecipe;
-    @Nullable
-    protected CraftingRecipe cachedVanillaRecipe;
+    protected DisassemblingRecipe cachedRecipe;
 
     public DisassemblerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int slotCount) {
         super(type, pos, state);
@@ -114,12 +111,11 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     private void updateRecipeCache(){
         if (level == null || level.isClientSide) return;
 
-        cachedCustomRecipe = null;
-        cachedVanillaRecipe = null;
+        cachedRecipe = null;
 
         ItemStack inputStack = handler.getStackInSlot(getInputSlot());
         if (inputStack.isEmpty()) return;
-        if (inputStack.getItem() instanceof  HandSawItem) return;
+        if (inputStack.getItem() instanceof HandSawItem) return;
 
         SimpleContainer tempContainer = new SimpleContainer(1);
         tempContainer.setItem(0, inputStack);
@@ -127,11 +123,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         Optional<DisassemblingRecipe> custom = level.getRecipeManager()
                 .getRecipeFor(ModRecipes.DISASSEMBLING_TYPE, tempContainer, level);
 
-        if (custom.isPresent()) {
-            cachedCustomRecipe = custom.get();
-            return;
-        }
-        cachedVanillaRecipe = DisassemblyCache.getRecipe(inputStack);
+        cachedRecipe = custom.orElseGet(() -> DisassemblyCache.getRecipe(inputStack));
     }
 
     // проверка рецепта на возможность разборки
@@ -141,13 +133,8 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         ItemStack inputStack = handler.getStackInSlot(getInputSlot());
         if (inputStack.isEmpty()) return false;
         if (inputStack.getItem() instanceof HandSawItem) return true;
-
-        if (cachedCustomRecipe != null){
-            return inputStack.getCount() >= cachedCustomRecipe.getCountInput();
-        }
-        if (cachedVanillaRecipe != null){
-            int resultCount = cachedVanillaRecipe.getResultItem(level.registryAccess()).getCount();
-            return inputStack.getCount() >= resultCount;
+        if (cachedRecipe != null){
+            return inputStack.getCount() >= cachedRecipe.getCountInput();
         }
         return false;
     }
@@ -163,39 +150,16 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         List<ItemStack> results = new ArrayList<>();
         int amountToConsume = 0;
 
-        // Логика пилы
+        // Логика пилы (специфичный предмет, оставляем отдельно)
         if (inputStack.getItem() instanceof HandSawItem saw) {
             amountToConsume = 1;
             results.addAll(disassembleHandSaw(inputStack, saw));
         }
-        // Логика кастомного рецепта (из кэша)
-        else if (cachedCustomRecipe != null) {
-            if (inputStack.getCount() >= cachedCustomRecipe.getCountInput()) {
-                amountToConsume = cachedCustomRecipe.getCountInput();
-                cachedCustomRecipe.getResults().forEach(res -> {
-                    if (RANDOM.nextFloat() <= res.chance()) {
-                        results.add(res.stack().copy());
-                    }
-                });
-            }
-        }
-        // Логика ванильного рецепта (из кэша)
-        else if (cachedVanillaRecipe != null) {
-            int craftingResultCount = cachedVanillaRecipe.getResultItem(level.registryAccess()).getCount();
-
-            if (inputStack.getCount() >= craftingResultCount) {
-                amountToConsume = craftingResultCount;
-                cachedVanillaRecipe.getIngredients().forEach(ingredient -> {
-                    if (ingredient.isEmpty()) return;
-                    if (RANDOM.nextDouble() <= 0.75) {
-                        ItemStack[] matchingStacks = ingredient.getItems();
-                        if (matchingStacks.length > 0) {
-                            ItemStack returnedItem = matchingStacks[0].copy();
-                            returnedItem.setCount(1);
-                            results.add(returnedItem);
-                        }
-                    }
-                });
+        // Единая логика для всех рецептов
+        else if (cachedRecipe != null) {
+            if (inputStack.getCount() >= cachedRecipe.getCountInput()) {
+                amountToConsume = cachedRecipe.getCountInput();
+                results.addAll(cachedRecipe.assembleOutputs(RANDOM));
             }
         }
 
@@ -219,6 +183,27 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
             if (!teeths.isEmpty()) list.add(teeths);
         }
         return list;
+    }
+
+    // проверка на свободные слоты
+    protected boolean hasFreeOutputSlot() {
+        for (int slot : getOutputSlots()) {
+            ItemStack stack = handler.getStackInSlot(slot); // Тут чуть оптимизировано (переменная)
+            if (stack.isEmpty() || stack.getCount() < stack.getMaxStackSize()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Метод для очистки содержимого
+    public void clearContent() {
+        for (int i = 0; i < handler.getSlots(); i++) {
+            handler.setStackInSlot(i, ItemStack.EMPTY);
+        }
+        progress = 0;
+        cachedRecipe = null;
+        setChanged();
     }
 
     // перекладывает предмет в слот результата

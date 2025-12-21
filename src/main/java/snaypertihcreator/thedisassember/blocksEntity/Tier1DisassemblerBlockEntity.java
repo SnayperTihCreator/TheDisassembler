@@ -104,16 +104,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
         }
     }
 
-    // проверка на свободные слоты
-    private boolean hasFreeOutputSlot() {
-        for (int slot : getOutputSlots()) {
-            if (handler.getStackInSlot(slot).isEmpty() ||
-                    (handler.getStackInSlot(slot).getCount() < handler.getStackInSlot(slot).getMaxStackSize())) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     // обновление прогрессбара
     public static void tick(Level level, BlockPos ignoredPos, BlockState ignoredState, Tier1DisassemblerBlockEntity entity) {

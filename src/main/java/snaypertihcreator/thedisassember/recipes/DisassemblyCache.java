@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Mod.EventBusSubscriber(modid = TheDisassemberMod.MODID)
 public class DisassemblyCache {
 
-    private static final Map<Item, CraftingRecipe> recipeMap = new HashMap<>(); //Хранить найдены рецепты
+    private static final Map<Item, DisassemblingRecipe> recipeMap = new HashMap<>(); //Хранить найдены рецепты
 
     // Запускается при запуске сервера
     @SubscribeEvent
@@ -58,7 +58,7 @@ public class DisassemblyCache {
             if (inputCount.get() == 9 && outputCount == 1 && uniqueIngredients.size() == 1) return;
 
             Item resultItem = resultStack.getItem();
-            if (!recipeMap.containsKey(resultItem)) recipeMap.put(resultItem, recipe);
+            if (!recipeMap.containsKey(resultItem)) recipeMap.put(resultItem, DisassemblingRecipe.fromCrafting(recipe, level));
         });
     }
 
@@ -90,13 +90,13 @@ public class DisassemblyCache {
     }
 
     // гетер для доступа к рецепту
-    public static @Nullable CraftingRecipe getRecipe(ItemStack stack) {
+    public static @Nullable DisassemblingRecipe getRecipe(ItemStack stack) {
         if (stack.isEmpty()) return null;
         return recipeMap.get(stack.getItem());
     }
 
     // гетер для получение всех найденных рецептов
-    public static Map<Item, CraftingRecipe> getAllRecipes(){
+    public static Map<Item, DisassemblingRecipe> getAllRecipes(){
         return recipeMap;
     }
 }

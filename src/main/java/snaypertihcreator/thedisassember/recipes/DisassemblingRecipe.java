@@ -7,19 +7,22 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.IntStream;
 
 /**
  * Класс рецептов для самого разборщика
  */
 public class DisassemblingRecipe implements Recipe<SimpleContainer> {
+    protected static final float AUTO_RECIPE_CHANCE = 0.75F;
+
     private final ResourceLocation id;
     private final Ingredient input;
     private final int countInput;
@@ -84,6 +87,53 @@ public class DisassemblingRecipe implements Recipe<SimpleContainer> {
         return ModRecipes.DISASSEMBLING_TYPE;
     }
 
+    // метод создания рецепта из крафта
+    public static DisassemblingRecipe fromCrafting(CraftingRecipe craftingRecipe, Level level) {
+        ItemStack resultStack = craftingRecipe.getResultItem(level.registryAccess());
+
+        Map<Item, Integer> ingredientCounts = new HashMap<>();
+        craftingRecipe.getIngredients().forEach(ing -> {
+            if (ing.isEmpty()) return;
+            ItemStack[] matchingStacks = ing.getItems();
+            if (matchingStacks.length > 0){
+                Item item = matchingStacks[0].getItem();
+                ingredientCounts.put(item, ingredientCounts.getOrDefault(item, 0)+1);
+            }
+        });
+
+        List<Result> results = new ArrayList<>();
+        ingredientCounts.forEach((item, count) -> {
+            ItemStack stack = new ItemStack(item, count);
+            results.add(new Result(stack, AUTO_RECIPE_CHANCE));
+        });
+
+        return new DisassemblingRecipe(
+                craftingRecipe.getId(),
+                Ingredient.of(resultStack),
+                resultStack.getCount(),
+                results
+        );
+    }
+
+    // получаем итоговые предметы
+    public List<ItemStack> assembleOutputs(Random random) {
+        List<ItemStack> outputList = new ArrayList<>();
+        results.forEach(result -> {
+            ItemStack baseStack = result.stack;
+            int maxCount = baseStack.getCount();
+            float chance = result.chance;
+
+            int finalCount = (int)IntStream.range(0, maxCount).filter(i -> random.nextFloat() <= chance).count();
+
+            if (finalCount > 0) {
+                ItemStack resultStack = baseStack.copyWithCount(finalCount);
+                outputList.add(resultStack);
+            }
+        });
+
+        return outputList;
+    }
+
     public static class Serializer implements RecipeSerializer<DisassemblingRecipe> {
         public static final Serializer INSTANCE = new Serializer();
 
@@ -98,7 +148,7 @@ public class DisassemblingRecipe implements Recipe<SimpleContainer> {
             resultJson.forEach(element -> {
                 JsonObject object = element.getAsJsonObject();
                 ItemStack stack = ShapedRecipe.itemStackFromJson(object);
-                float chance = GsonHelper.getAsFloat(object, "chance", 1.0f);
+                float chance = GsonHelper.getAsFloat(object, "chance", AUTO_RECIPE_CHANCE);
                 results.add(new Result(stack, chance));
             });
 

@@ -8,17 +8,21 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 
-/** TODO Разберешься зачем это
+/** Регистратор рецептов
  * */
 public class ModRecipes {
+    // Сам регистратор
     public static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TheDisassemberMod.MODID);
 
+    // Тип сериализатора для кастомного предмета
     public static final RegistryObject<RecipeSerializer<DisassemblingRecipe>> DISASSEMBLING_SERIALIZER =
             SERIALIZERS.register("disassembling", () -> DisassemblingRecipe.Serializer.INSTANCE);
 
+    // Тип сериализатора для крафта пил
     public static final RegistryObject<RecipeSerializer<SawAssemblyRecipe>> SAW_ASSEMBLY =
             SERIALIZERS.register("saw_assembly", () -> new SimpleCraftingRecipeSerializer<>(SawAssemblyRecipe::new));
 
+    //Тип рецепта
     public static final RecipeType<DisassemblingRecipe> DISASSEMBLING_TYPE = new RecipeType<>() {
         @Override
         public String toString() {
