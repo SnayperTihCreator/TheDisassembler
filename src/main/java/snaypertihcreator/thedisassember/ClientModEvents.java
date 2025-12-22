@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassember.blocksEntity.ModBlocksEntity;
-import snaypertihcreator.thedisassember.client.renderers.Tier2DisassemblerRenderer;
+import snaypertihcreator.thedisassember.client.renderers.DisassemblerSawRenderer;
 import snaypertihcreator.thedisassember.client.screens.Tier1DisassemblerScreen;
 import snaypertihcreator.thedisassember.client.screens.Tier2DisassemblerScreen;
 import snaypertihcreator.thedisassember.items.ModItems;
@@ -33,8 +33,11 @@ public class ClientModEvents {
     // кастомный рендер для блока
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event){
-        event.registerBlockEntityRenderer(ModBlocksEntity.TIER2_DISASSEMBER_BE.get(),
-                Tier2DisassemblerRenderer::new);
+        event.registerBlockEntityRenderer(ModBlocksEntity.TIER2_DISASSEMBLER_BE.get(),
+                DisassemblerSawRenderer::new);
+
+        event.registerBlockEntityRenderer(ModBlocksEntity.TIER3_DISASSEMBLER_BE.get(),
+                DisassemblerSawRenderer::new);
 
     }
     // регистрация установки цвета предметам от материала

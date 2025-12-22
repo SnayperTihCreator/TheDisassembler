@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
@@ -21,20 +20,18 @@ import snaypertihcreator.thedisassember.blocks.DisassemberBlock;
 import snaypertihcreator.thedisassember.items.HandSawItem;
 import snaypertihcreator.thedisassember.menus.Tier2DisassemblerMenu;
 
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     private int burnTime;
     private int burnDuration;
-    private boolean isActive;
 
     public Tier2DisassemblerBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlocksEntity.TIER2_DISASSEMBER_BE.get(), pos, state, 12);
+        super(ModBlocksEntity.TIER2_DISASSEMBLER_BE.get(), pos, state, 12); // 0 - вход, 1 - топливо, 2 - диск
 
     }
-
-    public boolean isActive() {return this.isActive;}
 
     // Рабочая часть(не трогать)
     @Override
@@ -61,7 +58,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         };
     }
 
-    // Проверка соответсвия слота предмету
+    // Проверка соответствия слота предмету
     @Override
     protected boolean isItemValid(int slot, ItemStack stack) {
         if (slot == 0) return true; // Вход
@@ -87,8 +84,18 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
     }
 
     // гетер для рендера самой пилы
-    public ItemStack getRenderSaw(){
+
+
+    @Override
+    public ItemStack getRenderSaw() {
         return handler.getStackInSlot(2);
+    }
+
+    @Override
+    protected float getLuckModifier() {
+        ItemStack disk = handler.getStackInSlot(2);
+        if (!(disk.getItem() instanceof HandSawItem sawItem)) return 0;
+        return sawItem.getLuckModifier(disk);
     }
 
     // метод при обновлении ячеек
@@ -113,89 +120,90 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    // проверка процесса плавки
-    private boolean isBurning() {
+    @Override
+    protected boolean serverTickFuel() {
+        boolean dirty = false;
+
+        // 1. Сжигаем текущее топливо
+        if (this.burnTime > 0) {
+            this.burnTime--;
+            dirty = true;
+        }
+
+        // 2. Если топливо кончилось, но нужно работать - подкидываем новое
+        if (this.burnTime <= 0 && canDisassembleCurrentItem() && hasFreeOutputSlot() && hasRequiredTools()) {
+            ItemStack fuelStack = handler.getStackInSlot(1);
+            if (!fuelStack.isEmpty()) {
+                int fuelTime = ForgeHooks.getBurnTime(fuelStack, null);
+                if (fuelTime > 0) {
+                    this.burnTime = fuelTime;
+                    this.burnDuration = fuelTime;
+
+                    ItemStack remainder = fuelStack.getCraftingRemainingItem();
+                    fuelStack.shrink(1);
+                    if (fuelStack.isEmpty()) handler.setStackInSlot(1, remainder);
+                    dirty = true;
+                }
+            }
+        }
+
+        if (dirty) setChanged();
         return this.burnTime > 0;
     }
 
-    //метод процесса плавки
-    public static void tick(@NotNull Level level, BlockPos pos, BlockState state, Tier2DisassemblerBlockEntity entity) {
-        if (level.isClientSide) return;
+    @Override
+    protected boolean hasRequiredTools() {
+        return !handler.getStackInSlot(2).isEmpty();
+    }
 
-        boolean wasLit = state.getValue(DisassemberBlock.LIT); // Горит ли текстура сейчас?
-        boolean wasActive = entity.isActive;                   // Работала ли машина в прошлом тике?
-        boolean dirty = false;                                 // Нужно ли сохранять NBT?
+    @Override
+    protected int calculateMaxProgress() {
+        ItemStack disk = handler.getStackInSlot(2);
+        int speed = 0;
+        if (disk.getItem() instanceof HandSawItem sawItem) speed = (int)(200/sawItem.getSpeedModifier(disk));
+        return Math.max(20, speed);
+    }
 
-        // --- ЛОГИКА СЖИГАНИЯ ТОПЛИВА ---
-        if (entity.isBurning()) {
-            entity.burnTime--;
-            dirty = true;
-        }
-
-        ItemStack fuel = entity.handler.getStackInSlot(1);
-        ItemStack disk = entity.handler.getStackInSlot(2);
-
-        boolean hasInputAndDisk = entity.canDisassembleCurrentItem() && !disk.isEmpty();
-
-        // Попытка зажечь новое топливо, если старое кончилось
-        if (!entity.isBurning() && !fuel.isEmpty() && hasInputAndDisk) {
-            if (entity.hasFreeOutputSlot()) {
-                entity.burnTime = ForgeHooks.getBurnTime(fuel, null);
-                entity.burnDuration = entity.burnTime;
-
-                if (entity.isBurning()) {
-                    dirty = true;
-                    ItemStack remainder = fuel.getCraftingRemainingItem();
-                    fuel.shrink(1);
-                    if (fuel.isEmpty()) entity.handler.setStackInSlot(1, remainder);
-                }
+    @Override
+    protected void onItemDisassembled() {
+        ItemStack disk = handler.getStackInSlot(2);
+        if (disk.isDamageableItem()) {
+            if (disk.hurt(1, Objects.requireNonNull(level).random, null)) {
+                disk.shrink(1);
+                level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
             }
-        }
-        boolean canWork = entity.isBurning() && hasInputAndDisk && entity.hasFreeOutputSlot();
-        entity.isActive = canWork;
-
-        if (canWork) {
-            entity.progress++;
-            int speedModifier = 0;
-            if (disk.getItem() instanceof HandSawItem sawItem) {
-                speedModifier = sawItem.getToolLevel(disk);
-            }
-            entity.maxProgress = Math.max(20, 200 - (speedModifier * 30));
-
-            if (entity.progress >= entity.maxProgress) {
-                entity.progress = 0;
-                entity.tryDisassembleCurrentItem();
-                if (disk.isDamageableItem()) {
-                    if (disk.hurt(1, level.random, null)) {
-                        disk.shrink(1);
-                        disk.setDamageValue(0);
-                    }
-                }
-                dirty = true;
-            }
-        } else if (entity.progress > 0) {
-            entity.progress = Math.max(0, entity.progress - 2);
-        }
-
-        boolean shouldBeLit = entity.isBurning();
-
-        // если уже не горит
-        if (wasLit != shouldBeLit) {
-            level.setBlock(pos, state.setValue(DisassemberBlock.LIT, shouldBeLit), 3);
-            dirty = true;
-        }
-
-        // если не активно
-        if (wasActive != entity.isActive) {
-            dirty = true;
-            level.sendBlockUpdated(pos, state, state, 3);
-        }
-
-        if (dirty) {
-            setChanged(level, pos, state);
         }
     }
 
+    @Override
+    protected void regressProgress() {
+        if (this.progress > 0) this.progress = Math.max(0, this.progress - 2);
+    }
+
+    @Override
+    protected void updateBlockState(BlockState state, boolean isWorking, boolean isBurning) {
+        boolean dirty = false;
+
+        // 1. Проверяем состояние LIT (Горит)
+        boolean currentLit = state.getValue(DisassemberBlock.LIT);
+        if (currentLit != isBurning) {
+            state = state.setValue(DisassemberBlock.LIT, isBurning);
+            dirty = true;
+        }
+
+        // 2. Проверяем состояние WORKING (Пилит)
+        boolean currentWorking = state.getValue(DisassemberBlock.WORKING);
+        if (currentWorking != isWorking) {
+            state = state.setValue(DisassemberBlock.WORKING, isWorking);
+            dirty = true;
+        }
+
+        // Если хоть что-то изменилось - обновляем блок в мире
+        if (dirty) {
+            Objects.requireNonNull(level).setBlock(worldPosition, state, 3);
+            setChanged();
+        }
+    }
 
     // сохранение состояния
     @Override
@@ -203,7 +211,6 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         super.saveAdditional(nbt);
         nbt.putInt("burnTime", burnTime);
         nbt.putInt("burnDuration", burnDuration);
-        nbt.putBoolean("isActive", isActive);
     }
 
     // загрузка состояния
@@ -212,7 +219,6 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
         super.load(nbt);
         burnTime = nbt.getInt("burnTime");
         burnDuration = nbt.getInt("burnDuration");
-        isActive = nbt.getBoolean("isActive");
     }
 
     // получение имя для меню

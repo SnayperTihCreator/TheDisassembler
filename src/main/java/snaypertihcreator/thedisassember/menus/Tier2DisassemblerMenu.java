@@ -11,7 +11,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import snaypertihcreator.thedisassember.blocks.ModBlocks;
-import snaypertihcreator.thedisassember.items.SawBladeItem;
+import snaypertihcreator.thedisassember.items.HandSawItem;
 
 import java.util.Objects;
 
@@ -64,7 +64,7 @@ public class Tier2DisassemblerMenu extends DisassemblerMenu {
         int FUEL_SLOT = TE_INVENTORY_FIRST_SLOT_INDEX + 1;
         int DISK_SLOT = TE_INVENTORY_FIRST_SLOT_INDEX + 2;
 
-        if (stack.getItem() instanceof SawBladeItem) {
+        if (stack.getItem() instanceof HandSawItem) {
             if (moveItemStackTo(stack, DISK_SLOT, DISK_SLOT + 1, false)) return true;
         }
 

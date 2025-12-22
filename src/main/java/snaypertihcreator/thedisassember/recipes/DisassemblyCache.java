@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import snaypertihcreator.thedisassember.ModCommonConfig;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
+import snaypertihcreator.thedisassember.items.HandSawItem;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -42,6 +43,7 @@ public class DisassemblyCache {
 
             if (isExclude(resultStack, excludedConfigItems)) return;
             if (resultStack.isEmpty()) return;
+            if (resultStack.getItem() instanceof HandSawItem) return;
 
             AtomicInteger inputCount = new AtomicInteger(0);
             Set<Item> uniqueIngredients = new HashSet<>();

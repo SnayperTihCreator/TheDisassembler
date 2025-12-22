@@ -1,3 +1,4 @@
-// 1.20.1	2025-12-20T20:17:56.6120179	Loot Tables
+// 1.20.1	2025-12-22T17:03:53.8913188	Loot Tables
 0492f6c31a7207d6dba257909f4a526aa9966997 data/thedisassember/loot_tables/blocks/advanced_block.json
 f5b6988947249a8326cac0f2b87d2cceca30f0df data/thedisassember/loot_tables/blocks/basic_block.json
+897ff9c10ae2c49da033d16453a9be8f84335f98 data/thedisassember/loot_tables/blocks/progressive_block.json

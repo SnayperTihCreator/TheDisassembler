@@ -22,38 +22,37 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import snaypertihcreator.thedisassember.blocksEntity.DisassemblerBlockEntity;
-import snaypertihcreator.thedisassember.blocksEntity.ModBlocksEntity;
-import snaypertihcreator.thedisassember.blocksEntity.Tier1DisassemblerBlockEntity;
-import snaypertihcreator.thedisassember.blocksEntity.Tier2DisassemblerBlockEntity;
+import snaypertihcreator.thedisassember.blocksEntity.*;
 
 public class DisassemberBlock extends Block implements EntityBlock {
-    private final TierTheDisassember tier;
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
-    public DisassemberBlock(TierTheDisassember tier) {
-        super(Properties.of()
-                .strength(3.5F)
-                .requiresCorrectToolForDrops()
+    private final TierTheDisassembler tier;
+
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
+    public static final BooleanProperty WORKING = BooleanProperty.create("working");
+
+    public DisassemberBlock(TierTheDisassembler tier) {
+        super(Properties.of().strength(3.5F).requiresCorrectToolForDrops()
+                .lightLevel(state -> state.getValue(LIT) ? 13 : 0)
         );
         this.tier = tier;
-        registerDefaultState(getStateDefinition().any().setValue(LIT, false));
+        registerDefaultState(stateDefinition.any()
+                .setValue(LIT, false)
+                .setValue(WORKING, false)
+        );
     }
 
     // состояния блока
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LIT);
+        builder.add(WORKING);
     }
 
     // метод для создания блока контролера
     @Override
     public @Nullable BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-        return switch (tier.getLevel()){
-            case 1 -> new Tier1DisassemblerBlockEntity(pos, state);
-            case 2 -> new Tier2DisassemblerBlockEntity(pos, state);
-            default -> throw new IllegalStateException("Unexpected value: " + tier.getLevel());
-        };
+        return tier.create(pos, state);
     }
 
     // UI при открытии антиверстака
@@ -75,12 +74,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         if (world.isClientSide) return null;
 
-        if (type == ModBlocksEntity.TIER1_DISASSEMBER_BE.get())
-            return createTickerHelper(type, ModBlocksEntity.TIER1_DISASSEMBER_BE.get(), Tier1DisassemblerBlockEntity::tick);
-        if (type == ModBlocksEntity.TIER2_DISASSEMBER_BE.get())
-            return createTickerHelper(type, ModBlocksEntity.TIER2_DISASSEMBER_BE.get(), Tier2DisassemblerBlockEntity::tick);
-        return null;
-
+        return tier.getTicker(type);
     }
 
     // Удаление антиверстака
@@ -89,9 +83,7 @@ public class DisassemberBlock extends Block implements EntityBlock {
     public void onRemove(BlockState state, @NotNull Level world, @NotNull BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock() && !isMoving) {
             BlockEntity be = world.getBlockEntity(pos);
-            if (be instanceof DisassemblerBlockEntity) {
-                dropContents(world, pos, be);
-            }
+            if (be instanceof DisassemblerBlockEntity) dropContents(world, pos, be);
         }
         super.onRemove(state, world, pos, newState, isMoving);
     }
@@ -101,21 +93,10 @@ public class DisassemberBlock extends Block implements EntityBlock {
         if (!world.isClientSide) {
             be.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
                 SimpleContainer container = new SimpleContainer(handler.getSlots());
-                for (int i = 0; i < handler.getSlots(); i++) {
-                    container.setItem(i, handler.getStackInSlot(i));
-                }
+                for (int i = 0; i < handler.getSlots(); i++) container.setItem(i, handler.getStackInSlot(i));
                 Containers.dropContents(world, pos, container);
             });
-            if (be instanceof DisassemblerBlockEntity disassembler) {
-                disassembler.clearContent();
-            }
+            if (be instanceof DisassemblerBlockEntity disassembler) disassembler.clearContent();
         }
-    }
-
-    // вспомагалка для типов
-    @SuppressWarnings("unchecked")
-    @Nullable
-    protected static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(BlockEntityType<A> actualType, BlockEntityType<E> targetType, BlockEntityTicker<? super E> ticker) {
-        return targetType == actualType ? (BlockEntityTicker<A>) ticker : null;
     }
 }

@@ -15,8 +15,9 @@ import java.util.function.Supplier;
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, TheDisassemberMod.MODID);
 
-    public static final RegistryObject<DisassemberBlock> BASIC_BLOCK = registryBlock("basic_block", () -> new DisassemberBlock(TierTheDisassember.BASIC));
-    public static final RegistryObject<DisassemberBlock> ADVANCED_BLOCK = registryBlock("advanced_block", () -> new DisassemberBlock(TierTheDisassember.ADVANCED));
+    public static final RegistryObject<DisassemberBlock> BASIC_BLOCK = registryBlock("basic_block", () -> new DisassemberBlock(TierTheDisassembler.BASIC));
+    public static final RegistryObject<DisassemberBlock> ADVANCED_BLOCK = registryBlock("advanced_block", () -> new DisassemberBlock(TierTheDisassembler.ADVANCED));
+    public static final RegistryObject<DisassemberBlock> PROGRESSIVE_BLOCK = registryBlock("progressive_block", () -> new DisassemberBlock(TierTheDisassembler.PROGRESSIVE));
 
     // регистрация блока
     public static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block){

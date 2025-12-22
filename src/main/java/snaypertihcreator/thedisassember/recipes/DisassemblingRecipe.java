@@ -116,12 +116,12 @@ public class DisassemblingRecipe implements Recipe<SimpleContainer> {
     }
 
     // получаем итоговые предметы
-    public List<ItemStack> assembleOutputs(Random random) {
+    public List<ItemStack> assembleOutputs(ItemStack input, Random random, float luckModifier) {
         List<ItemStack> outputList = new ArrayList<>();
         results.forEach(result -> {
             ItemStack baseStack = result.stack;
             int maxCount = baseStack.getCount();
-            float chance = result.chance;
+            float chance = Math.min(1.0F, result.chance + luckModifier);
 
             int finalCount = (int)IntStream.range(0, maxCount).filter(i -> random.nextFloat() <= chance).count();
 

@@ -1,0 +1,26 @@
+{
+	"parent": "minecraft:block/cube_all",
+	"textures": {
+		"0": "thedisassember:block/tier3/thedisassember_bottom",
+		"2": "thedisassember:block/tier3/thedisassember_left",
+		"3": "thedisassember:block/tier3/thedisassember_side",
+		"4": "thedisassember:block/tier3/thedisassember_top",
+		"5": "thedisassember:block/tier3/thedisassember_front_on",
+		"particle": "thedisassember:block/tier3/thedisassember_bottom"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#5"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#2"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#3"},
+				"west": {"uv": [0, 0, 16, 16], "texture": "#3"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#4"},
+				"down": {"uv": [0, 0, 16, 16], "rotation": 180, "texture": "#0"}
+			}
+		}
+	]
+}

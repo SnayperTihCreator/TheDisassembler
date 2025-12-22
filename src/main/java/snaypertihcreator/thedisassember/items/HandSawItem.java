@@ -51,6 +51,16 @@ public class HandSawItem extends Item {
         return getTeeth(stack).getSpeedLevel();
     }
 
+    // получить модификатор скорости
+    public float getSpeedModifier(ItemStack stack){
+        return getCore(stack).getSpeedMultiplier();
+    }
+
+    // получить модификатор удачи
+    public float getLuckModifier(ItemStack stack){
+        return getTeeth(stack).getLuckModifier();
+    }
+
     // метод для создания пилы из материалов
     public static ItemStack createSaw(SawMaterial core, SawMaterial teeth) {
         Item baseItem = ModItems.SAW_ITEMS.get(core).get();

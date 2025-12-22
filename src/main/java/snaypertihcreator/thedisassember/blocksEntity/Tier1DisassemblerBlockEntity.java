@@ -7,7 +7,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -20,7 +19,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
     private int isValidRecipe = 0;
 
     public Tier1DisassemblerBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlocksEntity.TIER1_DISASSEMBER_BE.get(), pos, state, 10);
+        super(ModBlocksEntity.TIER1_DISASSEMBLER_BE.get(), pos, state, 10);
     }
 
     @Override
@@ -58,12 +57,6 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
     }
 
     @Override
-    protected void onInventoryChanged(int slot) {
-        super.onInventoryChanged(slot);
-        checkRecipeValidity();
-    }
-
-    @Override
     public int getInputSlot() {
         return 0;
     }
@@ -78,48 +71,36 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
         return slot == 0;
     }
 
+    @Override
+    protected float getLuckModifier() {return -0.01F;}
+
+    @Override
+    protected boolean isAutomatic() {return false;}
+
     public void spined() {
         if (level == null || level.isClientSide) return;
-
         boolean canWork = canDisassembleCurrentItem() && hasFreeOutputSlot();
-
-        if (!canWork) return;
-
-        this.progress += 5;
-        if (this.progress >= this.maxProgress) {
-            tryDisassembleCurrentItem();
-            this.progress = 0;
-            checkRecipeValidity();
-        }
-        setChanged();
-    }
-
-    // проверка на разборку предмета
-    private void checkRecipeValidity() {
-        if (canDisassembleCurrentItem()) {
-            this.isValidRecipe = 1;
-        } else {
-            this.isValidRecipe = 0;
-            this.progress = 0;
+        if (canWork) {
+            this.progress += 5;
+            if (this.progress >= this.maxProgress) finishCrafting();
+            setChanged();
         }
     }
 
-
-
-    // обновление прогрессбара
-    public static void tick(Level level, BlockPos ignoredPos, BlockState ignoredState, Tier1DisassemblerBlockEntity entity) {
-        if (level.isClientSide()) return;
-
-        if (entity.progress > 0) {
-            entity.progress--;
-        }
-    }
-
-    // получение ответа сервера
     @Override
-    public void onLoad() {
-        super.onLoad();
-        checkRecipeValidity();
+    protected int calculateMaxProgress() {
+        return 100;
+    }
+
+    @Override
+    protected void updateContainerDataTypes() {
+        this.isValidRecipe = canDisassembleCurrentItem()?1:0;
+    }
+
+    @Override
+    protected void regressProgress() {
+        if (this.progress > 0) this.progress--;
+        if (this.isValidRecipe == 0) this.progress = 0;
     }
 
     @Override

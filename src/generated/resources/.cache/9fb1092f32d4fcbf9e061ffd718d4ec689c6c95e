@@ -1,4 +1,4 @@
-// 1.20.1	2025-12-20T21:10:34.6624966	Recipes
+// 1.20.1	2025-12-22T14:16:17.8355014	Recipes
 3e1ad0c5fe35b34e937cb329860e686c9788f9e8 data/thedisassember/advancements/recipes/misc/advanced_block.json
 978b4b603e771fd2ebe5d994ef85290769b4d202 data/thedisassember/advancements/recipes/misc/basic_block.json
 751c93884d4edb872231ade11b1b2074b374cf76 data/thedisassember/advancements/recipes/misc/diamond_blade.json
@@ -27,6 +27,7 @@ c36113106b2a3b35673b04abfbf01ce89e8b70fe data/thedisassember/recipes/diamond_tee
 5a2b014713b36ec4de6a68417ced8296ee3403b7 data/thedisassember/recipes/gold_blade.json
 98f55be562156a622eefae90162efc5531187091 data/thedisassember/recipes/gold_saw.json
 e7825bbff1e9d675148974f1e62726dde690f047 data/thedisassember/recipes/gold_teeth.json
+c0829b5a674f6b710c6ed28f4a80b073a06a3b71 data/thedisassember/recipes/hand_saw_disassembling.json
 2b470c8a4e57b140c4ba448d12808a41798b15c8 data/thedisassember/recipes/iron_blade.json
 b0a937cffb6f1536a33d2aa6ea044c369eeffa90 data/thedisassember/recipes/iron_saw.json
 89db3bdfa98b78bdf01c9ca3dcd68f9d3a3b3113 data/thedisassember/recipes/iron_teeth.json

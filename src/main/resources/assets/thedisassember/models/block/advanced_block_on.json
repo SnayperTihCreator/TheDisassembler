@@ -1,12 +1,12 @@
 {
 	"parent": "minecraft:block/cube_all",
 	"textures": {
-		"2": "thedisassember:block/thedisassember_top",
-		"6": "thedisassember:block/thedisassember_front_on",
-		"7": "thedisassember:block/thedisassember_left",
-		"9": "thedisassember:block/thedisassember_side",
-		"10": "thedisassember:block/thedisassember_bottom",
-		"particle": "thedisassember:block/thedisassember_top"
+		"2": "thedisassember:block/tier2/thedisassember_top",
+		"6": "thedisassember:block/tier2/thedisassember_front_on",
+		"7": "thedisassember:block/tier2/thedisassember_left",
+		"9": "thedisassember:block/tier2/thedisassember_side",
+		"10": "thedisassember:block/tier2/thedisassember_bottom",
+		"particle": "thedisassember:block/tier2/thedisassember_top"
 	},
 	"elements": [
 		{

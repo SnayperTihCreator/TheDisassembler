@@ -1,0 +1,12 @@
+{
+  "multipart": [
+    {
+      "when": { "lit": false },
+      "apply": { "model": "thedisassember:block/progressive_block" }
+    },
+    {
+      "when": { "lit": true },
+      "apply": { "model": "thedisassember:block/progressive_block_on" }
+    }
+  ]
+}

@@ -1,11 +1,15 @@
 package snaypertihcreator.thedisassember.providers;
 
+import com.google.gson.JsonObject;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassember.TheDisassemberMod;
 import snaypertihcreator.thedisassember.blocks.ModBlocks;
 import snaypertihcreator.thedisassember.items.*;
@@ -24,6 +28,36 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
+
+        // Рецепт СБОРКИ пилы на верстаке
+        SpecialRecipeBuilder.special(ModRecipes.SAW_ASSEMBLY.get())
+                .save(consumer, TheDisassemberMod.MODID + ":saw_assembly_manual");
+
+        // Рецепт РАЗБОРА пилы
+        consumer.accept(new FinishedRecipe() {
+            @Override
+            public void serializeRecipeData(@NotNull JsonObject json) {}
+
+            @Override
+            public @NotNull RecipeSerializer<?> getType() {
+                return ModRecipes.SAW_DISASSEMBLING_SERIALIZER.get();
+            }
+
+            @Override
+            public @NotNull ResourceLocation getId() {
+                return ResourceLocation.fromNamespaceAndPath(TheDisassemberMod.MODID, "hand_saw_disassembling");
+            }
+
+            @Override
+            public @Nullable JsonObject serializeAdvancement() {
+                return null;
+            }
+
+            @Override
+            public @Nullable ResourceLocation getAdvancementId() {
+                return null;
+            }
+        });
 
         Arrays.stream(SawMaterial.values()).forEach(mat -> {
                     ItemLike teeth = ModItems.TEETH_ITEMS.get(mat).get();
@@ -55,8 +89,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                             .save(consumer);
 
         });
-        SpecialRecipeBuilder.special(ModRecipes.SAW_ASSEMBLY.get())
-                .save(consumer, TheDisassemberMod.MODID + ":saw_assembly_manual");
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BASIC_BLOCK.get())
                 .pattern("ASB")

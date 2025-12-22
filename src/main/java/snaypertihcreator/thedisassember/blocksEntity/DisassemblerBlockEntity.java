@@ -7,6 +7,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -19,9 +20,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import snaypertihcreator.thedisassember.items.HandSawItem;
-import snaypertihcreator.thedisassember.items.ModItems;
-import snaypertihcreator.thedisassember.items.SawMaterial;
 import snaypertihcreator.thedisassember.recipes.DisassemblingRecipe;
 import snaypertihcreator.thedisassember.recipes.DisassemblyCache;
 import snaypertihcreator.thedisassember.recipes.ModRecipes;
@@ -30,7 +28,6 @@ import java.util.*;
 
 public abstract class DisassemblerBlockEntity extends BlockEntity implements MenuProvider {
 
-    protected static final double AUTO_RECIPE_CHANCE = 0.75;
     protected static final Random RANDOM = new Random();
 
     protected final ItemStackHandler handler;
@@ -100,6 +97,8 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     public abstract int getInputSlot();
     // получить номера слотов для выхода
     public abstract int[] getOutputSlots();
+    // получить модификатор удачи для каждого станка
+    protected abstract float getLuckModifier();
     // метод для вызова обновленя инветаря
     protected void onInventoryChanged(int slot){
         if (slot != getInputSlot()) return;
@@ -115,7 +114,6 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
 
         ItemStack inputStack = handler.getStackInSlot(getInputSlot());
         if (inputStack.isEmpty()) return;
-        if (inputStack.getItem() instanceof HandSawItem) return;
 
         SimpleContainer tempContainer = new SimpleContainer(1);
         tempContainer.setItem(0, inputStack);
@@ -132,7 +130,6 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
 
         ItemStack inputStack = handler.getStackInSlot(getInputSlot());
         if (inputStack.isEmpty()) return false;
-        if (inputStack.getItem() instanceof HandSawItem) return true;
         if (cachedRecipe != null){
             return inputStack.getCount() >= cachedRecipe.getCountInput();
         }
@@ -149,40 +146,17 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
 
         List<ItemStack> results = new ArrayList<>();
         int amountToConsume = 0;
+        float currentLuck = getLuckModifier();
 
-        // Логика пилы (специфичный предмет, оставляем отдельно)
-        if (inputStack.getItem() instanceof HandSawItem saw) {
-            amountToConsume = 1;
-            results.addAll(disassembleHandSaw(inputStack, saw));
-        }
-        // Единая логика для всех рецептов
-        else if (cachedRecipe != null) {
-            if (inputStack.getCount() >= cachedRecipe.getCountInput()) {
-                amountToConsume = cachedRecipe.getCountInput();
-                results.addAll(cachedRecipe.assembleOutputs(RANDOM));
-            }
+        if ((cachedRecipe != null) && (inputStack.getCount() >= cachedRecipe.getCountInput())) {
+            amountToConsume = cachedRecipe.getCountInput();
+            results.addAll(cachedRecipe.assembleOutputs(inputStack, RANDOM, currentLuck));
         }
 
         if (amountToConsume > 0) {
             handler.extractItem(slotId, amountToConsume, false);
             distributeOutputs(results);
         }
-    }
-
-    // разбираем диск
-    protected List<ItemStack> disassembleHandSaw(ItemStack stack, HandSawItem sawItem) {
-        List<ItemStack> list = new ArrayList<>();
-        SawMaterial coreMat = sawItem.getCore(stack);
-        SawMaterial teethMat = sawItem.getTeeth(stack);
-        if (ModItems.SAW_ITEMS.containsKey(coreMat)) {
-            if (RANDOM.nextFloat() <= AUTO_RECIPE_CHANCE){
-                list.add(new ItemStack(ModItems.BLADE_ITEMS.get(coreMat).get()));
-            }
-            ItemStack teeths = new ItemStack(ModItems.TEETH_ITEMS.get(teethMat).get(),
-                    (int)(4*RANDOM.nextFloat(0f, 1f)));
-            if (!teeths.isEmpty()) list.add(teeths);
-        }
-        return list;
     }
 
     // проверка на свободные слоты
@@ -216,6 +190,63 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
             }
             if (!remaining.isEmpty()) Block.popResource(Objects.requireNonNull(level), worldPosition, remaining);
         }
+    }
+    /** Обработка топлива. Возвращает true, если энергия есть. */
+    protected boolean serverTickFuel() {return true;}
+    /** Проверка дополнительных инструментов (пилы и т.д.) */
+    protected boolean hasRequiredTools() {return true;}
+    /** Хук: Автоматическая ли машина? По умолчанию - ДА (для Tier 2 и 3)*/
+    protected boolean isAutomatic() {return true;}
+    /** Логика обновления внешнего вида блока (LIT) */
+    protected void updateBlockState(BlockState state, boolean isWorking, boolean isBurning) {}
+    /** Расчет необходимого времени на операцию */
+    protected abstract int calculateMaxProgress();
+    /** Действие после успешной разборки (например, сломать пилу) */
+    protected void onItemDisassembled() {}
+    /** Логика отката прогресса при простое */
+    protected abstract void regressProgress();
+    protected void updateContainerDataTypes() {}
+
+
+
+    public static void tick(Level level, BlockPos ignoredPos, BlockState state, DisassemblerBlockEntity entity) {
+        if (level.isClientSide) return;
+
+        // 1. Логика поддержания энергии
+        boolean isBurning = entity.serverTickFuel();
+
+        // 2. Проверка: есть ли вход, место на выходе и инструменты
+        boolean canWork = isBurning
+                && entity.canDisassembleCurrentItem()
+                && entity.hasFreeOutputSlot()
+                && entity.hasRequiredTools();
+
+        // 3. Обновление состояния блока
+        entity.updateBlockState(state, canWork, isBurning);
+
+        // 4. Основной процесс
+        if (canWork && entity.isAutomatic()) {
+            // Расчет скорости
+            entity.maxProgress = entity.calculateMaxProgress();
+            entity.progress++;
+            if (entity.progress >= entity.maxProgress) entity.finishCrafting();
+        } else {
+            // Откат прогресса, если машина остановилась
+            entity.regressProgress();
+        }
+
+        // Синхронизация данных контейнера (если нужно)
+        entity.updateContainerDataTypes();
+    }
+
+    protected void finishCrafting() {
+        tryDisassembleCurrentItem();
+        onItemDisassembled();
+        this.progress = 0;
+    }
+
+    public ItemStack getRenderSaw() {
+        return ItemStack.EMPTY;
     }
 
     // Рабочая зона(не трогать)

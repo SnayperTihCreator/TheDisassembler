@@ -19,8 +19,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-        this.dropSelf(ModBlocks.BASIC_BLOCK.get());
-        this.dropSelf(ModBlocks.ADVANCED_BLOCK.get());
+        dropSelf(ModBlocks.BASIC_BLOCK.get());
+        dropSelf(ModBlocks.ADVANCED_BLOCK.get());
+        dropSelf(ModBlocks.PROGRESSIVE_BLOCK.get());
     }
 
     @Override

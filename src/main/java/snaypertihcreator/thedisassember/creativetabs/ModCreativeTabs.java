@@ -14,6 +14,7 @@ import snaypertihcreator.thedisassember.items.ModItems;
 public class ModCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, TheDisassemberMod.MODID);
 
+    @SuppressWarnings("unused")
     public static final RegistryObject<CreativeModeTab> MOD_TAB = CREATIVE_MODE_TABS.register(TheDisassemberMod.MODID+"_tab", ()->CreativeModeTab.builder()
             .title(Component.translatable(TheDisassemberMod.MODID+".creative_tab"))
             .icon(() -> new ItemStack(ModBlocks.BASIC_BLOCK.get().asItem()))
@@ -24,6 +25,7 @@ public class ModCreativeTabs {
 
                 output.accept(ModBlocks.BASIC_BLOCK.get());
                 output.accept(ModBlocks.ADVANCED_BLOCK.get());
+                output.accept(ModBlocks.PROGRESSIVE_BLOCK.get());
             })
             .build());
 }

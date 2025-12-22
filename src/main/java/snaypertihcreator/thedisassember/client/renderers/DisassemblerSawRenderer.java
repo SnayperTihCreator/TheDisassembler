@@ -12,19 +12,20 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import snaypertihcreator.thedisassember.blocksEntity.Tier2DisassemblerBlockEntity;
+import snaypertihcreator.thedisassember.blocks.DisassemberBlock;
+import snaypertihcreator.thedisassember.blocksEntity.DisassemblerBlockEntity;
 
 import java.util.Objects;
 
-public class Tier2DisassemblerRenderer implements BlockEntityRenderer<Tier2DisassemblerBlockEntity> {
+// Обрати внимание: T extends DisassemblerBlockEntity
+public class DisassemblerSawRenderer<T extends DisassemblerBlockEntity> implements BlockEntityRenderer<T> {
 
-    public Tier2DisassemblerRenderer(BlockEntityRendererProvider.Context ignoredContext) {
-    }
+    public DisassemblerSawRenderer(BlockEntityRendererProvider.Context ignoredContext) {}
 
-    // тут рендерим предмет на самом блоке
     @Override
-    public void render(Tier2DisassemblerBlockEntity entity, float partialTick, @NotNull PoseStack poseStack,
+    public void render(T entity, float partialTick, @NotNull PoseStack poseStack,
                        @NotNull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
 
         ItemStack stack = entity.getRenderSaw();
@@ -37,15 +38,22 @@ public class Tier2DisassemblerRenderer implements BlockEntityRenderer<Tier2Disas
         poseStack.translate(1.01, 0.5, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(-90));
 
-        if (entity.getLevel() != null && entity.isActive()) {
+        BlockState state = entity.getBlockState();
+        boolean isWorking = state.hasProperty(DisassemberBlock.WORKING) && state.getValue(DisassemberBlock.WORKING);
+
+        if (entity.getLevel() != null && isWorking) {
             long gameTime = entity.getLevel().getGameTime();
+            // Скорость вращения
             float rotation = (gameTime + partialTick) * 20.0f;
             poseStack.mulPose(Axis.ZP.rotationDegrees(-rotation));
         }
+
         poseStack.scale(0.75f, 0.75f, 0.75f);
+
         itemRenderer.renderStatic(stack, ItemDisplayContext.FIXED,
                 getLightLevel(Objects.requireNonNull(entity.getLevel()), entity.getBlockPos()),
                 OverlayTexture.NO_OVERLAY, poseStack, bufferSource, entity.getLevel(), 0);
+
         poseStack.popPose();
     }
 

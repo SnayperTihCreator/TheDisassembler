@@ -1,6 +1,12 @@
 {
-  "variants": {
-    "lit=false": {"model": "thedisassember:block/advanced_block"},
-    "lit=true": {"model": "thedisassember:block/advanced_block_on"}
-  }
+  "multipart": [
+    {
+      "when": { "lit": false },
+      "apply": { "model": "thedisassember:block/advanced_block" }
+    },
+    {
+      "when": { "lit": true },
+      "apply": { "model": "thedisassember:block/advanced_block_on" }
+    }
+  ]
 }
