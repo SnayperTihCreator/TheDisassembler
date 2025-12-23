@@ -18,11 +18,17 @@ public class ModItems {
     public static final Map<SawMaterial, RegistryObject<SawBladeItem>> BLADE_ITEMS = new HashMap<>();
     public static final Map<SawMaterial, RegistryObject<HandSawItem>> SAW_ITEMS = new HashMap<>();
 
+    public static final RegistryObject<BrewingSedimentItem> BREWING_SEDIMENT = ITEMS.register("brewing_sediment", BrewingSedimentItem::new);
+
+    public static final RegistryObject<DistillationKitItem> GLASS_DISTILLATION = ITEMS.register("glass_distillation", () -> new DistillationKitItem(DistillationTier.GLASS));
+    public static final RegistryObject<DistillationKitItem> REINFORCED_DISTILLATION = ITEMS.register("reinforced_distillation", () -> new DistillationKitItem(DistillationTier.REINFORCED));
+    public static final RegistryObject<DistillationKitItem> DIAMOND_DISTILLATION = ITEMS.register("diamond_distillation", () -> new DistillationKitItem(DistillationTier.INDUSTRIAL));
+
     static {
         Arrays.stream(SawMaterial.values()).forEach(mat -> {
-            TEETH_ITEMS.put(mat, ITEMS.register(mat.getName() + "_teeth", () -> new SawTeethItem(mat)));
-            BLADE_ITEMS.put(mat, ITEMS.register(mat.getName() + "_blade", () -> new SawBladeItem(mat)));
-            SAW_ITEMS.put(mat, ITEMS.register(mat.getName() + "_saw", () -> new HandSawItem(mat, mat)));
+            TEETH_ITEMS.put(mat, ITEMS.register("%s_teeth".formatted(mat.getName()), () -> new SawTeethItem(mat)));
+            BLADE_ITEMS.put(mat, ITEMS.register("%s_blade".formatted(mat.getName()), () -> new SawBladeItem(mat)));
+            SAW_ITEMS.put(mat, ITEMS.register("%s_saw".formatted(mat.getName()), () -> new HandSawItem(mat, mat)));
         });
     }
 }

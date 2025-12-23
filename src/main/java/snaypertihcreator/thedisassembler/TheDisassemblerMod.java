@@ -32,7 +32,7 @@ public class TheDisassemblerMod
 {
     public static final String MODID = "thedisassembler";
     @SuppressWarnings("unused")
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public TheDisassemblerMod(FMLJavaModLoadingContext context)
     {
@@ -44,6 +44,7 @@ public class TheDisassemblerMod
         ModCreativeTabs.CREATIVE_MODE_TABS.register(bus);
         ModMenuTypes.MENUS.register(bus);
         ModRecipes.SERIALIZERS.register(bus);
+        ModRecipes.TYPES.register(bus);
         ModMessages.register();
 
         bus.addListener(this::gatherData);

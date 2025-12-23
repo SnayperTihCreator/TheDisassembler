@@ -55,7 +55,7 @@ public class DisassemblerJeiPlugin implements IModPlugin {
         List<DisassemblingRecipe> customRecipes = new ArrayList<>();
         try {
             var manager = Objects.requireNonNull(world).getRecipeManager();
-            customRecipes = manager.getAllRecipesFor(ModRecipes.DISASSEMBLING_TYPE);
+            customRecipes = manager.getAllRecipesFor(ModRecipes.DISASSEMBLING_TYPE.get());
             recipesToRegister.addAll(customRecipes);
         } catch (Exception ignored) {}
 

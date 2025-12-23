@@ -38,9 +38,7 @@ public enum TierTheDisassembler {
     // ВАЖНО: Универсальный метод тикера
     @SuppressWarnings("unchecked")
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(BlockEntityType<T> actualType) {
-        if (actualType == this.typeSupplier.get()) {
-            return (BlockEntityTicker<T>) (BlockEntityTicker<? extends DisassemblerBlockEntity>) DisassemblerBlockEntity::tick;
-        }
+        if (actualType == this.typeSupplier.get()) return (BlockEntityTicker<T>) (BlockEntityTicker<? extends DisassemblerBlockEntity>) DisassemblerBlockEntity::tick;
         return null;
     }
 }

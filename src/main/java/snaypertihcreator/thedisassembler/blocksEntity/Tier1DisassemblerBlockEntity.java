@@ -105,7 +105,7 @@ public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("menu." + TheDisassemblerMod.MODID + ".base_block");
+        return Component.translatable("menu.%s.base_block".formatted(TheDisassemblerMod.MODID));
     }
 
     @Override

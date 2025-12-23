@@ -31,7 +31,7 @@ public class Tier1DisassemblerScreen extends DisassemblerScreen<Tier1Disassemble
     protected void init() {
         super.init();
         this.addRenderableWidget(Button.builder(Component.literal("Разборка"),
-                        button -> {
+                        _ -> {
                             this.setFocused(null);
                             ModMessages.sendToServer(new PackSpined());
                         })
@@ -51,14 +51,6 @@ public class Tier1DisassemblerScreen extends DisassemblerScreen<Tier1Disassemble
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
-
-        // 1. Отображение Процентов
-//        int percent = menu.getProgressPercent();
-//        if (percent > 0) {
-//            String percentStr = percent + "%";
-//            // Рисуем текст поверх всего
-//            guiGraphics.drawString(this.font, percentStr, x + 82, y + 60, 0xFFFFFF, true);
-//        }
 
         if (this.menu.getSlot(36).hasItem()) {
             if (menu.isRecipeValid()) {

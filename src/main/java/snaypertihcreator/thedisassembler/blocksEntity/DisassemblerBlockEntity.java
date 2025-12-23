@@ -119,7 +119,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         tempContainer.setItem(0, inputStack);
 
         Optional<DisassemblingRecipe> custom = level.getRecipeManager()
-                .getRecipeFor(ModRecipes.DISASSEMBLING_TYPE, tempContainer, level);
+                .getRecipeFor(ModRecipes.DISASSEMBLING_TYPE.get(), tempContainer, level);
 
         cachedRecipe = custom.orElseGet(() -> DisassemblyCache.getRecipe(inputStack));
     }

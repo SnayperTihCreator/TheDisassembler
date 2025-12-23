@@ -46,7 +46,7 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("menujei." + TheDisassemblerMod.MODID);
+        return Component.translatable("menujei.%s".formatted(TheDisassemblerMod.MODID));
     }
 
     @Override
@@ -89,6 +89,7 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
                         float chance = result.chance() * 100;
                         int maxCount = result.stack().getCount();
 
+                        // TODO добавить перевод норм и шаблонизацию
                         if (chance < 100) {
                             tooltip.add(Component.literal("§7Кол-во: §f0-" + maxCount));
                             tooltip.add(Component.literal("§7Шанс: §6" + String.format("%.0f", chance) + "% §7(за шт.)"));

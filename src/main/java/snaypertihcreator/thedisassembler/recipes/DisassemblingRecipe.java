@@ -84,7 +84,7 @@ public class DisassemblingRecipe implements Recipe<SimpleContainer> {
 
     @Override
     public @NotNull RecipeType<?> getType() {
-        return ModRecipes.DISASSEMBLING_TYPE;
+        return ModRecipes.DISASSEMBLING_TYPE.get();
     }
 
     // метод создания рецепта из крафта

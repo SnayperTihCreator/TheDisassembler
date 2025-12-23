@@ -224,7 +224,7 @@ public class Tier2DisassemblerBlockEntity extends DisassemblerBlockEntity {
     // получение имя для меню
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("menu." + TheDisassemblerMod.MODID + ".advanced_block");
+        return Component.translatable("menu.%s.advanced_block".formatted(TheDisassemblerMod.MODID));
     }
 
     // Создание меню

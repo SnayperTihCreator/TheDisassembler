@@ -99,6 +99,6 @@ public class DisassemblyCache {
 
     // гетер для получение всех найденных рецептов
     public static Map<Item, DisassemblingRecipe> getAllRecipes(){
-        return recipeMap;
+        return Collections.unmodifiableMap(recipeMap);
     }
 }
