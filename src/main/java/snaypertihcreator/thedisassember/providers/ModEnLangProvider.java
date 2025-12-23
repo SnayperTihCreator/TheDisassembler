@@ -17,6 +17,7 @@ public class ModEnLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
+        //TODO ДОБАВЬ БУКВУ 'L'
         add(ModBlocks.BASIC_BLOCK.get(), "Basic Disassembler");
         add(ModBlocks.ADVANCED_BLOCK.get(), "Advanced Disassembler");
         add(ModBlocks.PROGRESSIVE_BLOCK.get(), "Progressive Disassembler");
