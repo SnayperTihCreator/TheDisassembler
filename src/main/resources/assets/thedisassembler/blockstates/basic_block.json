@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "lit=false": {"model": "thedisassembler:block/basic_block"},
+    "lit=true": {"model": "thedisassembler:block/basic_block"}
+  }
+}

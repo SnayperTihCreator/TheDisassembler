@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "lit=false": {"model": "thedisassember:block/basic_block"},
-    "lit=true": {"model": "thedisassember:block/basic_block"}
-  }
-}

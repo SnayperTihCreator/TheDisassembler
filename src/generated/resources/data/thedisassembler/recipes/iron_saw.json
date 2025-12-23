@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "thedisassembler:iron_blade"
+    },
+    "T": {
+      "item": "thedisassembler:iron_teeth"
+    }
+  },
+  "pattern": [
+    " T ",
+    "TBT",
+    " T "
+  ],
+  "result": {
+    "item": "thedisassembler:iron_saw"
+  },
+  "show_notification": true
+}

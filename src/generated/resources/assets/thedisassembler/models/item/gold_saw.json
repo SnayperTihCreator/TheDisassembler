@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "thedisassembler:item/saw_base",
+    "layer1": "thedisassembler:item/saw_overlay"
+  }
+}

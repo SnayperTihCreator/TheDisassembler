@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "thedisassembler:wood_blade"
+    },
+    "T": {
+      "item": "thedisassembler:wood_teeth"
+    }
+  },
+  "pattern": [
+    " T ",
+    "TBT",
+    " T "
+  ],
+  "result": {
+    "item": "thedisassembler:wood_saw"
+  },
+  "show_notification": true
+}

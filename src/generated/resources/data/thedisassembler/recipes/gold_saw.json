@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": {
+      "item": "thedisassembler:gold_blade"
+    },
+    "T": {
+      "item": "thedisassembler:gold_teeth"
+    }
+  },
+  "pattern": [
+    " T ",
+    "TBT",
+    " T "
+  ],
+  "result": {
+    "item": "thedisassembler:gold_saw"
+  },
+  "show_notification": true
+}

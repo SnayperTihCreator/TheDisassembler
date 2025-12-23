@@ -1,5 +1,0 @@
-// 1.20.1	2025-12-20T20:17:56.6145213	Tags for minecraft:block mod id thedisassember
-3a52e0599e94faf8516d75dbc9f0c0fa5d8a33dd data/minecraft/tags/blocks/mineable/axe.json
-3a52e0599e94faf8516d75dbc9f0c0fa5d8a33dd data/minecraft/tags/blocks/mineable/pickaxe.json
-2adf367b5c4af453fb429b2634e613970db6704c data/minecraft/tags/blocks/needs_iron_tool.json
-a072a59afe12e22cff942d0c94aaf1f565ef180a data/minecraft/tags/blocks/needs_stone_tool.json
