@@ -13,4 +13,5 @@ public class ModMenuTypes {
 
     public static final RegistryObject<MenuType<Tier1DisassemblerMenu>> TIER1_DISASSEMBLER_MENU = MENUS.register("disassembler_menu", () -> IForgeMenuType.create(Tier1DisassemblerMenu::new));
     public static final RegistryObject<MenuType<Tier2DisassemblerMenu>> TIER2_DISASSEMBLER_MENU = MENUS.register("disassembler2_menu", () -> IForgeMenuType.create(Tier2DisassemblerMenu::new));
+    public static final RegistryObject<MenuType<Tier3DisassemblerMenu>> TIER3_DISASSEMBLER_MENU = MENUS.register("disassembler3_menu", () -> IForgeMenuType.create(Tier3DisassemblerMenu::new));
 }

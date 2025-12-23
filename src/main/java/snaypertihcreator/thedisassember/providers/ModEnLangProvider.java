@@ -19,10 +19,12 @@ public class ModEnLangProvider extends LanguageProvider {
     protected void addTranslations() {
         add(ModBlocks.BASIC_BLOCK.get(), "Basic Disassembler");
         add(ModBlocks.ADVANCED_BLOCK.get(), "Advanced Disassembler");
+        add(ModBlocks.PROGRESSIVE_BLOCK.get(), "Progressive Disassembler");
 
         add("menujei.thedisassember", "Disassembly");
         add("menu.thedisassember.base_block", "Basic Disassembler");
         add("menu.thedisassember.advanced_block", "Advanced Disassembler");
+        add("menu.thedisassember.progressive_block", "Progressive Disassembler");
         add("thedisassember.creative_tab", "The Disassembler");
         add("tooltip.thedisassember.no_recipe", "Не найден рецепт");
 

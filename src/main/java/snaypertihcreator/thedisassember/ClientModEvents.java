@@ -14,6 +14,7 @@ import snaypertihcreator.thedisassember.blocksEntity.ModBlocksEntity;
 import snaypertihcreator.thedisassember.client.renderers.DisassemblerSawRenderer;
 import snaypertihcreator.thedisassember.client.screens.Tier1DisassemblerScreen;
 import snaypertihcreator.thedisassember.client.screens.Tier2DisassemblerScreen;
+import snaypertihcreator.thedisassember.client.screens.Tier3DisassemblerScreen;
 import snaypertihcreator.thedisassember.items.ModItems;
 import snaypertihcreator.thedisassember.menus.ModMenuTypes;
 
@@ -28,6 +29,7 @@ public class ClientModEvents {
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER1_DISASSEMBLER_MENU.get(), Tier1DisassemblerScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER2_DISASSEMBLER_MENU.get(), Tier2DisassemblerScreen::new));
+        event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER3_DISASSEMBLER_MENU.get(), Tier3DisassemblerScreen::new));
 
     }
     // кастомный рендер для блока

@@ -1,6 +1,7 @@
 {
   "block.thedisassember.advanced_block": "Advanced Disassembler",
   "block.thedisassember.basic_block": "Basic Disassembler",
+  "block.thedisassember.progressive_block": "Progressive Disassembler",
   "item.thedisassember.diamond_blade": "Diamond Blade",
   "item.thedisassember.diamond_saw": "Diamond Saw",
   "item.thedisassember.diamond_teeth": "Diamond Teeth",
@@ -34,6 +35,7 @@
   "material.thedisassember.wood.plural": "Wood",
   "menu.thedisassember.advanced_block": "Advanced Disassembler",
   "menu.thedisassember.base_block": "Basic Disassembler",
+  "menu.thedisassember.progressive_block": "Progressive Disassembler",
   "menujei.thedisassember": "Disassembly",
   "thedisassember.creative_tab": "The Disassembler",
   "tooltip.thedisassember.durability": "Durability: %s/%s",

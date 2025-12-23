@@ -19,10 +19,12 @@ public class ModRuLangProvider extends LanguageProvider {
     protected void addTranslations() {
         add(ModBlocks.BASIC_BLOCK.get(), "Базовый разборщик");
         add(ModBlocks.ADVANCED_BLOCK.get(), "Улучшенный разборщик");
+        add(ModBlocks.PROGRESSIVE_BLOCK.get(), "Продвинутый разборщик");
 
         add("menujei.thedisassember", "Разборка");
         add("menu.thedisassember.base_block", "Базовый разборщик");
         add("menu.thedisassember.advanced_block", "Улучшенный разборщик");
+        add("menu.thedisassember.progressive_block", "Продвинутый разборщик");
         add("thedisassember.creative_tab", "Разборщики");
         add("tooltip.thedisassember.no_recipe", "Не найден рецепт");
 

@@ -20,6 +20,7 @@ import snaypertihcreator.thedisassember.TheDisassemberMod;
 import snaypertihcreator.thedisassember.blocks.DisassemberBlock;
 import snaypertihcreator.thedisassember.energy.ModEnergyStorage;
 import snaypertihcreator.thedisassember.items.HandSawItem;
+import snaypertihcreator.thedisassember.menus.Tier3DisassemblerMenu;
 // import snaypertihcreator.thedisassember.menus.Tier3DisassemblerMenu; // Вам нужно создать это меню
 
 import java.util.Objects;
@@ -199,13 +200,13 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("menu." + TheDisassemberMod.MODID + ".tier3_block");
+        return Component.translatable("menu." + TheDisassemberMod.MODID + ".progressive_block");
     }
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
-        // TODO создать Tier3DisassemblerMenu и совокупные ему элементы
-        //return new Tier3DisassemblerMenu(id, inv, this, this.data);
-        return null;
+
+        return new Tier3DisassemblerMenu(id, inv, this, this.data);
+
     }
 }

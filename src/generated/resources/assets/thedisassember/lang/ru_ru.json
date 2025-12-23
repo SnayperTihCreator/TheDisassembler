@@ -1,6 +1,7 @@
 {
   "block.thedisassember.advanced_block": "Улучшенный разборщик",
   "block.thedisassember.basic_block": "Базовый разборщик",
+  "block.thedisassember.progressive_block": "Продвинутый разборщик",
   "item.thedisassember.diamond_blade": "Алмазная сердцевина",
   "item.thedisassember.diamond_saw": "Алмазная пила",
   "item.thedisassember.diamond_teeth": "Алмазные зубья",
@@ -34,6 +35,7 @@
   "material.thedisassember.wood.plural": "Деревянные",
   "menu.thedisassember.advanced_block": "Улучшенный разборщик",
   "menu.thedisassember.base_block": "Базовый разборщик",
+  "menu.thedisassember.progressive_block": "Продвинутый разборщик",
   "menujei.thedisassember": "Разборка",
   "thedisassember.creative_tab": "Разборщики",
   "tooltip.thedisassember.durability": "Прочность: %s/%s",
