@@ -101,13 +101,13 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     protected abstract float getLuckModifier();
     // метод для вызова обновленя инветаря
     protected void onInventoryChanged(int slot){
-        if (slot != getInputSlot()) return;
+        if (level != null && !level.isClientSide && slot != getInputSlot()) return;
         updateRecipeCache();
         this.progress = 0;
     }
 
     // обновления текущего рецепта
-    private void updateRecipeCache(){
+    protected void updateRecipeCache(){
         if (level == null || level.isClientSide) return;
 
         cachedRecipe = null;

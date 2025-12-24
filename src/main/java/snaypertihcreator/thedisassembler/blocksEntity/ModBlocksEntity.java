@@ -22,7 +22,7 @@ public class ModBlocksEntity {
             registerBE("tier2_disassembler", Tier2DisassemblerBlockEntity::new, ModBlocks.ADVANCED_BLOCK);
 
     public static final RegistryObject<BlockEntityType<Tier3DisassemblerBlockEntity>> TIER3_DISASSEMBLER_BE =
-            registerBE("tier3_disassembler", Tier3DisassemblerBlockEntity::new);
+            registerBE("tier3_disassembler", Tier3DisassemblerBlockEntity::new, ModBlocks.PROGRESSIVE_BLOCK);
 
     @SafeVarargs
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerBE(

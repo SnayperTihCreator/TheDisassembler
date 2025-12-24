@@ -4,6 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -44,6 +47,14 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     // --- НАСТРОЙКА СЛОТОВ ---
 
+
+    @Override
+    protected void onInventoryChanged(int slot) {
+        super.onInventoryChanged(slot);
+        if ((slot == 1) && (level != null) && !level.isClientSide)
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+    }
+
     @Override
     public int getInputSlot() { return 0; }
 
@@ -68,7 +79,7 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
     protected boolean isItemValid(int slot, ItemStack stack) {
         if (slot == 0) return true; // Вход
         if (slot == 1) return stack.getItem() instanceof HandSawItem; // Пила
-        return false; // В выход и другие ничего класть нельзя руками
+        return true; // В выход и другие ничего класть нельзя руками
     }
 
     @Override
@@ -79,13 +90,12 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
     @Override
     protected boolean serverTickFuel() {
         if (this.energyStorage.getEnergyStored() >= ENERGY_PER_TICK) {
-            // Если условия работы соблюдены (проверяем их тут, чтобы не тратить энергию впустую)
             if (canDisassembleCurrentItem() && hasFreeOutputSlot() && hasRequiredTools()) {
                 this.energyStorage.consumeEnergy(ENERGY_PER_TICK);
-                return true; // Энергия есть и потребляется
+                return true;
             }
         }
-        return false; // Энергии нет или работать не надо
+        return false;
     }
 
     @Override
@@ -95,7 +105,7 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     @Override
     protected int calculateMaxProgress() {
-        ItemStack disk = handler.getStackInSlot(2);
+        ItemStack disk = handler.getStackInSlot(1);
         int speed = 0;
         if (disk.getItem() instanceof HandSawItem sawItem) speed = (int)(200/sawItem.getSpeedModifier(disk));
         return Math.max(20, speed);
@@ -103,34 +113,38 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     @Override
     protected void onItemDisassembled() {
-        // Ломаем пилу
         ItemStack sawStack = handler.getStackInSlot(1);
-        if (sawStack.isDamageableItem() && sawStack.hurt(1, Objects.requireNonNull(level).random, null)) sawStack.shrink(1);
+        if (sawStack.isDamageableItem()) {
+            if (sawStack.hurt(1, Objects.requireNonNull(level).random, null)) {
+                sawStack.shrink(1);
+                level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+            }
+        }
     }
 
     @Override
     protected void updateBlockState(BlockState state, boolean isWorking, boolean isBurning) {
-        boolean dirty = false;
-
-        // 1. Проверяем состояние LIT (Горит)
         boolean currentLit = state.getValue(DisassemblerBlock.LIT);
-        if (currentLit != isBurning) {
-            state = state.setValue(DisassemblerBlock.LIT, isBurning);
-            dirty = true;
-        }
-
-        // 2. Проверяем состояние WORKING (Пилит)
         boolean currentWorking = state.getValue(DisassemblerBlock.WORKING);
-        if (currentWorking != isWorking) {
-            state = state.setValue(DisassemblerBlock.WORKING, isWorking);
-            dirty = true;
-        }
 
-        // Если хоть что-то изменилось - обновляем блок в мире
-        if (dirty) {
+        if (currentLit != isBurning || currentWorking != isWorking) {
+            state = state.setValue(DisassemblerBlock.LIT, isBurning)
+                    .setValue(DisassemblerBlock.WORKING, isWorking);
             Objects.requireNonNull(level).setBlock(worldPosition, state, 3);
             setChanged();
         }
+    }
+
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag);
+        return tag;
+    }
+
+    @Override
+    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
@@ -205,8 +219,6 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int id, @NotNull Inventory inv, @NotNull Player player) {
-
         return new Tier3DisassemblerMenu(id, inv, this, this.data);
-
     }
 }

@@ -72,7 +72,6 @@ public class DisassemblerBlock extends Block implements EntityBlock {
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
         if (world.isClientSide) return null;
-
         return tier.getTicker(type);
     }
 
