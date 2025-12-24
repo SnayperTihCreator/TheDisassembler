@@ -10,11 +10,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-// Класс компонент - зубье пилы
-public class SawTeethItem extends Item {
+//Класс компонент серцевина
+public class SawCoreItem extends Item {
     private final SawMaterial material;
 
-    public SawTeethItem(SawMaterial material) {
+    public SawCoreItem(SawMaterial material) {
         super(new Properties());
         this.material = material;
     }
@@ -22,8 +22,8 @@ public class SawTeethItem extends Item {
     public SawMaterial getMaterial() {return material;}
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level p_41422_, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
-        tooltip.add(Component.translatable("tooltip.thedisassembler.teeth.description"));
-        tooltip.add(Component.translatable("tooltip.thedisassembler.luckMod", (int)material.getLuckModifier()*100));
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level p_41422_, @NotNull List<Component> tooltip, TooltipFlag flag) {
+        tooltip.add(Component.translatable("tooltip.thedisassembler.core.description"));
+        tooltip.add(Component.translatable("tooltip.thedisassembler.speedMod", material.getSpeedMultiplier()));
     }
 }

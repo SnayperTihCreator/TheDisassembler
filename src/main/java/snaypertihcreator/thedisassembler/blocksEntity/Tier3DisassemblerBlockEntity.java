@@ -95,10 +95,10 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     @Override
     protected int calculateMaxProgress() {
-        ItemStack sawStack = handler.getStackInSlot(1);
-        int speedModifier = 0;
-        if (sawStack.getItem() instanceof HandSawItem sawItem) speedModifier = sawItem.getToolLevel(sawStack);
-        return Math.max(10, 100 - (speedModifier * 20));
+        ItemStack disk = handler.getStackInSlot(2);
+        int speed = 0;
+        if (disk.getItem() instanceof HandSawItem sawItem) speed = (int)(200/sawItem.getSpeedModifier(disk));
+        return Math.max(20, speed);
     }
 
     @Override

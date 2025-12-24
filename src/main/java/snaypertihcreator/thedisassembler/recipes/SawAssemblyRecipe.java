@@ -10,7 +10,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassembler.items.HandSawItem;
-import snaypertihcreator.thedisassembler.items.SawBladeItem;
+import snaypertihcreator.thedisassembler.items.SawCoreItem;
 import snaypertihcreator.thedisassembler.items.SawTeethItem;
 
 /**
@@ -38,7 +38,7 @@ public class SawAssemblyRecipe extends CustomRecipe {
         ItemStack right = inv.getItem(5);
         ItemStack bottom = inv.getItem(7);
 
-        if (!(center.getItem() instanceof SawBladeItem)) {
+        if (!(center.getItem() instanceof SawCoreItem)) {
             return false;
         }
 
@@ -64,7 +64,7 @@ public class SawAssemblyRecipe extends CustomRecipe {
         ItemStack bladeStack = inv.getItem(4);
         ItemStack teethStack = inv.getItem(1);
 
-        if (bladeStack.getItem() instanceof SawBladeItem blade &&
+        if (bladeStack.getItem() instanceof SawCoreItem blade &&
                 teethStack.getItem() instanceof SawTeethItem teeth) {
 
             return HandSawItem.createSaw(blade.getMaterial(), teeth.getMaterial());

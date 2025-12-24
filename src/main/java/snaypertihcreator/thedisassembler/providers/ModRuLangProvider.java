@@ -36,13 +36,13 @@ public class ModRuLangProvider extends LanguageProvider {
         add("tooltip.thedisassembler.durability", "Прочность: %s/%s");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
-            add("material.thedisassembler."+material.getName()+".adj", material.getLang().getRuName().feminine());
-            add("material.thedisassembler."+material.getName()+".plural", material.getLang().getRuName().plural());
+            add("material.thedisassembler.%s.adj".formatted(material.getName()), material.getLang().getRuName().feminine());
+            add("material.thedisassembler.%s.plural".formatted(material.getName()), material.getLang().getRuName().plural());
             String adjSaw = material.getLang().getRuName().feminine();
-            if (ModItems.SAW_ITEMS.containsKey(material))add(ModItems.SAW_ITEMS.get(material).get(), adjSaw+ " пила");
-            if (ModItems.BLADE_ITEMS.containsKey(material)) add(ModItems.BLADE_ITEMS.get(material).get(), adjSaw+" сердцевина");
+            if (ModItems.SAW_ITEMS.containsKey(material))add(ModItems.SAW_ITEMS.get(material).get(), "%s пила".formatted(adjSaw));
+            if (ModItems.BLADE_ITEMS.containsKey(material)) add(ModItems.BLADE_ITEMS.get(material).get(), "%s сердцевина".formatted(adjSaw));
             String adjTeeth = material.getLang().getRuName().plural();
-            if (ModItems.TEETH_ITEMS.containsKey(material)) add(ModItems.TEETH_ITEMS.get(material).get(), adjTeeth + " зубья");
+            if (ModItems.TEETH_ITEMS.containsKey(material)) add(ModItems.TEETH_ITEMS.get(material).get(), "%s зубья".formatted(adjTeeth));
         });
     }
 }

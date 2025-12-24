@@ -31,7 +31,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         // Рецепт СБОРКИ пилы на верстаке
         SpecialRecipeBuilder.special(ModRecipes.SAW_ASSEMBLY.get())
-                .save(consumer, TheDisassemblerMod.MODID + ":saw_assembly_manual");
+                .save(consumer, "%s:saw_assembly_manual".formatted(TheDisassemblerMod.MODID));
 
         // Рецепт РАЗБОРА пилы
         consumer.accept(new FinishedRecipe() {

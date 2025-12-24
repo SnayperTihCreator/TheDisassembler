@@ -63,8 +63,6 @@ public enum SawMaterial {
     public String getName() { return name; }
     // цвет материала
     public int getColor() { return color; }
-    // скорость материала
-    public int getSpeedLevel() {return speedLevel;}
     // материал для починки
     public Ingredient getRepairIngredient() { return repairIngredient.get(); }
     // переводы

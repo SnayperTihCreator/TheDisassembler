@@ -38,11 +38,11 @@ public class ModEnLangProvider extends LanguageProvider {
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
             String adj = material.getLang().getEnName();
-            add("material.thedisassembler."+material.getName()+".adj", material.getLang().getEnName());
-            add("material.thedisassembler."+material.getName()+".plural", material.getLang().getEnName());
-            if (ModItems.SAW_ITEMS.containsKey(material)) add(ModItems.SAW_ITEMS.get(material).get(), adj+" Saw");
-            if (ModItems.TEETH_ITEMS.containsKey(material)) add(ModItems.TEETH_ITEMS.get(material).get(), adj+" Teeth");
-            if (ModItems.BLADE_ITEMS.containsKey(material)) add(ModItems.BLADE_ITEMS.get(material).get(), adj+" Blade");
+            add("material.thedisassembler.%s.adj".formatted(material.getName()), material.getLang().getEnName());
+            add("material.thedisassembler.%s.plural".formatted(material.getName()), material.getLang().getEnName());
+            if (ModItems.SAW_ITEMS.containsKey(material)) add(ModItems.SAW_ITEMS.get(material).get(), "%s Saw".formatted(adj));
+            if (ModItems.TEETH_ITEMS.containsKey(material)) add(ModItems.TEETH_ITEMS.get(material).get(), "%s Teeth".formatted(adj));
+            if (ModItems.BLADE_ITEMS.containsKey(material)) add(ModItems.BLADE_ITEMS.get(material).get(), "%s Blade".formatted(adj));
 
         });
     }

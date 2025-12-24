@@ -34,6 +34,7 @@ public class ModCreativeTabs {
             .title(Component.translatable("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID)))
             .icon(() -> new ItemStack(ModItems.BREWING_SEDIMENT.get()))
             .displayItems((parameters, output) -> {
+
                 output.accept(ModItems.BREWING_SEDIMENT.get());
             })
             .build());

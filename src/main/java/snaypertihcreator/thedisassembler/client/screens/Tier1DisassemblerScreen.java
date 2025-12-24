@@ -31,7 +31,7 @@ public class Tier1DisassemblerScreen extends DisassemblerScreen<Tier1Disassemble
     protected void init() {
         super.init();
         this.addRenderableWidget(Button.builder(Component.literal("Разборка"),
-                        _ -> {
+                        button -> {
                             this.setFocused(null);
                             ModMessages.sendToServer(new PackSpined());
                         })

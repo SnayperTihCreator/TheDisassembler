@@ -27,7 +27,7 @@ public class HandSawItem extends Item {
         this.teeth = teeth;
     }
 
-    // получить материал серцевины
+    // получить материал сердцевины
     public SawMaterial getCore(ItemStack stack) {
         if (stack.getTag() != null && stack.getTag().contains(NBT_CORE)) {
             try {
@@ -36,7 +36,7 @@ public class HandSawItem extends Item {
         }
         return core;
     }
-    // получить материал зубъев
+    // получить материал зубьев
     public SawMaterial getTeeth(ItemStack stack) {
         if (stack.getTag() != null && stack.getTag().contains(NBT_TEETH)) {
             try {
@@ -44,11 +44,6 @@ public class HandSawItem extends Item {
             } catch (Exception ignored) {}
         }
         return teeth;
-    }
-
-    // получить уровень скорости предмета
-    public int getToolLevel(ItemStack stack) {
-        return getTeeth(stack).getSpeedLevel();
     }
 
     // получить модификатор скорости
@@ -74,7 +69,7 @@ public class HandSawItem extends Item {
         return stack;
     }
 
-    // получить макс прочтность
+    // получить макс прочность
     @Override
     public int getMaxDamage(ItemStack stack) {
         return getCore(stack).getMaxUses();
@@ -96,8 +91,8 @@ public class HandSawItem extends Item {
             return super.getName(stack);
         }
 
-        Component coreNameComp = Component.translatable("material.thedisassembler." + core.getName() + ".adj");
-        Component teethNameComp = Component.translatable("material.thedisassembler." + teeth.getName() + ".plural");
+        Component coreNameComp = Component.translatable("material.thedisassembler.%s.adj".formatted(core.getName()));
+        Component teethNameComp = Component.translatable("material.thedisassembler.%s.plural".formatted(teeth.getName()));
         return Component.translatable("item.thedisassembler.saw_name", coreNameComp, teethNameComp);
     }
 
@@ -111,11 +106,11 @@ public class HandSawItem extends Item {
             SawMaterial c = getCore(stack);
             SawMaterial t = getTeeth(stack);
 
-            Component coreName = Component.translatable("material.thedisassembler."+c.getName()+".adj");
+            Component coreName = Component.translatable("material.thedisassembler.%s.adj".formatted(c.getName()));
             tooltip.add(Component.translatable("tooltip.thedisassembler.material.core", coreName)
                     .withStyle(ChatFormatting.GOLD));
 
-            Component teethName = Component.translatable("material.thedisassembler."+t.getName()+".plural");
+            Component teethName = Component.translatable("material.thedisassembler.%s.plural".formatted(t.getName()));
             tooltip.add(Component.translatable("tooltip.thedisassembler.material.teeth", teethName)
                     .withStyle(ChatFormatting.AQUA));
 

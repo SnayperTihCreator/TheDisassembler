@@ -93,7 +93,7 @@ public class BrewingSedimentItem extends Item {
 
             Component line = Component.empty()
                     .append(content.item.getDescription()) // Имя предмета
-                    .append(Component.literal(": " + percentString).withStyle(ChatFormatting.WHITE));
+                    .append(Component.literal(": %s".formatted(percentString)).withStyle(ChatFormatting.WHITE));
 
             tooltipComponents.add(line);
         });
