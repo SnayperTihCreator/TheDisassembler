@@ -5,7 +5,7 @@ import net.minecraftforge.common.data.LanguageProvider;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.ModItems;
-import snaypertihcreator.thedisassembler.items.SawMaterial;
+import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
 
 import java.util.Arrays;
 

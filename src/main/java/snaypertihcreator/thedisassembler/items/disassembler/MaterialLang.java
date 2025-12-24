@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.items;
+package snaypertihcreator.thedisassembler.items.disassembler;
 
 
 

@@ -9,9 +9,9 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import snaypertihcreator.thedisassembler.items.HandSawItem;
-import snaypertihcreator.thedisassembler.items.SawCoreItem;
-import snaypertihcreator.thedisassembler.items.SawTeethItem;
+import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
+import snaypertihcreator.thedisassembler.items.disassembler.SawCoreItem;
+import snaypertihcreator.thedisassembler.items.disassembler.SawTeethItem;
 
 /**
  * Класс для записи рецепта крафта без создания файла

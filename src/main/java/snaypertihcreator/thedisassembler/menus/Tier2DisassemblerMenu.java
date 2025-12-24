@@ -11,7 +11,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
-import snaypertihcreator.thedisassembler.items.HandSawItem;
+import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
 
 import java.util.Objects;
 

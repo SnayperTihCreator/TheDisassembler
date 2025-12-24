@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.items;
+package snaypertihcreator.thedisassembler.items.disassembler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -10,6 +10,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import snaypertihcreator.thedisassembler.items.ModItems;
 
 import java.util.List;
 
@@ -111,14 +112,15 @@ public class HandSawItem extends Item {
                     .withStyle(ChatFormatting.GOLD));
 
             Component teethName = Component.translatable("material.thedisassembler.%s.plural".formatted(t.getName()));
-            tooltip.add(Component.translatable("tooltip.thedisassembler.material.teeth", teethName)
-                    .withStyle(ChatFormatting.AQUA));
+            tooltip.add(Component.translatable("tooltip.thedisassembler.material.teeth", teethName).withStyle(ChatFormatting.AQUA));
 
             int max = getMaxDamage(stack);
             int current = max - stack.getDamageValue();
 
-            tooltip.add(Component.translatable("tooltip.thedisassembler.durability", current, max)
-                    .withStyle(ChatFormatting.GREEN));
+            tooltip.add(Component.translatable("tooltip.thedisassembler.durability", current, max).withStyle(ChatFormatting.GREEN));
+            tooltip.add(Component.translatable("tooltip.thedisassembler.luckMod", Math.round(t.getLuckModifier()*100)));
+            tooltip.add(Component.translatable("tooltip.thedisassembler.speedMod", Math.round((c.getSpeedMultiplier() - 1.0f) * 100)));
+
         } else {
             tooltip.add(Component.translatable("tooltip.thedisassembler.hold_shift").withStyle(ChatFormatting.DARK_GRAY, ChatFormatting.ITALIC));
         }

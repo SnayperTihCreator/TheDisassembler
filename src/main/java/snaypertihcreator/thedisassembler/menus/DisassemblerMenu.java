@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
-import snaypertihcreator.thedisassembler.blocksEntity.DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.DisassemblerBlockEntity;
 
 public abstract class DisassemblerMenu extends AbstractContainerMenu {
 

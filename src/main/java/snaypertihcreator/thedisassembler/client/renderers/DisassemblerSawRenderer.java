@@ -15,7 +15,7 @@ import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassembler.blocks.DisassemblerBlock;
-import snaypertihcreator.thedisassembler.blocksEntity.DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.DisassemblerBlockEntity;
 
 import java.util.Objects;
 

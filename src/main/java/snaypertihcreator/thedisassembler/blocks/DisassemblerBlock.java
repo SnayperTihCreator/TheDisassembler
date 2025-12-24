@@ -22,7 +22,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import snaypertihcreator.thedisassembler.blocksEntity.*;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.DisassemblerBlockEntity;
 
 public class DisassemblerBlock extends Block implements EntityBlock {
 

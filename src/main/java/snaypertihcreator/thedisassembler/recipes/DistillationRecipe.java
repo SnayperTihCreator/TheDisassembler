@@ -53,24 +53,13 @@ public class DistillationRecipe implements Recipe<Container> {
         // 2. Применяем математику и рандом
         List<BrewingSedimentItem.SedimentContent> finalContents = rawContents.stream()
                 .map(c -> {
-                    // База
-                    float baseCalc = c.percentage() * finalFactor;
-
-                    // Рандомный множитель: (1.0 +/- VARIANCE)
                     float randomMultiplier = 1.0f + (random.nextFloat() * 2.0f * VARIANCE) - VARIANCE;
-
-                    // Итог
-                    float finalPercent = baseCalc * randomMultiplier;
-
-                    // Порог смерти (меньше 5% исчезает)
+                    float finalPercent = c.percentage() * finalFactor * randomMultiplier;
                     if (finalPercent < 0.05f) finalPercent = 0.0f;
-
-                    // Кап (не больше 100%)
                     finalPercent = Math.min(1.0f, Math.max(0.0f, finalPercent));
-
                     return new BrewingSedimentItem.SedimentContent(c.item(), finalPercent);
                 })
-                .filter(c -> c.percentage() > 0.0f) // Убираем мусор
+                .filter(c -> c.percentage() > 0.0f)
                 .toList();
 
         // 3. Создаем предмет

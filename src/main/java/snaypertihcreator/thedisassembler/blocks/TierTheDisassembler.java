@@ -6,6 +6,10 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import snaypertihcreator.thedisassembler.blocksEntity.*;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier1DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier2DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier3DisassemblerBlockEntity;
 
 import java.util.function.BiFunction;
 import java.util.function.Supplier;

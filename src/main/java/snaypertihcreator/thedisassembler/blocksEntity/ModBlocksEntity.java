@@ -8,6 +8,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier1DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier2DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier3DisassemblerBlockEntity;
 
 import java.util.Arrays;
 import java.util.function.Supplier;

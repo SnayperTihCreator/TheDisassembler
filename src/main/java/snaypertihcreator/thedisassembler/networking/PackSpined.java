@@ -3,7 +3,7 @@ package snaypertihcreator.thedisassembler.networking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
-import snaypertihcreator.thedisassembler.blocksEntity.Tier1DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier1DisassemblerBlockEntity;
 import snaypertihcreator.thedisassembler.menus.Tier1DisassemblerMenu;
 
 import java.util.function.Supplier;

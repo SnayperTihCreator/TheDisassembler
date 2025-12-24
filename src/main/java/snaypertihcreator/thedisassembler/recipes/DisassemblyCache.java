@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import snaypertihcreator.thedisassembler.ModCommonConfig;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
-import snaypertihcreator.thedisassembler.items.HandSawItem;
+import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
 
 import javax.annotation.Nullable;
 import java.util.*;

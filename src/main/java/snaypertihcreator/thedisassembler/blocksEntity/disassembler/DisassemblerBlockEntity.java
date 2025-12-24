@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.blocksEntity;
+package snaypertihcreator.thedisassembler.blocksEntity.disassembler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -252,7 +252,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     // Рабочая зона(не трогать)
     @Override
     public <T> @NotNull LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) return automationLazyHandler.cast();
+        if (cap == ForgeCapabilities.ITEM_HANDLER) return side == null ? internalLazyHandler.cast() : automationLazyHandler.cast();
         return super.getCapability(cap, side);
     }
 

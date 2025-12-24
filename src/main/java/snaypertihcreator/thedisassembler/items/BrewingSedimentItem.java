@@ -1,7 +1,6 @@
 package snaypertihcreator.thedisassembler.items;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -14,11 +13,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.stringtemplate.v4.ST;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class BrewingSedimentItem extends Item {
     public BrewingSedimentItem() {

@@ -10,9 +10,9 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import snaypertihcreator.thedisassembler.items.HandSawItem;
+import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
 import snaypertihcreator.thedisassembler.items.ModItems;
-import snaypertihcreator.thedisassembler.items.SawMaterial;
+import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
 
 import java.util.ArrayList;
 import java.util.List;

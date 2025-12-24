@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.*;
+import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
 import snaypertihcreator.thedisassembler.recipes.ModRecipes;
 
 import java.util.Arrays;

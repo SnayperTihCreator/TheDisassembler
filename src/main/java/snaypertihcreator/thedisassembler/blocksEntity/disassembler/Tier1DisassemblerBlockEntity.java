@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.blocksEntity;
+package snaypertihcreator.thedisassembler.blocksEntity.disassembler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
+import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
 import snaypertihcreator.thedisassembler.menus.Tier1DisassemblerMenu;
 import java.util.stream.IntStream;
 

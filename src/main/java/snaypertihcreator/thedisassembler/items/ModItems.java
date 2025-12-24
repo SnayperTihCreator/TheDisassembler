@@ -5,6 +5,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
+import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
+import snaypertihcreator.thedisassembler.items.disassembler.SawCoreItem;
+import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
+import snaypertihcreator.thedisassembler.items.disassembler.SawTeethItem;
 
 import java.util.Arrays;
 import java.util.HashMap;

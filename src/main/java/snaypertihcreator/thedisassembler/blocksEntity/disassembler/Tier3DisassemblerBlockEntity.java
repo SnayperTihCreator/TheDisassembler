@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.blocksEntity;
+package snaypertihcreator.thedisassembler.blocksEntity.disassembler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -21,8 +21,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.DisassemblerBlock;
+import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
 import snaypertihcreator.thedisassembler.energy.ModEnergyStorage;
-import snaypertihcreator.thedisassembler.items.HandSawItem;
+import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
 import snaypertihcreator.thedisassembler.menus.Tier3DisassemblerMenu;
 // import snaypertihcreator.thedisassembler.menus.Tier3DisassemblerMenu; // Вам нужно создать это меню
 

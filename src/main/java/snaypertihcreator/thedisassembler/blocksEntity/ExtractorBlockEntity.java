@@ -3,6 +3,9 @@ package snaypertihcreator.thedisassembler.blocksEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ContainerData;
@@ -27,7 +30,6 @@ import snaypertihcreator.thedisassembler.items.ModItems;
 import snaypertihcreator.thedisassembler.recipes.DistillationRecipe;
 import snaypertihcreator.thedisassembler.recipes.ModRecipes;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -152,6 +154,8 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
     public static void tick(Level level, BlockPos ignoredPos, BlockState state, ExtractorBlockEntity entity){
         if (level.isClientSide) return;
 
+        if (entity.cachedRecipe == null && !entity.handler.getStackInSlot(SLOT_INPUT).isEmpty()) entity.updateRecipeCache();
+
         boolean isBurning = entity.serverTickFuel();
 
         float target = entity.getTargetTemperature();
@@ -196,37 +200,41 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
         return !handler.getStackInSlot(SLOT_KIT).isEmpty();
     }
 
+    protected float calculateBurnFactor(float optimalTemp) {
+        float diff = currentTemp - optimalTemp;
+        if (diff > 50) return Math.max(0.0f, 1.0f - ((diff - 50) / 200.0f));
+        return 1.0f;
+    }
+
+    protected float processKit() {
+        ItemStack kitStack = handler.getStackInSlot(SLOT_KIT);
+
+        float kitEff = 0.1f;
+
+        if (kitStack.getItem() instanceof DistillationKitItem kit) {
+            kitEff = kit.getEfficiency();
+            if (kitStack.isDamageableItem() && level != null && kitStack.hurt(1, level.random, null))
+                kitStack.shrink(1);
+        }
+
+        return kitEff;
+    }
+
     protected void finishCrafting(float optimalTemp) {
         if (cachedRecipe == null) updateRecipeCache();
         if (cachedRecipe == null) return;
 
-        ItemStack input = handler.getStackInSlot(SLOT_INPUT);
-        ItemStack kitStack = handler.getStackInSlot(SLOT_KIT);
+        float kitEff = processKit();
+        float burnFactor = calculateBurnFactor(optimalTemp);
 
-        float kitEff = 0.1f;
-        if (kitStack.getItem() instanceof DistillationKitItem kit) {
-            kitEff = kit.getEfficiency();
-            // Ломаем предмет
-            if (kitStack.isDamageableItem()) {
-                kitStack.hurt(1, Objects.requireNonNull(level).random, null);
-                if (kitStack.getDamageValue() >= kitStack.getMaxDamage()) {
-                    kitStack.shrink(1);
-                }
-            }
+        ItemStack result = cachedRecipe.assembleSediment(handler.getStackInSlot(SLOT_INPUT), kitEff, burnFactor, RANDOM);
+
+        if (handler.insertItem(getOutputSlot(), result, false).isEmpty()) {
+            handler.extractItem(SLOT_INPUT, 1, false);
+            handler.insertItem(SLOT_INPUT, new ItemStack(Items.GLASS_BOTTLE), false);
+            this.progress = 0;
+            setChanged();
         }
-
-        float burnFactor = 1.0f;
-        float diff = currentTemp - optimalTemp;
-        if (diff > 50) {
-            burnFactor = Math.max(0.0f, 1.0f - ((diff - 50) / 200.0f));
-        }
-
-        ItemStack result = cachedRecipe.assembleSediment(input, kitEff, burnFactor, RANDOM);
-
-        handler.insertItem(getOutputSlot(), result, false);
-        handler.setStackInSlot(SLOT_INPUT, new ItemStack(Items.GLASS_BOTTLE));
-
-        this.progress = 0;
     }
 
 
@@ -236,6 +244,18 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
         }
         progress = 0;
         setChanged();
+    }
+
+    @Override
+    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        saveAdditional(tag);
+        return tag;
     }
 
     @Override
