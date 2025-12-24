@@ -24,6 +24,6 @@ public class SawCoreItem extends Item {
     @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable Level p_41422_, @NotNull List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.thedisassembler.core.description"));
-        tooltip.add(Component.translatable("tooltip.thedisassembler.speedMod", material.getSpeedMultiplier()));
+        tooltip.add(Component.translatable("tooltip.thedisassembler.speedMod", Math.round((material.getSpeedMultiplier() - 1.0f) * 100)));
     }
 }

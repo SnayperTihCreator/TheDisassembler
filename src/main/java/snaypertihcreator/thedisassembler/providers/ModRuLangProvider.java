@@ -25,15 +25,21 @@ public class ModRuLangProvider extends LanguageProvider {
         add("menu.thedisassembler.base_block", "Базовый разборщик");
         add("menu.thedisassembler.advanced_block", "Улучшенный разборщик");
         add("menu.thedisassembler.progressive_block", "Продвинутый разборщик");
-        add("thedisassembler.creative_tab", "Разборщики");
+        add("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID), "Разборка");
+        add("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID), "Дистилляция");
         add("tooltip.thedisassembler.no_recipe", "Не найден рецепт");
 
         add("tooltip.thedisassembler.hold_shift", "Нажмите на Shift для подробностей");
         add("tooltip.thedisassembler.saw.description", "Пилы, используемые для автоматических разборщиков");
         add("tooltip.thedisassembler.material.core", "Основа: %s");
         add("tooltip.thedisassembler.material.teeth", "Зубья: %s");
+        add("tooltip.thedisassembler.core.description", "Сердцевина для пилы");
+        add("tooltip.thedisassembler.teeth.description", "Зуб для пилы");
+
         add("item.thedisassembler.saw_name", "%s Пила (%s зубья)");
         add("tooltip.thedisassembler.durability", "Прочность: %s/%s");
+        add("tooltip.thedisassembler.speedMod", "Скорость распила: %s%%");
+        add("tooltip.thedisassembler.luckMod", "Бонус к удаче: %s%%");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
             add("material.thedisassembler.%s.adj".formatted(material.getName()), material.getLang().getRuName().feminine());

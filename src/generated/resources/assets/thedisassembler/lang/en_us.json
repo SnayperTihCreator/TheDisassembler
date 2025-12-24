@@ -37,11 +37,16 @@
   "menu.thedisassembler.base_block": "Basic Disassembler",
   "menu.thedisassembler.progressive_block": "Progressive Disassembler",
   "menujei.thedisassembler": "Disassembly",
-  "thedisassembler.creative_tab": "The Disassembler",
+  "thedisassembler.disassembler_creative_tab": "Disassembly",
+  "thedisassembler.distillation_creative_tab": "Distillation",
+  "tooltip.thedisassembler.core.description": "Core for the saw",
   "tooltip.thedisassembler.durability": "Durability: %s/%s",
   "tooltip.thedisassembler.hold_shift": "Click on Shift for details",
+  "tooltip.thedisassembler.luckMod": "Luck Modifier: %s%%",
   "tooltip.thedisassembler.material.core": "Core Material: %s",
   "tooltip.thedisassembler.material.teeth": "Teeth Material: %s",
-  "tooltip.thedisassembler.no_recipe": "Не найден рецепт",
-  "tooltip.thedisassembler.saw.description": "Saws that are used for automatic disassemblers"
+  "tooltip.thedisassembler.no_recipe": "Recipe not found",
+  "tooltip.thedisassembler.saw.description": "Saws that are used for automatic disassemblers",
+  "tooltip.thedisassembler.speedMod": "Processing Speed: %s%%",
+  "tooltip.thedisassembler.teeth.description": "Saw tooth"
 }

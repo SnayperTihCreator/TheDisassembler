@@ -37,11 +37,16 @@
   "menu.thedisassembler.base_block": "Базовый разборщик",
   "menu.thedisassembler.progressive_block": "Продвинутый разборщик",
   "menujei.thedisassembler": "Разборка",
-  "thedisassembler.creative_tab": "Разборщики",
+  "thedisassembler.disassembler_creative_tab": "Разборка",
+  "thedisassembler.distillation_creative_tab": "Дистилляция",
+  "tooltip.thedisassembler.core.description": "Сердцевина для пилы",
   "tooltip.thedisassembler.durability": "Прочность: %s/%s",
   "tooltip.thedisassembler.hold_shift": "Нажмите на Shift для подробностей",
+  "tooltip.thedisassembler.luckMod": "Бонус к удаче: %s%%",
   "tooltip.thedisassembler.material.core": "Основа: %s",
   "tooltip.thedisassembler.material.teeth": "Зубья: %s",
   "tooltip.thedisassembler.no_recipe": "Не найден рецепт",
-  "tooltip.thedisassembler.saw.description": "Пилы, используемые для автоматических разборщиков"
+  "tooltip.thedisassembler.saw.description": "Пилы, используемые для автоматических разборщиков",
+  "tooltip.thedisassembler.speedMod": "Скорость распила: %s%%",
+  "tooltip.thedisassembler.teeth.description": "Зуб для пилы"
 }

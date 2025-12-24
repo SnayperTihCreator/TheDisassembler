@@ -26,15 +26,21 @@ public class ModEnLangProvider extends LanguageProvider {
         add("menu.thedisassembler.base_block", "Basic Disassembler");
         add("menu.thedisassembler.advanced_block", "Advanced Disassembler");
         add("menu.thedisassembler.progressive_block", "Progressive Disassembler");
-        add("thedisassembler.creative_tab", "The Disassembler");
-        add("tooltip.thedisassembler.no_recipe", "Не найден рецепт");
+        add("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID), "Disassembly");
+        add("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID), "Distillation");
+        add("tooltip.thedisassembler.no_recipe", "Recipe not found");
 
         add("tooltip.thedisassembler.hold_shift", "Click on Shift for details");
         add("tooltip.thedisassembler.saw.description", "Saws that are used for automatic disassemblers");
+        add("tooltip.thedisassembler.core.description", "Core for the saw");
+        add("tooltip.thedisassembler.teeth.description", "Saw tooth");
         add("tooltip.thedisassembler.material.core", "Core Material: %s");
         add("tooltip.thedisassembler.material.teeth", "Teeth Material: %s");
+
         add("item.thedisassembler.saw_name", "%s Saw (%s teeth)");
         add("tooltip.thedisassembler.durability", "Durability: %s/%s");
+        add("tooltip.thedisassembler.speedMod", "Processing Speed: %s%%");
+        add("tooltip.thedisassembler.luckMod", "Luck Modifier: %s%%");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
             String adj = material.getLang().getEnName();
