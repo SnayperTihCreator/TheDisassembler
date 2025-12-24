@@ -1,5 +1,6 @@
 {
   "values": [
-    "thedisassembler:advanced_block"
+    "thedisassembler:advanced_disassembler",
+    "thedisassembler:progressive_disassembler"
   ]
 }

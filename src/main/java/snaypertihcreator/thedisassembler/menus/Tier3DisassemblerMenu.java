@@ -33,7 +33,7 @@ public class Tier3DisassemblerMenu extends DisassemblerMenu {
 
     @Override
     protected Block getValidBlock() {
-        return ModBlocks.PROGRESSIVE_BLOCK.get();
+        return ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get();
     }
 
     //

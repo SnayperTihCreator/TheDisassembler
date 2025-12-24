@@ -23,12 +23,21 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(ModBlocks.BASIC_BLOCK.get()).add(ModBlocks.ADVANCED_BLOCK.get());
+                .add(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get())
+                .add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get())
+                .add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get())
+                .add(ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK.get());
 
         this.tag(BlockTags.MINEABLE_WITH_AXE)
-                .add(ModBlocks.BASIC_BLOCK.get()).add(ModBlocks.ADVANCED_BLOCK.get());
+                .add(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get())
+                .add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get());
 
-        this.tag(BlockTags.NEEDS_STONE_TOOL).add(ModBlocks.BASIC_BLOCK.get());
-        this.tag(BlockTags.NEEDS_IRON_TOOL).add(ModBlocks.ADVANCED_BLOCK.get());
+        this.tag(BlockTags.NEEDS_STONE_TOOL)
+                .add(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get())
+                .add(ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK.get());
+
+        this.tag(BlockTags.NEEDS_IRON_TOOL)
+                .add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get())
+                .add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get());
     }
 }

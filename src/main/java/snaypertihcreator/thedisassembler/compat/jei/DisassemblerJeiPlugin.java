@@ -40,8 +40,8 @@ public class DisassemblerJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(ModBlocks.BASIC_BLOCK.get().asItem(), DISASSEMBLING_TYPE);
-        registration.addRecipeCatalyst(ModBlocks.ADVANCED_BLOCK.get().asItem(), DISASSEMBLING_TYPE);
+        registration.addRecipeCatalyst(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get().asItem(), DISASSEMBLING_TYPE);
+        registration.addRecipeCatalyst(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get().asItem(), DISASSEMBLING_TYPE);
     }
 
     @Override

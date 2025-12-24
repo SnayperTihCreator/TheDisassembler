@@ -17,18 +17,20 @@ public class ModEnLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add(ModBlocks.BASIC_BLOCK.get(), "Basic Disassembler");
-        add(ModBlocks.ADVANCED_BLOCK.get(), "Advanced Disassembler");
-        add(ModBlocks.PROGRESSIVE_BLOCK.get(), "Progressive Disassembler");
+        add(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get(), "Basic Disassembler");
+        add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get(), "Advanced Disassembler");
+        add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get(), "Progressive Disassembler");
 
         // TODO поправить переводы
         add("menujei.thedisassembler", "Disassembly");
         add("menu.thedisassembler.base_block", "Basic Disassembler");
-        add("menu.thedisassembler.advanced_block", "Advanced Disassembler");
-        add("menu.thedisassembler.progressive_block", "Progressive Disassembler");
+        add("menu.thedisassembler.advanced_disassembler", "Advanced Disassembler");
+        add("menu.thedisassembler.progressive_disassembler", "Progressive Disassembler");
         add("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID), "Disassembly");
         add("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID), "Distillation");
         add("tooltip.thedisassembler.no_recipe", "Recipe not found");
+        add("tooltip.%s.empty_sediment".formatted(TheDisassemblerMod.MODID), "Empty Sediment");
+        add("tooltip.%s.sediment_contains".formatted(TheDisassemblerMod.MODID), "Sediments");
 
         add("tooltip.thedisassembler.hold_shift", "Click on Shift for details");
         add("tooltip.thedisassembler.saw.description", "Saws that are used for automatic disassemblers");

@@ -1,6 +1,8 @@
 {
   "values": [
-    "thedisassembler:basic_block",
-    "thedisassembler:advanced_block"
+    "thedisassembler:basic_disassembler",
+    "thedisassembler:advanced_disassembler",
+    "thedisassembler:progressive_disassembler",
+    "thedisassembler:primitive_extractor"
   ]
 }

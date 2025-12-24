@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "thedisassembler:basic_block"
+        "recipe": "thedisassembler:basic_disassembler"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "thedisassembler:basic_block"
+      "thedisassembler:basic_disassembler"
     ]
   },
   "sends_telemetry_event": false

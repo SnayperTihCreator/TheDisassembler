@@ -17,17 +17,19 @@ public class ModRuLangProvider extends LanguageProvider {
 
     @Override
     protected void addTranslations() {
-        add(ModBlocks.BASIC_BLOCK.get(), "Базовый разборщик");
-        add(ModBlocks.ADVANCED_BLOCK.get(), "Улучшенный разборщик");
-        add(ModBlocks.PROGRESSIVE_BLOCK.get(), "Продвинутый разборщик");
+        add(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get(), "Базовый разборщик");
+        add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get(), "Улучшенный разборщик");
+        add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get(), "Продвинутый разборщик");
 
         add("menujei.thedisassembler", "Разборка");
         add("menu.thedisassembler.base_block", "Базовый разборщик");
-        add("menu.thedisassembler.advanced_block", "Улучшенный разборщик");
-        add("menu.thedisassembler.progressive_block", "Продвинутый разборщик");
+        add("menu.thedisassembler.advanced_disassembler", "Улучшенный разборщик");
+        add("menu.thedisassembler.progressive_disassembler", "Продвинутый разборщик");
         add("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID), "Разборка");
         add("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID), "Дистилляция");
         add("tooltip.thedisassembler.no_recipe", "Не найден рецепт");
+        add("tooltip.%s.empty_sediment".formatted(TheDisassemblerMod.MODID), "Пустой осадок");
+        add("tooltip.%s.sediment_contains".formatted(TheDisassemblerMod.MODID), "Осадки");
 
         add("tooltip.thedisassembler.hold_shift", "Нажмите на Shift для подробностей");
         add("tooltip.thedisassembler.saw.description", "Пилы, используемые для автоматических разборщиков");

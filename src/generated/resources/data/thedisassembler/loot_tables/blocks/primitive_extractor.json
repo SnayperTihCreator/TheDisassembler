@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "thedisassembler:basic_block"
+          "name": "thedisassembler:primitive_extractor"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "thedisassembler:blocks/basic_block"
+  "random_sequence": "thedisassembler:blocks/primitive_extractor"
 }

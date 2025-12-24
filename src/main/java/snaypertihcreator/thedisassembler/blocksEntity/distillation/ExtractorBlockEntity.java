@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.blocksEntity;
+package snaypertihcreator.thedisassembler.blocksEntity.distillation;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -229,9 +229,9 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
 
         ItemStack result = cachedRecipe.assembleSediment(handler.getStackInSlot(SLOT_INPUT), kitEff, burnFactor, RANDOM);
 
-        if (handler.insertItem(getOutputSlot(), result, false).isEmpty()) {
-            handler.extractItem(SLOT_INPUT, 1, false);
-            handler.insertItem(SLOT_INPUT, new ItemStack(Items.GLASS_BOTTLE), false);
+        if (handler.insertItem(getOutputSlot(), result, true).isEmpty()) {
+            handler.insertItem(getOutputSlot(), result, false);
+            handler.setStackInSlot(SLOT_INPUT, new ItemStack(Items.GLASS_BOTTLE));
             this.progress = 0;
             setChanged();
         }

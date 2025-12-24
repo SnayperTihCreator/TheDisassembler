@@ -17,15 +17,15 @@ public class ModCreativeTabs {
     @SuppressWarnings("unused")
     public static final RegistryObject<CreativeModeTab> MOD_DISASSEMBLER_TAB = CREATIVE_MODE_TABS.register("%s_disas_tab".formatted(TheDisassemblerMod.MODID), ()->CreativeModeTab.builder()
             .title(Component.translatable("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID)))
-            .icon(() -> new ItemStack(ModBlocks.BASIC_BLOCK.get().asItem()))
+            .icon(() -> new ItemStack(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get().asItem()))
             .displayItems((parameters, output) -> {
                 ModItems.SAW_ITEMS.values().forEach(item -> output.accept(item.get()));
                 ModItems.CORE_ITEMS.values().forEach(item -> output.accept(item.get()));
                 ModItems.TEETH_ITEMS.values().forEach(item -> output.accept(item.get()));
 
-                output.accept(ModBlocks.BASIC_BLOCK.get());
-                output.accept(ModBlocks.ADVANCED_BLOCK.get());
-                output.accept(ModBlocks.PROGRESSIVE_BLOCK.get());
+                output.accept(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get());
+                output.accept(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get());
+                output.accept(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get());
             })
             .build());
 
@@ -34,8 +34,9 @@ public class ModCreativeTabs {
             .title(Component.translatable("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID)))
             .icon(() -> new ItemStack(ModItems.BREWING_SEDIMENT.get()))
             .displayItems((parameters, output) -> {
-
                 output.accept(ModItems.BREWING_SEDIMENT.get());
+
+                output.accept(ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK.get());
             })
             .build());
 }

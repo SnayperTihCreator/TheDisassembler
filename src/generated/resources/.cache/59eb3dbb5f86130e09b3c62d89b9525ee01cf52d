@@ -1,4 +1,5 @@
-// 1.20.1	2025-12-23T20:18:48.8386704	Loot Tables
-6c06203a493c49c12cb7f422a80ce5fd8aba21b2 data/thedisassembler/loot_tables/blocks/advanced_block.json
-64de8d0b884afb2eba4e51c5d41ca3a727f7fa90 data/thedisassembler/loot_tables/blocks/basic_block.json
-f6b53449a42903257c7a8a4610d71520d47d6636 data/thedisassembler/loot_tables/blocks/progressive_block.json
+// 1.20.1	2025-12-24T19:48:35.2279348	Loot Tables
+626e69ae037b16b75b91b087e116897d3367f4c5 data/thedisassembler/loot_tables/blocks/advanced_disassembler.json
+9b9762e25bbf75c6fe7ccd082838335bbe818339 data/thedisassembler/loot_tables/blocks/basic_disassembler.json
+e76e7264215ec182f3e45329c7078d62efbae531 data/thedisassembler/loot_tables/blocks/primitive_extractor.json
+0d3778936c93db9c31fed3b7d269751805922edf data/thedisassembler/loot_tables/blocks/progressive_disassembler.json

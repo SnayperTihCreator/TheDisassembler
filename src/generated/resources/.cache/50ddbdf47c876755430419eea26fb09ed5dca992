@@ -1,5 +1,5 @@
-// 1.20.1	2025-12-23T20:18:48.8386704	Tags for minecraft:block mod id thedisassembler
-7a8feb99e3fbee3f4ce1b915d013aace6ee63fd0 data/minecraft/tags/blocks/mineable/axe.json
-7a8feb99e3fbee3f4ce1b915d013aace6ee63fd0 data/minecraft/tags/blocks/mineable/pickaxe.json
-344023dbdb214bf7c59662e6cdc902e7776ba5ee data/minecraft/tags/blocks/needs_iron_tool.json
-436fbf5a8a88dc882800ae81ea7ac1a6e238a2e7 data/minecraft/tags/blocks/needs_stone_tool.json
+// 1.20.1	2025-12-24T19:48:35.2289683	Tags for minecraft:block mod id thedisassembler
+9c8f067c059d021e2ffd39d28dff2436d1fd6134 data/minecraft/tags/blocks/mineable/axe.json
+044dcf6af0a94e33b2a8f5a84c8b95fdf3fc88c9 data/minecraft/tags/blocks/mineable/pickaxe.json
+fedf1e0ef6b38e543e10857c02981d2524168bec data/minecraft/tags/blocks/needs_iron_tool.json
+deccfd656c9a1ac9fb723491ca131b72ee5d659f data/minecraft/tags/blocks/needs_stone_tool.json

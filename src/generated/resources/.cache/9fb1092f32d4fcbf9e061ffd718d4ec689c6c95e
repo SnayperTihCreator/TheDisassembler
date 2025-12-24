@@ -1,6 +1,6 @@
-// 1.20.1	2025-12-23T20:18:48.840177	Recipes
-dfa26d98f844d957c6eaaa7571d0450815e57371 data/thedisassembler/advancements/recipes/misc/advanced_block.json
-cd3582f671219141fe4ff32fc3eab9e14811a559 data/thedisassembler/advancements/recipes/misc/basic_block.json
+// 1.20.1	2025-12-24T19:48:35.2299746	Recipes
+bad6fe9c7eceb6195648b2e93589144fccd3c1aa data/thedisassembler/advancements/recipes/misc/advanced_disassembler.json
+9d0737aa224012df44c62580d522aa644a9ec227 data/thedisassembler/advancements/recipes/misc/basic_disassembler.json
 273aadcb985f9002be5436aa80d55c214b5bf49d data/thedisassembler/advancements/recipes/misc/diamond_blade.json
 3b7c33997350a50db2f4b64ff98aa31607c7f3fa data/thedisassembler/advancements/recipes/misc/diamond_teeth.json
 07d4b4215f996ff17361222f988abc2dcd0b1ca0 data/thedisassembler/advancements/recipes/misc/gold_blade.json
@@ -19,8 +19,8 @@ ac872363808a5fe316ad3423567cc99e79af39d9 data/thedisassembler/advancements/recip
 6e8beb390feb4fdc62027dbab67d88ba692c4364 data/thedisassembler/advancements/recipes/tools/netherite_saw.json
 9ffaad4c17bd9b0eb147f98dea4426dd0096cfb4 data/thedisassembler/advancements/recipes/tools/stone_saw.json
 404925a6ee744f43359f38be4bff29ef301f81dd data/thedisassembler/advancements/recipes/tools/wood_saw.json
-f4404c57420aecb80f41a489b123ef230055821d data/thedisassembler/recipes/advanced_block.json
-3708f6105b03686e44dc2aaa834f517f8c24a831 data/thedisassembler/recipes/basic_block.json
+877cfb83dbc1396097b6c33abd563bc8a6878b08 data/thedisassembler/recipes/advanced_disassembler.json
+70bd0e2d4e23e21af5c39985515ff6a14532f27e data/thedisassembler/recipes/basic_disassembler.json
 cd8204d9b70505f73b1ee4080adf402b7d9bdcee data/thedisassembler/recipes/diamond_blade.json
 2c5f5e122e24f87575396b1a939e40a070f18a60 data/thedisassembler/recipes/diamond_saw.json
 800033675562d4bc6181018b270a31bb9e477cd1 data/thedisassembler/recipes/diamond_teeth.json

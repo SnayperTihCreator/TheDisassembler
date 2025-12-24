@@ -91,7 +91,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         });
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BASIC_BLOCK.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.BASIC_DISASSEMBLER_BLOCK.get())
                 .pattern("ASB")
                 .pattern("GVG")
                 .pattern("GGG")
@@ -103,7 +103,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ADVANCED_BLOCK.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get())
                 .pattern("ASB")
                 .pattern("GPG")
                 .pattern("GGG")

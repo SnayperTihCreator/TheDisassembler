@@ -30,7 +30,7 @@ public class Tier1DisassemblerMenu extends DisassemblerMenu {
 
     @Override
     protected Block getValidBlock() {
-        return ModBlocks.BASIC_BLOCK.get();
+        return ModBlocks.BASIC_DISASSEMBLER_BLOCK.get();
     }
 
     public boolean isRecipeValid() {

@@ -36,7 +36,7 @@ public class Tier2DisassemblerMenu extends DisassemblerMenu {
 
     @Override
     protected Block getValidBlock() {
-        return ModBlocks.ADVANCED_BLOCK.get();
+        return ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get();
     }
 
     @Override

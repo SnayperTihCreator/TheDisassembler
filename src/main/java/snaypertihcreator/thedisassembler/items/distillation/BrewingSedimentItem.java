@@ -85,11 +85,11 @@ public class BrewingSedimentItem extends Item {
         List<SedimentContent> contents = getContents(stack);
 
         if (contents.isEmpty()) {
-            tooltipComponents.add(Component.translatable("tooltip.yourmod.empty_sediment").withStyle(ChatFormatting.GRAY));
+            tooltipComponents.add(Component.translatable("tooltip.thedisassembler.empty_sediment").withStyle(ChatFormatting.GRAY));
             return;
         }
 
-        tooltipComponents.add(Component.translatable("tooltip.yourmod.sediment_contains").withStyle(ChatFormatting.GOLD));
+        tooltipComponents.add(Component.translatable("tooltip.thedisassembler.sediment_contains").withStyle(ChatFormatting.GOLD));
         contents.forEach(content -> {
             String percentString = String.format("%.0f%%", content.percentage * 100);
 

@@ -28,7 +28,7 @@ public class SawCoreItem extends Item implements IMaterialComponent{
     public @NotNull Component getName(@NotNull ItemStack stack) {return getMaterialName();}
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level p_41422_, @NotNull List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level p_41422_, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.thedisassembler.core.description"));
         tooltip.add(Component.translatable("tooltip.thedisassembler.speedMod", Math.round((material.getSpeedMultiplier() - 1.0f) * 100)));
     }

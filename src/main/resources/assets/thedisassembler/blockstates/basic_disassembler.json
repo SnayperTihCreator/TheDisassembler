@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": {"model": "thedisassembler:block/basic_disassembler"}
+  }
+}

@@ -34,7 +34,7 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
 
     public DisassemblerRecipeCategory(IGuiHelper helper) {
         this.background = helper.createDrawable(TEXTURE, 0, 0, 112, 60);
-        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.BASIC_BLOCK.get().asItem()));
+        this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ModBlocks.BASIC_DISASSEMBLER_BLOCK.get().asItem()));
         IDrawableStatic arrowStatic = helper.createDrawable(TEXTURE, 114, 0, 22, 15);
         this.arrow = helper.createAnimatedDrawable(arrowStatic, 100, IDrawableAnimated.StartDirection.LEFT, false);
     }

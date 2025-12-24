@@ -24,7 +24,7 @@
     "GGG"
   ],
   "result": {
-    "item": "thedisassembler:basic_block"
+    "item": "thedisassembler:basic_disassembler"
   },
   "show_notification": true
 }

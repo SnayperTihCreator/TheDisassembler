@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "thedisassembler:progressive_block"
+          "name": "thedisassembler:advanced_disassembler"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "thedisassembler:blocks/progressive_block"
+  "random_sequence": "thedisassembler:blocks/advanced_disassembler"
 }

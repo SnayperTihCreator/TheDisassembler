@@ -1,0 +1,12 @@
+{
+  "multipart": [
+    {
+      "when": { "lit": false },
+      "apply": { "model": "thedisassembler:block/advanced_disassembler" }
+    },
+    {
+      "when": { "lit": true },
+      "apply": { "model": "thedisassembler:block/advanced_disassembler_on" }
+    }
+  ]
+}

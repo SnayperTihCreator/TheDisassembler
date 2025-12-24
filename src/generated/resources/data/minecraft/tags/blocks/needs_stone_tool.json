@@ -1,5 +1,6 @@
 {
   "values": [
-    "thedisassembler:basic_block"
+    "thedisassembler:basic_disassembler",
+    "thedisassembler:primitive_extractor"
   ]
 }

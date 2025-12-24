@@ -25,7 +25,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import snaypertihcreator.thedisassembler.blocksEntity.ExtractorBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.distillation.ExtractorBlockEntity;
 
 
 public class ExtractorBlock extends Block implements EntityBlock {

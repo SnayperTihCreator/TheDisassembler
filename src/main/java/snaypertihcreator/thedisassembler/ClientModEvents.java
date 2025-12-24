@@ -3,7 +3,6 @@ package snaypertihcreator.thedisassembler;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -23,7 +22,6 @@ import snaypertihcreator.thedisassembler.menus.ModMenuTypes;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 // регистрация окна для меню
 @Mod.EventBusSubscriber(modid = TheDisassemblerMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -58,7 +56,6 @@ public class ClientModEvents {
         registerToolColor(event, ModItems.SAW_ITEMS.values(),
                 (item, stack) -> item.getCore(stack).getColor(),
                 (item, stack) -> item.getTeeth(stack).getColor());
-
 
         registerComponentColor(event, List.of(ModItems.BREWING_SEDIMENT),
                 (item, stack) -> BrewingSedimentItem.getColor(stack));

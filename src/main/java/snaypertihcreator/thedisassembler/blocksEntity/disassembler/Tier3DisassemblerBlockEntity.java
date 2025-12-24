@@ -215,7 +215,7 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("menu.%s.progressive_block".formatted(TheDisassemblerMod.MODID));
+        return Component.translatable("menu.%s.progressive_disassembler".formatted(TheDisassemblerMod.MODID));
     }
 
     @Override
