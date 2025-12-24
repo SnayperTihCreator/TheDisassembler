@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.items;
+package snaypertihcreator.thedisassembler.items.distillation;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

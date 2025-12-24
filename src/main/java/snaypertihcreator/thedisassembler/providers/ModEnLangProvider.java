@@ -43,12 +43,13 @@ public class ModEnLangProvider extends LanguageProvider {
         add("tooltip.thedisassembler.luckMod", "Luck Modifier: %s%%");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
-            String adj = material.getLang().getEnName();
-            add("material.thedisassembler.%s.adj".formatted(material.getName()), material.getLang().getEnName());
-            add("material.thedisassembler.%s.plural".formatted(material.getName()), material.getLang().getEnName());
-            if (ModItems.SAW_ITEMS.containsKey(material)) add(ModItems.SAW_ITEMS.get(material).get(), "%s Saw".formatted(adj));
-            if (ModItems.TEETH_ITEMS.containsKey(material)) add(ModItems.TEETH_ITEMS.get(material).get(), "%s Teeth".formatted(adj));
-            if (ModItems.BLADE_ITEMS.containsKey(material)) add(ModItems.BLADE_ITEMS.get(material).get(), "%s Blade".formatted(adj));
+            String name = material.getLang().getEnName();
+            add(material.getComponentKey("adj"), name);
+            add(material.getComponentKey("plural"), name);
+            add(material.getComponentKey("neutral"), name);
+            if (ModItems.SAW_ITEMS.containsKey(material)) add(ModItems.SAW_ITEMS.get(material).get(), "%s Saw".formatted(name));
+            if (ModItems.TEETH_ITEMS.containsKey(material)) add(ModItems.TEETH_ITEMS.get(material).get(), "%s Teeth".formatted(name));
+            if (ModItems.CORE_ITEMS.containsKey(material)) add(ModItems.CORE_ITEMS.get(material).get(), "%s Blade".formatted(name));
 
         });
     }

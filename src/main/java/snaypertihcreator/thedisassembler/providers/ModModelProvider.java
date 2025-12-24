@@ -23,7 +23,7 @@ public class ModModelProvider extends ItemModelProvider {
     protected void registerModels() {
 
         generateFlatItemModels(ModItems.TEETH_ITEMS.values(), "item/teeth");
-        generateFlatItemModels(ModItems.BLADE_ITEMS.values(), "item/blade");
+        generateFlatItemModels(ModItems.CORE_ITEMS.values(), "item/blade");
 
         ModItems.SAW_ITEMS.values().forEach(item -> {
             String name = Objects.requireNonNull(item.getId()).getPath();

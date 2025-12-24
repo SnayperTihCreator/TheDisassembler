@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.items;
+package snaypertihcreator.thedisassembler.items.distillation;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import snaypertihcreator.thedisassembler.utils.ColorComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +65,16 @@ public class BrewingSedimentItem extends Item {
     }
 
     public static int getColor(ItemStack stack) {
-        CompoundTag tag = stack.getTag();
+        CompoundTag tag = stack.getOrCreateTag();
 
-        if (tag != null && tag.contains("color")) return tag.getInt("color");
+        if (tag.contains("color")) return tag.getInt("color");
 
         List<SedimentContent> contents = getContents(stack);
-        if (!contents.isEmpty()) return 0xAAAAAA;
+        if (!contents.isEmpty()) {
+            Item firstIngredient = contents.get(0).item();
+            return ColorComponent.getIngredientColor(firstIngredient);
+        }
+
         return 0xA0A0A0;
     }
 

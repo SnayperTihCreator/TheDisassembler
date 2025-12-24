@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import snaypertihcreator.thedisassembler.items.BrewingSedimentItem;
+import snaypertihcreator.thedisassembler.items.distillation.BrewingSedimentItem;
 import snaypertihcreator.thedisassembler.items.ModItems;
 
 import java.util.ArrayList;

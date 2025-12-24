@@ -92,8 +92,8 @@ public class HandSawItem extends Item {
             return super.getName(stack);
         }
 
-        Component coreNameComp = Component.translatable("material.thedisassembler.%s.adj".formatted(core.getName()));
-        Component teethNameComp = Component.translatable("material.thedisassembler.%s.plural".formatted(teeth.getName()));
+        Component coreNameComp = Component.translatable(core.getComponentKey("adj"));
+        Component teethNameComp = Component.translatable(teeth.getComponentKey("plural"));
         return Component.translatable("item.thedisassembler.saw_name", coreNameComp, teethNameComp);
     }
 
@@ -107,11 +107,11 @@ public class HandSawItem extends Item {
             SawMaterial c = getCore(stack);
             SawMaterial t = getTeeth(stack);
 
-            Component coreName = Component.translatable("material.thedisassembler.%s.adj".formatted(c.getName()));
+            Component coreName = Component.translatable(c.getComponentKey("adj"));
             tooltip.add(Component.translatable("tooltip.thedisassembler.material.core", coreName)
                     .withStyle(ChatFormatting.GOLD));
 
-            Component teethName = Component.translatable("material.thedisassembler.%s.plural".formatted(t.getName()));
+            Component teethName = Component.translatable(t.getComponentKey("plural"));
             tooltip.add(Component.translatable("tooltip.thedisassembler.material.teeth", teethName).withStyle(ChatFormatting.AQUA));
 
             int max = getMaxDamage(stack);

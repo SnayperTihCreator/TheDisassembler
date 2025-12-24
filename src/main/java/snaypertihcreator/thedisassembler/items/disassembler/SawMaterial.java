@@ -3,56 +3,40 @@ package snaypertihcreator.thedisassembler.items.disassembler;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import snaypertihcreator.thedisassembler.utils.ColorComponent;
+import snaypertihcreator.thedisassembler.utils.MaterialLang;
+import snaypertihcreator.thedisassembler.utils.MaterialTranslation;
+
 import java.util.function.Supplier;
 
 // материалы для пил, зубъев и серцевин
 public enum SawMaterial {
 
-    WOOD("wood", 0x866526, 1, 1,// Уровень 1
-            () -> Ingredient.of(ItemTags.PLANKS),
-            new MaterialLang().en("Wood").ru("Деревянная", "Деревянные")),
-
-    STONE("stone", 0x9a9a9a, 2, 2, // Уровень 2
-            () -> Ingredient.of(Items.COBBLESTONE),
-            new MaterialLang().en("Stone").ru("Каменная", "Каменные")),
-
-    IRON("iron", 0xffffff, 3, 3,
-            () -> Ingredient.of(Items.IRON_INGOT),
-            new MaterialLang().en("Iron").ru("Железная", "Железные")),
-
-    GOLD("gold", 0xfdff76, 2, 4, // Золото обычно слабее железа по прочности, но быстрее (тут уровень 2)
-            () -> Ingredient.of(Items.GOLD_INGOT),
-            new MaterialLang().en("Gold").ru("Золотая", "Золотые")),
-
-    DIAMOND("diamond", 0x33ebcb, 4, 5,
-            () -> Ingredient.of(Items.DIAMOND),
-            new MaterialLang().en("Diamond").ru("Алмазная", "Алмазные")),
-
-    NETHERITE("netherite", 0x867b86, 5, 6,
-            () -> Ingredient.of(Items.NETHERITE_INGOT),
-            new MaterialLang().en("Netherite").ru("Незеритовая", "Незеритовые"));
+    WOOD("wood", 1, 1, () -> Ingredient.of(ItemTags.PLANKS), MaterialTranslation.WOOD, ColorComponent.WOOD),
+    STONE("stone", 2, 2, () -> Ingredient.of(Items.COBBLESTONE), MaterialTranslation.STONE, ColorComponent.STONE),
+    IRON("iron", 3, 3, () -> Ingredient.of(Items.IRON_INGOT), MaterialTranslation.IRON, ColorComponent.IRON),
+    GOLD("gold", 2, 4, () -> Ingredient.of(Items.GOLD_INGOT), MaterialTranslation.GOLD, ColorComponent.GOLD),
+    DIAMOND("diamond", 4, 5, () -> Ingredient.of(Items.DIAMOND), MaterialTranslation.DIAMOND, ColorComponent.DIAMOND),
+    NETHERITE("netherite", 5, 6, () -> Ingredient.of(Items.NETHERITE_INGOT), MaterialTranslation.NETHERITE, ColorComponent.NETHERITE);
 
     private final String name;
-    private final int color;
     private final int tierLevel;
     private final int speedLevel;
     private final Supplier<Ingredient> repairIngredient;
-    private final MaterialLang lang;
+    private final MaterialTranslation lang;
+    private final ColorComponent color;
 
-    SawMaterial(String name, int color, int tierLevel, int speedLevel, Supplier<Ingredient> repairIngredient, MaterialLang lang) {
+    SawMaterial(String name, int tierLevel, int speedLevel, Supplier<Ingredient> repairIngredient, MaterialTranslation lang, ColorComponent color) {
         this.name = name;
-        this.color = color;
         this.tierLevel = tierLevel;
         this.speedLevel = speedLevel;
         this.repairIngredient = repairIngredient;
         this.lang = lang;
+        this.color = color;
     }
 
     // прочность материала
-    public int getMaxUses() {
-        int baseDurability = 32;
-        return baseDurability * (int) Math.pow(2, this.tierLevel - 1);
-    }
+    public int getMaxUses() {return 32 * (int) Math.pow(2, this.tierLevel - 1);}
     // Чем выше speedLevel, тем быстрее идет прогресс
     public float getSpeedMultiplier() {return 1.0f + (this.speedLevel * 0.2f);}
 
@@ -62,10 +46,11 @@ public enum SawMaterial {
     // имя материала
     public String getName() { return name; }
     // цвет материала
-    public int getColor() { return color; }
+    public int getColor() { return color.getColor(); }
     // материал для починки
     public Ingredient getRepairIngredient() { return repairIngredient.get(); }
     // переводы
-    public MaterialLang getLang() { return lang; }
+    public MaterialLang getLang() { return lang.getLang(); }
+    public String getComponentKey(String suffix) {return lang.getTranslationKey(this.name, suffix);}
 
 }

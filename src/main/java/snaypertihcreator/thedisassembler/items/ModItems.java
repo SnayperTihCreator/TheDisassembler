@@ -9,6 +9,9 @@ import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
 import snaypertihcreator.thedisassembler.items.disassembler.SawCoreItem;
 import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
 import snaypertihcreator.thedisassembler.items.disassembler.SawTeethItem;
+import snaypertihcreator.thedisassembler.items.distillation.BrewingSedimentItem;
+import snaypertihcreator.thedisassembler.items.distillation.DistillationKitItem;
+import snaypertihcreator.thedisassembler.items.distillation.DistillationTier;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,7 +22,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, TheDisassemblerMod.MODID);
 
     public static final Map<SawMaterial, RegistryObject<SawTeethItem>> TEETH_ITEMS = new HashMap<>();
-    public static final Map<SawMaterial, RegistryObject<SawCoreItem>> BLADE_ITEMS = new HashMap<>();
+    public static final Map<SawMaterial, RegistryObject<SawCoreItem>> CORE_ITEMS = new HashMap<>();
     public static final Map<SawMaterial, RegistryObject<HandSawItem>> SAW_ITEMS = new HashMap<>();
 
     public static final RegistryObject<BrewingSedimentItem> BREWING_SEDIMENT = ITEMS.register("brewing_sediment", BrewingSedimentItem::new);
@@ -31,7 +34,7 @@ public class ModItems {
     static {
         Arrays.stream(SawMaterial.values()).forEach(mat -> {
             TEETH_ITEMS.put(mat, ITEMS.register("%s_teeth".formatted(mat.getName()), () -> new SawTeethItem(mat)));
-            BLADE_ITEMS.put(mat, ITEMS.register("%s_blade".formatted(mat.getName()), () -> new SawCoreItem(mat)));
+            CORE_ITEMS.put(mat, ITEMS.register("%s_blade".formatted(mat.getName()), () -> new SawCoreItem(mat)));
             SAW_ITEMS.put(mat, ITEMS.register("%s_saw".formatted(mat.getName()), () -> new HandSawItem(mat, mat)));
         });
     }

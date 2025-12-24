@@ -25,7 +25,7 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import snaypertihcreator.thedisassembler.items.DistillationKitItem;
+import snaypertihcreator.thedisassembler.items.distillation.DistillationKitItem;
 import snaypertihcreator.thedisassembler.items.ModItems;
 import snaypertihcreator.thedisassembler.recipes.DistillationRecipe;
 import snaypertihcreator.thedisassembler.recipes.ModRecipes;

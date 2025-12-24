@@ -1,10 +1,10 @@
 {
   "values": [
-    "thedisassembler:stone_saw",
     "thedisassembler:netherite_saw",
     "thedisassembler:iron_saw",
-    "thedisassembler:diamond_saw",
     "thedisassembler:wood_saw",
-    "thedisassembler:gold_saw"
+    "thedisassembler:stone_saw",
+    "thedisassembler:gold_saw",
+    "thedisassembler:diamond_saw"
   ]
 }

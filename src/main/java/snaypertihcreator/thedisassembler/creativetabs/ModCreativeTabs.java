@@ -20,7 +20,7 @@ public class ModCreativeTabs {
             .icon(() -> new ItemStack(ModBlocks.BASIC_BLOCK.get().asItem()))
             .displayItems((parameters, output) -> {
                 ModItems.SAW_ITEMS.values().forEach(item -> output.accept(item.get()));
-                ModItems.BLADE_ITEMS.values().forEach(item -> output.accept(item.get()));
+                ModItems.CORE_ITEMS.values().forEach(item -> output.accept(item.get()));
                 ModItems.TEETH_ITEMS.values().forEach(item -> output.accept(item.get()));
 
                 output.accept(ModBlocks.BASIC_BLOCK.get());

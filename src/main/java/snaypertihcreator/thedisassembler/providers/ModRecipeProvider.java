@@ -62,7 +62,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         Arrays.stream(SawMaterial.values()).forEach(mat -> {
                     ItemLike teeth = ModItems.TEETH_ITEMS.get(mat).get();
-                    ItemLike blade = ModItems.BLADE_ITEMS.get(mat).get();
+                    ItemLike blade = ModItems.CORE_ITEMS.get(mat).get();
                     ItemLike saw = ModItems.SAW_ITEMS.get(mat).get();
 
                     // 1. Зубья (2 шт)

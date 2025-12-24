@@ -44,7 +44,7 @@ public class SawDisassemblingRecipe extends DisassemblingRecipe{
         float finalChance = Math.min(1.0f, AUTO_RECIPE_CHANCE + luckModifier);
 
         if (random.nextFloat() <= finalChance)
-            list.add(new ItemStack(ModItems.BLADE_ITEMS.get(coreMat).get()));
+            list.add(new ItemStack(ModItems.CORE_ITEMS.get(coreMat).get()));
 
         int teethCount = (int) IntStream.range(0, 4).filter(i -> random.nextFloat() <= finalChance).count();
         if (teethCount > 0) {
