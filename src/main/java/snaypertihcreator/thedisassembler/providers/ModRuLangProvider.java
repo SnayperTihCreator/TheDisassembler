@@ -21,6 +21,11 @@ public class ModRuLangProvider extends LanguageProvider {
         add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get(), "Улучшенный разборщик");
         add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get(), "Продвинутый разборщик");
 
+        // TODO добавить русский перевод
+        add("tooltip.%s.basic_disassembler".formatted(TheDisassemblerMod.MODID), "");
+        add("tooltip.%s.advanced_disassembler".formatted(TheDisassemblerMod.MODID), "");
+        add("tooltip.%s.progressive_disassembler".formatted(TheDisassemblerMod.MODID), "");
+
         add("menujei.thedisassembler", "Разборка");
         add("menu.thedisassembler.base_block", "Базовый разборщик");
         add("menu.thedisassembler.advanced_disassembler", "Улучшенный разборщик");
