@@ -8,9 +8,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
+import snaypertihcreator.thedisassembler.blocksEntity.disassembler.DisassemblerBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier1DisassemblerBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier2DisassemblerBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier3DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.distillation.ExtractorBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.distillation.PrimitiveExtractorBlockEntity;
 
 import java.util.Arrays;
@@ -19,18 +21,18 @@ import java.util.function.Supplier;
 public class ModBlocksEntity {
     public static final DeferredRegister<BlockEntityType<?>> BLOCKS_ENTITY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TheDisassemblerMod.MODID);
 
-    public static final RegistryObject<BlockEntityType<Tier1DisassemblerBlockEntity>> TIER1_DISASSEMBLER_BE =
+    public static final RegistryObject<BlockEntityType<? extends DisassemblerBlockEntity>> TIER1_DISASSEMBLER_BE =
             registerBE("tier1_disassembler", Tier1DisassemblerBlockEntity::new, ModBlocks.BASIC_DISASSEMBLER_BLOCK);
-    public static final RegistryObject<BlockEntityType<Tier2DisassemblerBlockEntity>> TIER2_DISASSEMBLER_BE =
+    public static final RegistryObject<BlockEntityType<? extends DisassemblerBlockEntity>> TIER2_DISASSEMBLER_BE =
             registerBE("tier2_disassembler", Tier2DisassemblerBlockEntity::new, ModBlocks.ADVANCED_DISASSEMBLER_BLOCK);
-    public static final RegistryObject<BlockEntityType<Tier3DisassemblerBlockEntity>> TIER3_DISASSEMBLER_BE =
+    public static final RegistryObject<BlockEntityType<? extends DisassemblerBlockEntity>> TIER3_DISASSEMBLER_BE =
             registerBE("tier3_disassembler", Tier3DisassemblerBlockEntity::new, ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK);
 
-    public static final RegistryObject<BlockEntityType<PrimitiveExtractorBlockEntity>> TIER1_DISTILLATION_BE =
+    public static final RegistryObject<BlockEntityType<? extends ExtractorBlockEntity>> TIER1_DISTILLATION_BE =
             registerBE("tier1_distillation", PrimitiveExtractorBlockEntity::new, ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK);
 
     @SafeVarargs
-    private static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerBE(
+    private static <T extends BlockEntity> RegistryObject<BlockEntityType<? extends T>> registerBE(
             String name,
             BlockEntityType.BlockEntitySupplier<T> factory,
             Supplier<? extends Block>... blocks) {

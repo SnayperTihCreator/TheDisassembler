@@ -22,6 +22,13 @@ public abstract class DisassemblerMenu extends AbstractContainerMenu {
     protected static final int VANILLA_FIRST_SLOT_INDEX = 0;
     protected static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_SLOT_COUNT;
 
+    protected static int START_X_INVENTORY = 9;
+    protected static int START_Y_INVENTORY = 107;
+    protected static int START_Y_HOTBAR = START_Y_INVENTORY+58;
+
+    protected static int START_X_GRID = 110;
+    protected static int START_Y_GRID = 25;
+
     protected DisassemblerMenu(MenuType<?> menuType, int containerID, Inventory inventory, BlockEntity entity, ContainerData data, int dataCount) {
         super(menuType, containerID);
         checkContainerSize(inventory, 4); // Минимальная проверка
@@ -30,20 +37,20 @@ public abstract class DisassemblerMenu extends AbstractContainerMenu {
         this.entity = (DisassemblerBlockEntity) entity;
         this.levelAccess = ContainerLevelAccess.create(inventory.player.level(), entity.getBlockPos());
         this.data = data;
-        drawPlayerInventory(inventory, 9, 107);
-        drawPlayerHotbar(inventory, 9, 165);
+        drawPlayerInventory(inventory, START_X_INVENTORY, START_Y_INVENTORY);
+        drawPlayerHotbar(inventory, START_X_INVENTORY, START_Y_HOTBAR);
         addDataSlots(data);
     }
 
     protected abstract Block getValidBlock();
 
-    //Я хуй зачем это надо но это надо
+    //Я хуй зачем это надо, но это надо
     @Override
     public boolean stillValid(@NotNull Player player) {
         return stillValid(levelAccess, player, getValidBlock());
     }
 
-    // Добавления ячеек инвенторя без худбара
+    // Добавления ячеек инвентаря без HotBar
     protected void drawPlayerInventory(Inventory inventory, int x, int y) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
@@ -52,14 +59,12 @@ public abstract class DisassemblerMenu extends AbstractContainerMenu {
         }
     }
 
-    // Добавления ячеек худбара
+    // Добавления ячеек HotBar
     protected void drawPlayerHotbar(Inventory inventory, int x, int y) {
-        for (int i = 0; i < 9; ++i) {
-            this.addSlot(new Slot(inventory, i, x + i * 18, y));
-        }
+        for (int i = 0; i < 9; ++i) this.addSlot(new Slot(inventory, i, x + i * 18, y));
     }
 
-    // Добавляния яцеек самой махины
+    // Добавление ячеек самой машины
     protected void drawGridOutput(IItemHandler handler, int x, int y, int startIndex) {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {

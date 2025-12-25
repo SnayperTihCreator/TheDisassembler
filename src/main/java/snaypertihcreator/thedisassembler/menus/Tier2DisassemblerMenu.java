@@ -30,7 +30,7 @@ public class Tier2DisassemblerMenu extends DisassemblerMenu {
             this.addSlot(new SlotItemHandler(handler, 0, 51, 25));
             this.addSlot(new SlotItemHandler(handler, 1, 51, 61));
             this.addSlot(new SlotItemHandler(handler, 2, 80, 61));
-            drawGridOutput(handler, 110, 25, 3);
+            drawGridOutput(handler, START_X_GRID, START_Y_GRID, 3);
         });
     }
 
@@ -49,7 +49,7 @@ public class Tier2DisassemblerMenu extends DisassemblerMenu {
         return this.data.get(0) > 0;
     }
 
-    // изменяем огенек
+    // изменяем огонек
     public int getScaledFuelProgress(int size) {
         int burnTime = this.data.get(0);
         int burnDuration = this.data.get(1);

@@ -82,6 +82,6 @@ public class PrimitiveExtractorBlockEntity extends ExtractorBlockEntity{
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerID, @NotNull Inventory inv, @NotNull Player player) {
-        return null;
+        return null; // TODO написать меню и GUI к этому блоку (макс температуру взять за 500)
     }
 }

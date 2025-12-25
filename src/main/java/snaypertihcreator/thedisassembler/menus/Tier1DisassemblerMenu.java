@@ -24,7 +24,7 @@ public class Tier1DisassemblerMenu extends DisassemblerMenu {
 
         this.entity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
             this.addSlot(new SlotItemHandler(handler, 0, 51, 43));
-            drawGridOutput(handler, 110, 25, 1);
+            drawGridOutput(handler, START_X_GRID, START_Y_GRID, 1);
         });
     }
 
