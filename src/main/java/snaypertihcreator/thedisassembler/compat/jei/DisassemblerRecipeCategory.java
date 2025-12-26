@@ -18,7 +18,9 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
+import snaypertihcreator.thedisassembler.items.ModItems;
 import snaypertihcreator.thedisassembler.recipes.DisassemblingRecipe;
+import snaypertihcreator.thedisassembler.recipes.SawDisassemblingRecipe;
 
 import java.util.List;
 
@@ -69,20 +71,36 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, DisassemblingRecipe recipe, @NotNull IFocusGroup focuses) {
-        ItemStack stackInput = recipe.getInput().getItems()[0].copyWithCount(recipe.getCountInput());
+    public void setRecipe(@NotNull IRecipeLayoutBuilder builder, DisassemblingRecipe recipe, @NotNull IFocusGroup focuses) {
+        ItemStack[] inputs = recipe.getInput().getItems();
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 1, 26).addItemStack(stackInput);
+        if (inputs.length > 0) {
+            ItemStack stackInput = inputs[0].copyWithCount(recipe.getCountInput());
+            builder.addSlot(RecipeIngredientRole.INPUT, 1, 26).addItemStack(stackInput);
+        }
+        else if (recipe instanceof SawDisassemblingRecipe) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 1, 26)
+                    .addItemStacks(ModItems.SAW_ITEMS.values().stream()
+                            .map(reg -> reg.get().getDefaultInstance())
+                            .toList());
+        }
+        else return;
+
         List<DisassemblingRecipe.Result> results = recipe.getResults();
+        if (results == null || results.isEmpty()) return;
 
         int startX = 60;
         int startY = 8;
 
         for (int i = 0; i < results.size(); i++) {
-            if (i >= 9) return;
+            if (i >= 9) break; // Лучше break, чем return, чтобы метод завершился корректно
+
             DisassemblingRecipe.Result result = results.get(i);
+            if (result == null || result.stack().isEmpty()) continue; // На всякий случай
+
             int row = i / 3;
             int col = i % 3;
+
             builder.addSlot(RecipeIngredientRole.OUTPUT, startX + col * 18, startY + row * 18)
                     .addItemStack(result.stack())
                     .addRichTooltipCallback((view, tooltip) -> {
@@ -91,10 +109,10 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
 
                         // TODO добавить перевод норм и шаблонизацию
                         if (chance < 100) {
-                            tooltip.add(Component.literal("§7Кол-во: §f0-" + maxCount));
-                            tooltip.add(Component.literal("§7Шанс: §6" + String.format("%.0f", chance) + "% §7(за шт.)"));
+                            tooltip.add(Component.literal("§7Кол-во: §f0-%d".formatted(maxCount)));
+                            tooltip.add(Component.literal("§7Шанс: §6%s%% §7(за шт.)".formatted(String.format("%.0f", chance))));
                         } else {
-                            tooltip.add(Component.literal("§7Кол-во: §a" + maxCount));
+                            tooltip.add(Component.literal("§7Кол-во: §a%d".formatted(maxCount)));
                             tooltip.add(Component.literal("§7Шанс: §a100%"));
                         }
                     });

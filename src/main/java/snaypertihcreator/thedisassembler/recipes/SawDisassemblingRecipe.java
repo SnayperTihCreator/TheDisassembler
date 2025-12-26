@@ -59,6 +59,14 @@ public class SawDisassemblingRecipe extends DisassemblingRecipe{
         return ModRecipes.SAW_DISASSEMBLING_SERIALIZER.get();
     }
 
+    @Override
+    public List<Result> getResults() {
+        return List.of(
+                new Result(ModItems.CORE_ITEMS.get(SawMaterial.IRON).get().getDefaultInstance(), 0.75F),
+                new Result(ModItems.TEETH_ITEMS.get(SawMaterial.IRON).get().getDefaultInstance(), 0.75F)
+        );
+    }
+
     public static class Serializer implements RecipeSerializer<SawDisassemblingRecipe> {
         @Override
         public @NotNull SawDisassemblingRecipe fromJson(@NotNull ResourceLocation id, @NotNull JsonObject json) {

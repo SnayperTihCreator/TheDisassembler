@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "thedisassembler:item/brewing_sediment"
+    "layer1": "thedisassembler:item/brewing_sediment",
+    "layer0": "thedisassembler:item/brewing_sediment_top"
   }
 }
