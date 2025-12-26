@@ -21,7 +21,7 @@ import java.util.stream.IntStream;
  * Класс рецептов для самого разборщика
  */
 public class DisassemblingRecipe implements Recipe<SimpleContainer> {
-    protected static final float AUTO_RECIPE_CHANCE = 0.75F;
+    public static final float AUTO_RECIPE_CHANCE = 0.75F;
 
     private final ResourceLocation id;
     private final Ingredient input;

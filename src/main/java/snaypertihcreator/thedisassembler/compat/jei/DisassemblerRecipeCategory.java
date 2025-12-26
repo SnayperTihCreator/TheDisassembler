@@ -46,7 +46,7 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
 
     @Override
     public @NotNull Component getTitle() {
-        return Component.translatable("menujei.%s".formatted(TheDisassemblerMod.MODID));
+        return Component.translatable("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID));
     }
 
     @Override

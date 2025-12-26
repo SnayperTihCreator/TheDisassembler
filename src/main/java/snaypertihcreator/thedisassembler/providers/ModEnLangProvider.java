@@ -6,6 +6,7 @@ import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.ModItems;
 import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
+import snaypertihcreator.thedisassembler.recipes.DisassemblingRecipe;
 
 import java.util.Arrays;
 
@@ -22,12 +23,11 @@ public class ModEnLangProvider extends LanguageProvider {
         add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get(), "Progressive Disassembler");
 
         // TODO добавить английский перевод
-        add("tooltip.%s.basic_disassembler".formatted(TheDisassemblerMod.MODID), "");
-        add("tooltip.%s.advanced_disassembler".formatted(TheDisassemblerMod.MODID), "");
-        add("tooltip.%s.progressive_disassembler".formatted(TheDisassemblerMod.MODID), "");
+        add("tooltip.%s.basic_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly bonus: no");
+        add("tooltip.%s.advanced_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly bonus: saw blade bonus");
+        add("tooltip.%s.progressive_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly Bonus: saw blade bonus + 5%");
 
         // TODO поправить переводы
-        add("menujei.thedisassembler", "Disassembly");
         add("menu.thedisassembler.base_block", "Basic Disassembler");
         add("menu.thedisassembler.advanced_disassembler", "Advanced Disassembler");
         add("menu.thedisassembler.progressive_disassembler", "Progressive Disassembler");
