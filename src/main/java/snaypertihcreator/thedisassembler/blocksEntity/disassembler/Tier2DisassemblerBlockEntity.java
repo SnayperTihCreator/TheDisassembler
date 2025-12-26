@@ -19,7 +19,7 @@ import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.DisassemblerBlock;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
 import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
-import snaypertihcreator.thedisassembler.menus.Tier2DisassemblerMenu;
+import snaypertihcreator.thedisassembler.menus.disassembler.Tier2DisassemblerMenu;
 
 import java.util.Objects;
 import java.util.stream.IntStream;

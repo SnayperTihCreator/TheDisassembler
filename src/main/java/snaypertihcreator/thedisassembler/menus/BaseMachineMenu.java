@@ -9,34 +9,32 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
-import snaypertihcreator.thedisassembler.blocksEntity.disassembler.DisassemblerBlockEntity;
 
-public abstract class DisassemblerMenu extends AbstractContainerMenu {
-
-    public final DisassemblerBlockEntity entity;
+public abstract class BaseMachineMenu extends AbstractContainerMenu {
     protected final ContainerLevelAccess levelAccess;
     protected final ContainerData data;
 
-    // Константы для слотов игрока (всегда одинаковы)
     protected static final int VANILLA_SLOT_COUNT = 36;
     protected static final int VANILLA_FIRST_SLOT_INDEX = 0;
     protected static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_SLOT_COUNT;
+
 
     protected static int START_X_INVENTORY = 9;
     protected static int START_Y_INVENTORY = 107;
     protected static int START_Y_HOTBAR = START_Y_INVENTORY+58;
 
+
     protected static int START_X_GRID = 110;
     protected static int START_Y_GRID = 25;
 
-    protected DisassemblerMenu(MenuType<?> menuType, int containerID, Inventory inventory, BlockEntity entity, ContainerData data, int dataCount) {
+    protected BaseMachineMenu(MenuType<?> menuType, int containerID, Inventory inventory, BlockEntity entity, ContainerData data, int dataCount) {
         super(menuType, containerID);
-        checkContainerSize(inventory, 4); // Минимальная проверка
-        checkContainerDataCount(data, dataCount);
-
-        this.entity = (DisassemblerBlockEntity) entity;
         this.levelAccess = ContainerLevelAccess.create(inventory.player.level(), entity.getBlockPos());
         this.data = data;
+
+        checkContainerSize(inventory, 4);
+        checkContainerDataCount(data, dataCount);
+
         drawPlayerInventory(inventory, START_X_INVENTORY, START_Y_INVENTORY);
         drawPlayerHotbar(inventory, START_X_INVENTORY, START_Y_HOTBAR);
         addDataSlots(data);
@@ -44,13 +42,11 @@ public abstract class DisassemblerMenu extends AbstractContainerMenu {
 
     protected abstract Block getValidBlock();
 
-    //Я хуй зачем это надо, но это надо
     @Override
     public boolean stillValid(@NotNull Player player) {
         return stillValid(levelAccess, player, getValidBlock());
     }
 
-    // Добавления ячеек инвентаря без HotBar
     protected void drawPlayerInventory(Inventory inventory, int x, int y) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
@@ -59,39 +55,36 @@ public abstract class DisassemblerMenu extends AbstractContainerMenu {
         }
     }
 
-    // Добавления ячеек HotBar
     protected void drawPlayerHotbar(Inventory inventory, int x, int y) {
         for (int i = 0; i < 9; ++i) this.addSlot(new Slot(inventory, i, x + i * 18, y));
     }
 
-    // Добавление ячеек самой машины
     protected void drawGridOutput(IItemHandler handler, int x, int y, int startIndex) {
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
                 int slotIndex = startIndex + (row * 3 + col);
-                this.addSlot(new SlotItemHandler(handler, slotIndex, x + (col * 18), y + (row * 18)){
+                this.addSlot(new SlotItemHandler(handler, slotIndex, x + (col * 18), y + (row * 18)) {
                     @Override
-                    public boolean mayPlace(@NotNull ItemStack stack) {
-                        return false;
-                    }
+                    public boolean mayPlace(@NotNull ItemStack stack) { return false; }
                 });
             }
         }
     }
 
-    // прогресс
     public int getScaledProgress(int arrowSize) {
-        int progress = getProgressValue();
-        int maxProgress = getMaxProgressValue();
+        int progress = data.get(0);
+        int maxProgress = data.get(1);
         return maxProgress != 0 && progress != 0 ? progress * arrowSize / maxProgress : 0;
     }
 
     // метод для получения прогресса
+
     protected int getProgressValue() { return this.data.get(0); }
-    // метод для получения мак прогресса
+
+// метод для получения мак прогресса
+
     protected int getMaxProgressValue() { return this.data.get(1); }
 
-    // метод который НЕ ТРОГАТЬ ВОПЩЕ
     @Override
     public @NotNull ItemStack quickMoveStack(@NotNull Player playerIn, int index) {
         Slot sourceSlot = slots.get(index);
@@ -104,8 +97,7 @@ public abstract class DisassemblerMenu extends AbstractContainerMenu {
             if (!moveItemStackTo(sourceStack, VANILLA_FIRST_SLOT_INDEX, VANILLA_SLOT_COUNT, true)) {
                 return ItemStack.EMPTY;
             }
-        }
-        else {
+        } else {
             if (!moveStackToMachine(sourceStack)) {
                 return ItemStack.EMPTY;
             }
@@ -119,5 +111,6 @@ public abstract class DisassemblerMenu extends AbstractContainerMenu {
         sourceSlot.onTake(playerIn, sourceStack);
         return copyOfSourceStack;
     }
+
     protected abstract boolean moveStackToMachine(ItemStack stack);
 }

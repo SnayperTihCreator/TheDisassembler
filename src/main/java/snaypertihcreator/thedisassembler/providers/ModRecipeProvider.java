@@ -5,16 +5,21 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.*;
 import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
+import snaypertihcreator.thedisassembler.recipes.DistillationRecipeBuilder;
 import snaypertihcreator.thedisassembler.recipes.ModRecipes;
+import snaypertihcreator.thedisassembler.recipes.SawDisassemblingRecipeBuilder;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -22,6 +27,8 @@ import java.util.function.Consumer;
 /**
  * Провайдер рецептов
  */
+
+// TODO проверить наличие всех крафтов для нужных предметов (желательно создать TASKS_RECIPE.md выдвинуть туда рецепт предметов)
 public class ModRecipeProvider extends RecipeProvider implements IConditionBuilder {
     public ModRecipeProvider(PackOutput output){
         super(output);
@@ -35,30 +42,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .save(consumer, "%s:saw_assembly_manual".formatted(TheDisassemblerMod.MODID));
 
         // Рецепт РАЗБОРА пилы
-        consumer.accept(new FinishedRecipe() {
-            @Override
-            public void serializeRecipeData(@NotNull JsonObject json) {}
-
-            @Override
-            public @NotNull RecipeSerializer<?> getType() {
-                return ModRecipes.SAW_DISASSEMBLING_SERIALIZER.get();
-            }
-
-            @Override
-            public @NotNull ResourceLocation getId() {
-                return ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "hand_saw_disassembling");
-            }
-
-            @Override
-            public @Nullable JsonObject serializeAdvancement() {
-                return null;
-            }
-
-            @Override
-            public @Nullable ResourceLocation getAdvancementId() {
-                return null;
-            }
-        });
+        SawDisassemblingRecipeBuilder.disassembling().save(consumer, ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "hand_saw_disassembling"));
 
         Arrays.stream(SawMaterial.values()).forEach(mat -> {
                     ItemLike teeth = ModItems.TEETH_ITEMS.get(mat).get();
@@ -114,5 +98,27 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('G', Items.SMOOTH_BASALT)
                 .unlockedBy("has_basalt", has(Items.SMOOTH_BASALT))
                 .save(consumer);
+
+
+        addDistil(consumer, Potions.NIGHT_VISION, Items.GOLDEN_CARROT, 120f);
+        addDistil(consumer, Potions.INVISIBILITY, Items.FERMENTED_SPIDER_EYE, 140f);
+        addDistil(consumer, Potions.LEAPING, Items.RABBIT_FOOT, 130f);
+        addDistil(consumer, Potions.FIRE_RESISTANCE, Items.MAGMA_CREAM, 250f);
+        addDistil(consumer, Potions.SWIFTNESS, Items.SUGAR, 100f);
+        addDistil(consumer, Potions.WATER_BREATHING, Items.PUFFERFISH, 110f);
+        addDistil(consumer, Potions.HEALING, Items.GLISTERING_MELON_SLICE, 160f);
+        addDistil(consumer, Potions.HARMING, Items.FERMENTED_SPIDER_EYE, 180f);
+        addDistil(consumer, Potions.POISON, Items.SPIDER_EYE, 150f);
+        addDistil(consumer, Potions.REGENERATION, Items.GHAST_TEAR, 300f);
+        addDistil(consumer, Potions.STRENGTH, Items.BLAZE_POWDER, 350f);
+        addDistil(consumer, Potions.WEAKNESS, Items.FERMENTED_SPIDER_EYE, 120f);
+        addDistil(consumer, Potions.SLOW_FALLING, Items.PHANTOM_MEMBRANE, 160f);
+        addDistil(consumer, Potions.TURTLE_MASTER, Items.TURTLE_HELMET, 400f);
+    }
+
+    private void addDistil(Consumer<FinishedRecipe> consumer, Potion potion, ItemLike result, float temp) {
+        String name = ForgeRegistries.POTIONS.getKey(potion).getPath();
+        DistillationRecipeBuilder.distil(potion, result, temp)
+                .save(consumer, ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "distillation/" + name));
     }
 }

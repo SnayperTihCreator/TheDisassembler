@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.client.screens;
+package snaypertihcreator.thedisassembler.client.screens.disassembler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
-import snaypertihcreator.thedisassembler.menus.Tier1DisassemblerMenu;
+import snaypertihcreator.thedisassembler.menus.disassembler.Tier1DisassemblerMenu;
 import snaypertihcreator.thedisassembler.networking.ModMessages;
 import snaypertihcreator.thedisassembler.networking.PackSpined;
 

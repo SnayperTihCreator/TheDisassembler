@@ -1,0 +1,8 @@
+{
+  "type": "thedisassembler:distillation",
+  "potion": "minecraft:healing",
+  "result": {
+    "item": "minecraft:glistering_melon_slice"
+  },
+  "temperature": 160.0
+}

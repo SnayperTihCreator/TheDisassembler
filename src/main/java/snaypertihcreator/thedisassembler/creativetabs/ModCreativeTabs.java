@@ -35,6 +35,7 @@ public class ModCreativeTabs {
             .icon(() -> new ItemStack(ModItems.BREWING_SEDIMENT.get()))
             .displayItems((parameters, output) -> {
                 output.accept(ModItems.BREWING_SEDIMENT.get());
+                output.accept(ModItems.GLASS_DISTILLATION.get());
 
                 output.accept(ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK.get());
             })

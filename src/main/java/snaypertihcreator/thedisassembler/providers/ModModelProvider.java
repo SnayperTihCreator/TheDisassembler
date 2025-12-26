@@ -7,12 +7,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.UnknownNullability;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
-import snaypertihcreator.thedisassembler.blocks.ExtractorBlock;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.ModItems;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,6 +27,10 @@ public class ModModelProvider extends ItemModelProvider {
 
         generateFlatItemModels(ModItems.TEETH_ITEMS.values(), "item/teeth");
         generateFlatItemModels(ModItems.CORE_ITEMS.values(), "item/blade");
+
+        generateFlatItemModels(List.of(ModItems.GLASS_DISTILLATION), "item/glass_distillation");
+        generateFlatItemModels(List.of(ModItems.REINFORCED_DISTILLATION), "item/reinforced_distillation");
+        generateFlatItemModels(List.of(ModItems.DIAMOND_DISTILLATION), "item/diamond_distillation");
 
         ModItems.SAW_ITEMS.values().forEach(item -> {
             String name = Objects.requireNonNull(item.getId()).getPath();

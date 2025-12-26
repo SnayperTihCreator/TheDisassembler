@@ -1,0 +1,8 @@
+{
+  "type": "thedisassembler:distillation",
+  "potion": "minecraft:slow_falling",
+  "result": {
+    "item": "minecraft:phantom_membrane"
+  },
+  "temperature": 160.0
+}

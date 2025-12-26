@@ -87,11 +87,11 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         this.data = createContainerData();
     }
 
-    // Создние Conteiner-даты для общения между антиверстаком и меню
+    // Создание Container-даты для общения между антиверстаком и меню
     protected abstract ContainerData createContainerData();
-    // Можно ли взаимодествовать со слотом
+    // Можно ли взаимодействовать со слотом
     protected abstract boolean canAutomationInsert(int slot);
-    // Проверить на валидность предмет - нужно в обрбаотчике
+    // Проверить на валидность предмет - нужно в обработчике
     protected abstract boolean isItemValid(int slot, ItemStack stack);
     // Получить номер слота для входа
     public abstract int getInputSlot();
@@ -99,7 +99,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
     public abstract int[] getOutputSlots();
     // получить модификатор удачи для каждого станка
     protected abstract float getLuckModifier();
-    // метод для вызова обновленя инветаря
+    // метод для вызова обновления инвентаря
     protected void onInventoryChanged(int slot){
         if (level != null && !level.isClientSide && slot != getInputSlot()) return;
         updateRecipeCache();
@@ -272,7 +272,7 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
         nbt.putInt("progress", progress);
     }
 
-    // загркзка состояний
+    // загрузка состояний
     @Override
     public void load(@NotNull CompoundTag nbt) {
         super.load(nbt);

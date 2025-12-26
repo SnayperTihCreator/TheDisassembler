@@ -1,0 +1,8 @@
+{
+  "type": "thedisassembler:distillation",
+  "potion": "minecraft:poison",
+  "result": {
+    "item": "minecraft:spider_eye"
+  },
+  "temperature": 150.0
+}

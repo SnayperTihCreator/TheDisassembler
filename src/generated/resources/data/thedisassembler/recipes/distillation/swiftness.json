@@ -1,0 +1,8 @@
+{
+  "type": "thedisassembler:distillation",
+  "potion": "minecraft:swiftness",
+  "result": {
+    "item": "minecraft:sugar"
+  },
+  "temperature": 100.0
+}

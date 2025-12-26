@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
-import snaypertihcreator.thedisassembler.menus.Tier1DisassemblerMenu;
+import snaypertihcreator.thedisassembler.menus.disassembler.Tier1DisassemblerMenu;
 import java.util.stream.IntStream;
 
 public class Tier1DisassemblerBlockEntity extends DisassemblerBlockEntity {

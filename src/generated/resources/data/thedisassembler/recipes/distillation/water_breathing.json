@@ -1,0 +1,8 @@
+{
+  "type": "thedisassembler:distillation",
+  "potion": "minecraft:water_breathing",
+  "result": {
+    "item": "minecraft:pufferfish"
+  },
+  "temperature": 110.0
+}

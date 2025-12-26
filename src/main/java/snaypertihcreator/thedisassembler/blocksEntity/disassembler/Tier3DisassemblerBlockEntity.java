@@ -24,8 +24,8 @@ import snaypertihcreator.thedisassembler.blocks.DisassemblerBlock;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
 import snaypertihcreator.thedisassembler.energy.ModEnergyStorage;
 import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
-import snaypertihcreator.thedisassembler.menus.Tier3DisassemblerMenu;
-// import snaypertihcreator.thedisassembler.menus.Tier3DisassemblerMenu; // Вам нужно создать это меню
+import snaypertihcreator.thedisassembler.menus.disassembler.Tier3DisassemblerMenu;
+// import snaypertihcreator.thedisassembler.menus.disassembler.Tier3DisassemblerMenu; // Вам нужно создать это меню
 
 import java.util.Objects;
 import java.util.stream.IntStream;

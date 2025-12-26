@@ -45,24 +45,31 @@ public class DistillationRecipe implements Recipe<Container> {
     }
 
     public ItemStack assembleSediment(ItemStack inputPotion, float kitEff, float burnFactor, Random random) {
-        // 1. Собираем список всех сырых компонентов (100% эффективность)
         List<BrewingSedimentItem.SedimentContent> rawContents = gatherRawIngredients(inputPotion);
-
         float finalFactor = kitEff * burnFactor;
 
-        // 2. Применяем математику и рандом
         List<BrewingSedimentItem.SedimentContent> finalContents = rawContents.stream()
                 .map(c -> {
                     float randomMultiplier = 1.0f + (random.nextFloat() * 2.0f * VARIANCE) - VARIANCE;
                     float finalPercent = c.percentage() * finalFactor * randomMultiplier;
+
+                    // Гарантируем, что основной ингредиент (первый в списке)
+                    // не исчезнет совсем, если эффективность не нулевая
+                    if (c == rawContents.get(0) && finalFactor > 0.01f) {
+                        finalPercent = Math.max(finalPercent, 0.05f);
+                    }
+
                     if (finalPercent < 0.05f) finalPercent = 0.0f;
-                    finalPercent = Math.min(1.0f, Math.max(0.0f, finalPercent));
-                    return new BrewingSedimentItem.SedimentContent(c.item(), finalPercent);
+                    return new BrewingSedimentItem.SedimentContent(c.item(), Math.min(1.0f, finalPercent));
                 })
                 .filter(c -> c.percentage() > 0.0f)
                 .toList();
 
-        // 3. Создаем предмет
+        // Если всё выгорело в ноль из-за низкого шанса, добавляем "Пепел" или малый процент основы
+        if (finalContents.isEmpty() && !rawContents.isEmpty()) {
+            finalContents = List.of(new BrewingSedimentItem.SedimentContent(rawContents.get(0).item(), 0.01f));
+        }
+
         ItemStack sediment = new ItemStack(ModItems.BREWING_SEDIMENT.get());
         BrewingSedimentItem.setColor(sediment, PotionUtils.getColor(inputPotion));
         BrewingSedimentItem.setContents(sediment, finalContents);

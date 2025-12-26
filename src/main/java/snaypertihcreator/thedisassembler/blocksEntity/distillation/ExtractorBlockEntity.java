@@ -102,6 +102,7 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
 
     protected abstract float getTargetTemperature();
     protected abstract float getHeatSpeed();
+    protected abstract float getCoolingSpeed();
     protected boolean serverTickFuel() {return true;}
     protected abstract int getOutputSlot();
     @SuppressWarnings("unused")
@@ -159,11 +160,11 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
         boolean isBurning = entity.serverTickFuel();
 
         float target = entity.getTargetTemperature();
-        float speed = entity.getHeatSpeed();
-
-        // Физика тепла
-        if (entity.currentTemp < target) entity.currentTemp = Math.min(entity.currentTemp + speed, target);
-        else if (entity.currentTemp > target) entity.currentTemp = Math.max(entity.currentTemp - speed, target);
+        if (entity.currentTemp < target) {
+            entity.currentTemp = Math.min(entity.currentTemp + entity.getHeatSpeed(), target);
+        } else if (entity.currentTemp > target) {
+            entity.currentTemp = Math.max(entity.currentTemp - entity.getCoolingSpeed(), target);
+        }
 
         // Проверки
         boolean canWork = isBurning

@@ -1,11 +1,11 @@
-package snaypertihcreator.thedisassembler.client.screens;
+package snaypertihcreator.thedisassembler.client.screens.disassembler;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
-import snaypertihcreator.thedisassembler.menus.Tier3DisassemblerMenu;
+import snaypertihcreator.thedisassembler.menus.disassembler.Tier3DisassemblerMenu;
 
 public class Tier3DisassemblerScreen extends DisassemblerScreen<Tier3DisassemblerMenu> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "textures/gui/disassembler_gui_tier3.png");

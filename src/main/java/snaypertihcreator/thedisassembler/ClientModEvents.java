@@ -1,8 +1,6 @@
 package snaypertihcreator.thedisassembler;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,12 +10,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.RegistryObject;
-import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
 import snaypertihcreator.thedisassembler.client.renderers.DisassemblerSawRenderer;
-import snaypertihcreator.thedisassembler.client.screens.Tier1DisassemblerScreen;
-import snaypertihcreator.thedisassembler.client.screens.Tier2DisassemblerScreen;
-import snaypertihcreator.thedisassembler.client.screens.Tier3DisassemblerScreen;
+import snaypertihcreator.thedisassembler.client.screens.disassembler.Tier1DisassemblerScreen;
+import snaypertihcreator.thedisassembler.client.screens.disassembler.Tier2DisassemblerScreen;
+import snaypertihcreator.thedisassembler.client.screens.disassembler.Tier3DisassemblerScreen;
+import snaypertihcreator.thedisassembler.client.screens.distillation.Tier1ExtractorScreen;
 import snaypertihcreator.thedisassembler.items.distillation.BrewingSedimentItem;
 import snaypertihcreator.thedisassembler.items.ModItems;
 import snaypertihcreator.thedisassembler.menus.ModMenuTypes;
@@ -34,6 +32,8 @@ public class ClientModEvents {
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER1_DISASSEMBLER_MENU.get(), Tier1DisassemblerScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER2_DISASSEMBLER_MENU.get(), Tier2DisassemblerScreen::new));
         event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER3_DISASSEMBLER_MENU.get(), Tier3DisassemblerScreen::new));
+
+        event.enqueueWork(() -> MenuScreens.register(ModMenuTypes.TIER1_EXTRACTOR_MENU.get(), Tier1ExtractorScreen::new));
 
     }
     // кастомный рендер для блока

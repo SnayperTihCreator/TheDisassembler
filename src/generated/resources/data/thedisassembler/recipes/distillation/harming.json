@@ -1,0 +1,8 @@
+{
+  "type": "thedisassembler:distillation",
+  "potion": "minecraft:harming",
+  "result": {
+    "item": "minecraft:fermented_spider_eye"
+  },
+  "temperature": 180.0
+}

@@ -1,0 +1,8 @@
+{
+  "type": "thedisassembler:distillation",
+  "potion": "minecraft:night_vision",
+  "result": {
+    "item": "minecraft:golden_carrot"
+  },
+  "temperature": 120.0
+}

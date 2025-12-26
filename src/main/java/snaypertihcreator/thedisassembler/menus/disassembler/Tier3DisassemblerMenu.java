@@ -1,4 +1,4 @@
-package snaypertihcreator.thedisassembler.menus;
+package snaypertihcreator.thedisassembler.menus.disassembler;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -11,6 +11,7 @@ import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
+import snaypertihcreator.thedisassembler.menus.ModMenuTypes;
 
 import java.util.Objects;
 

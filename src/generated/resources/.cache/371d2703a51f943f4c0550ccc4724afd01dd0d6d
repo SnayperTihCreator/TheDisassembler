@@ -1,9 +1,11 @@
-// 1.20.1	2025-12-24T19:48:35.2314841	Item Models: thedisassembler
+// 1.20.1	2025-12-27T01:37:36.8937798	Item Models: thedisassembler
 99a292a0e389f24c45737da26d588a82394999b4 assets/thedisassembler/models/item/advanced_disassembler.json
 45a3fa75766419ed3c542ecab6f8b9022070af32 assets/thedisassembler/models/item/basic_disassembler.json
 81edce03e31e354ffd8a07238ba59b6d44361d44 assets/thedisassembler/models/item/diamond_blade.json
+330cf059389e8d6dd23dc97f5948fa4006aa0361 assets/thedisassembler/models/item/diamond_distillation.json
 f1bc287f8bb913e36c98b99ac3d3a93c6adf696d assets/thedisassembler/models/item/diamond_saw.json
 f4544749ab194bb2bfbb4e876ca11bdc7e3483ba assets/thedisassembler/models/item/diamond_teeth.json
+7565b3ad182e7a5d3f167bfc3ff629e2324e722a assets/thedisassembler/models/item/glass_distillation.json
 81edce03e31e354ffd8a07238ba59b6d44361d44 assets/thedisassembler/models/item/gold_blade.json
 f1bc287f8bb913e36c98b99ac3d3a93c6adf696d assets/thedisassembler/models/item/gold_saw.json
 f4544749ab194bb2bfbb4e876ca11bdc7e3483ba assets/thedisassembler/models/item/gold_teeth.json
@@ -15,6 +17,7 @@ f1bc287f8bb913e36c98b99ac3d3a93c6adf696d assets/thedisassembler/models/item/neth
 f4544749ab194bb2bfbb4e876ca11bdc7e3483ba assets/thedisassembler/models/item/netherite_teeth.json
 3cbd39b3ad12a535bcae46b63a94b547bc6c72aa assets/thedisassembler/models/item/primitive_extractor.json
 149066cea1138f6e5d1018566106108343165fea assets/thedisassembler/models/item/progressive_disassembler.json
+71383e8ffb2efbc214856392e36c70595e154619 assets/thedisassembler/models/item/reinforced_distillation.json
 81edce03e31e354ffd8a07238ba59b6d44361d44 assets/thedisassembler/models/item/stone_blade.json
 f1bc287f8bb913e36c98b99ac3d3a93c6adf696d assets/thedisassembler/models/item/stone_saw.json
 f4544749ab194bb2bfbb4e876ca11bdc7e3483ba assets/thedisassembler/models/item/stone_teeth.json

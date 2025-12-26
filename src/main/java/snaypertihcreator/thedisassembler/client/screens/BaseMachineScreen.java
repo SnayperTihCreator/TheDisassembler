@@ -8,29 +8,25 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
-import snaypertihcreator.thedisassembler.menus.DisassemblerMenu;
+import snaypertihcreator.thedisassembler.menus.BaseMachineMenu;
 
-// рендер самого меню
-public abstract class DisassemblerScreen<T extends DisassemblerMenu> extends AbstractContainerScreen<T> {
+public abstract class BaseMachineScreen<T extends BaseMachineMenu> extends AbstractContainerScreen<T> {
 
-    public DisassemblerScreen(T menu, Inventory inventory, Component component) {
+    public BaseMachineScreen(T menu, Inventory inventory, Component component) {
         super(menu, inventory, component);
     }
 
+    // Метод для получения текстуры фона
     protected abstract ResourceLocation getTexture();
+
+    // Метод для отрисовки доп. элементов (стрелочки, прогресс-бары, текст)
     protected abstract void renderBgExtras(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY);
 
     @Override
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, getTexture());
-
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
-
         guiGraphics.blit(getTexture(), x, y, 0, 0, imageWidth, imageHeight);
-
         renderBgExtras(guiGraphics, x, y, mouseX, mouseY);
     }
 
