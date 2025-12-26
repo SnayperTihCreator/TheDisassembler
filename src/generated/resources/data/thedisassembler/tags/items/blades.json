@@ -1,10 +1,10 @@
 {
   "values": [
-    "thedisassembler:gold_blade",
-    "thedisassembler:netherite_blade",
-    "thedisassembler:diamond_blade",
     "thedisassembler:stone_blade",
-    "thedisassembler:iron_blade",
-    "thedisassembler:wood_blade"
+    "thedisassembler:gold_blade",
+    "thedisassembler:wood_blade",
+    "thedisassembler:diamond_blade",
+    "thedisassembler:netherite_blade",
+    "thedisassembler:iron_blade"
   ]
 }
