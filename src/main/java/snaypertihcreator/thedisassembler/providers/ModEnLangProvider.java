@@ -22,7 +22,6 @@ public class ModEnLangProvider extends LanguageProvider {
         add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get(), "Advanced Disassembler");
         add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get(), "Progressive Disassembler");
 
-        // TODO добавить английский перевод
         add("tooltip.%s.basic_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly bonus: no");
         add("tooltip.%s.advanced_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly bonus: saw blade bonus");
         add("tooltip.%s.progressive_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly Bonus: saw blade bonus + 5%");

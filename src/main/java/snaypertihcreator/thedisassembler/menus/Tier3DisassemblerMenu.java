@@ -25,8 +25,8 @@ public class Tier3DisassemblerMenu extends DisassemblerMenu {
         super(ModMenuTypes.TIER3_DISASSEMBLER_MENU.get(), containerID, inventory, entity, data, 4);
 
         this.entity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
-            this.addSlot(new SlotItemHandler(handler, 0, 51, 25));
-            this.addSlot(new SlotItemHandler(handler, 1, 51, 61));
+            this.addSlot(new SlotItemHandler(handler, 0, 51, 43));
+            this.addSlot(new SlotItemHandler(handler, 1, 80, 61));
             drawGridOutput(handler, START_X_GRID, START_Y_GRID, 2);
         });
     }
