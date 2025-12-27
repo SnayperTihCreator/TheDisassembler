@@ -1,10 +1,10 @@
 {
   "values": [
+    "thedisassembler:stone_teeth",
+    "thedisassembler:gold_teeth",
+    "thedisassembler:iron_teeth",
     "thedisassembler:wood_teeth",
     "thedisassembler:netherite_teeth",
-    "thedisassembler:stone_teeth",
-    "thedisassembler:iron_teeth",
-    "thedisassembler:gold_teeth",
     "thedisassembler:diamond_teeth"
   ]
 }

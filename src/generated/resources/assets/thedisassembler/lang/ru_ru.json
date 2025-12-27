@@ -58,5 +58,6 @@
   "tooltip.thedisassembler.saw.description": "Пилы, используемые для автоматических разборщиков",
   "tooltip.thedisassembler.sediment_contains": "Осадки",
   "tooltip.thedisassembler.speedMod": "Скорость распила: %s%%",
-  "tooltip.thedisassembler.teeth.description": "Зуб для пилы"
+  "tooltip.thedisassembler.teeth.description": "Зуб для пилы",
+  "tooltip.thedisassembler.temperature": "T %s"
 }

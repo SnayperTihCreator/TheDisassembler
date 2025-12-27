@@ -42,6 +42,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("tooltip.thedisassembler.teeth.description", "Saw tooth");
         add("tooltip.thedisassembler.material.core", "Core Material: %s");
         add("tooltip.thedisassembler.material.teeth", "Teeth Material: %s");
+        add("tooltip.thedisassembler.temperature", "Current temperature %s °C");
 
         add("item.thedisassembler.saw_name", "%s Saw (%s teeth)");
         add("tooltip.thedisassembler.durability", "Durability: %s/%s");
@@ -56,7 +57,9 @@ public class ModEnLangProvider extends LanguageProvider {
             if (ModItems.SAW_ITEMS.containsKey(material)) add(ModItems.SAW_ITEMS.get(material).get(), "%s Saw".formatted(name));
             if (ModItems.TEETH_ITEMS.containsKey(material)) add(ModItems.TEETH_ITEMS.get(material).get(), "%s Teeth".formatted(name));
             if (ModItems.CORE_ITEMS.containsKey(material)) add(ModItems.CORE_ITEMS.get(material).get(), "%s Blade".formatted(name));
-
         });
+
+        add(ModItems.BREWING_SEDIMENT.get(), "Brewing Sediment");
+        add(ModItems.GLASS_DISTILLATION.get(), "Glass Distillation Set");
     }
 }

@@ -15,8 +15,11 @@ import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
+import snaypertihcreator.thedisassembler.blocks.T1ExtractorBlock;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
 import snaypertihcreator.thedisassembler.menus.distillation.Tier1ExtractorMenu;
+
+import java.util.Objects;
 
 public class Tier1ExtractorBlockEntity extends ExtractorBlockEntity{
     public Tier1ExtractorBlockEntity(BlockPos pos, BlockState state){
@@ -24,8 +27,26 @@ public class Tier1ExtractorBlockEntity extends ExtractorBlockEntity{
     }
 
     @Override
-    protected float getTargetTemperature() {
-        float baseAmbientTemp = super.getTargetTemperature();
+    protected void updateBlockState(BlockState state, boolean isWorking, boolean isBurning) {
+        if (level == null) return;
+        super.updateBlockState(state, isWorking, isBurning);
+
+        BlockState newState = state.setValue(T1ExtractorBlock.SOURCE_HEAT, isBurning);
+
+        if (newState != state){
+            level.sendBlockUpdated(worldPosition, state, newState, 3);
+            setChanged();
+        }
+    }
+
+    @Override
+    protected boolean serverTickFuel() {
+        return getTargetTemperature() > getAmbientTemp();
+    }
+
+    @Override
+    protected float calcActualTemp() {
+        float baseAmbientTemp = getAmbientTemp();
         if (level == null) return baseAmbientTemp;
 
         BlockPos belowPos = worldPosition.below();
@@ -81,7 +102,7 @@ public class Tier1ExtractorBlockEntity extends ExtractorBlockEntity{
                 return switch (index) {
                     case 0 -> progress;
                     case 1 -> maxProgress;
-                    case 2 -> (int) currentTemp;
+                    case 2 -> (int) currentTemp*10;
                     case 3 -> (cachedRecipe != null) ? (int) cachedRecipe.getTemperature() : 0;
                     default -> 0;
                 };

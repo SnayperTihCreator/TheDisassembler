@@ -49,6 +49,7 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
 
     @Nullable
     protected DistillationRecipe cachedRecipe;
+    private float cacheTemp;
 
     public static final int SLOT_INPUT = 0;
     public static final int SLOT_KIT = 1;
@@ -105,12 +106,11 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
     protected abstract float getCoolingSpeed();
     protected boolean serverTickFuel() {return true;}
     protected abstract int getOutputSlot();
-    @SuppressWarnings("unused")
     protected void updateBlockState(BlockState state, boolean isWorking, boolean isBurning) {}
     protected abstract ContainerData createContainerData();
+    protected abstract float calcActualTemp();
 
-
-    protected float getTargetTemperature(){
+    protected float getAmbientTemp(){
         if (level == null) return 20.0f;
 
         float biomeRawTemp = level.getBiome(worldPosition).value().getBaseTemperature();
@@ -130,6 +130,11 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
             baseAmbientTemp -= 15.0f;
         }
         return baseAmbientTemp;
+    }
+
+    protected float getTargetTemperature(){
+        if (level != null && level.getGameTime() % 10 == 0) cacheTemp = calcActualTemp();
+        return cacheTemp;
     }
 
     protected void onInventoryChange(int slot){

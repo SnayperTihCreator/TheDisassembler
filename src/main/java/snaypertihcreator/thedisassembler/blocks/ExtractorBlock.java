@@ -32,7 +32,6 @@ public class ExtractorBlock extends Block implements EntityBlock {
 
     // Свойства блока
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty WORKING = BooleanProperty.create("working");
 
     private final TierExtractor tier;
@@ -42,13 +41,11 @@ public class ExtractorBlock extends Block implements EntityBlock {
                 .strength(3.5F)
                 .requiresCorrectToolForDrops()
                 .noOcclusion()
-                .lightLevel(state -> state.getValue(LIT) ? 13 : 0)
         );
         this.tier = tier;
 
         registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
-                .setValue(LIT, false)
                 .setValue(WORKING, false)
         );
     }
@@ -57,7 +54,7 @@ public class ExtractorBlock extends Block implements EntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, LIT, WORKING);
+        builder.add(FACING, WORKING);
     }
 
     // Поворот лицом к игроку при установке

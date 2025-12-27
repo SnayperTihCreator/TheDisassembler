@@ -1,7 +1,5 @@
 package snaypertihcreator.thedisassembler.blocks;
 
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -20,8 +18,8 @@ public class ModBlocks {
     public static final RegistryObject<DisassemblerBlock> ADVANCED_DISASSEMBLER_BLOCK = registryBlock("advanced_disassembler", () -> new DisassemblerBlock(TierTheDisassembler.ADVANCED), true);
     public static final RegistryObject<DisassemblerBlock> PROGRESSIVE_DISASSEMBLER_BLOCK = registryBlock("progressive_disassembler", () -> new DisassemblerBlock(TierTheDisassembler.PROGRESSIVE), true);
 
-    public static final RegistryObject<ExtractorBlock> PRIMITIVE_EXTRACTOR_BLOCK = registryBlock("primitive_extractor", () -> new ExtractorBlock(TierExtractor.PRIMITIVE));
-    public static final RegistryObject<ExtractorBlock> COAL_EXTRACTOR_BLOCK = registryBlock("coal_extractor", () -> new CoalExtractorBlock(TierExtractor.COAL));
+    public static final RegistryObject<ExtractorBlock> PRIMITIVE_EXTRACTOR_BLOCK = registryBlock("primitive_extractor", T1ExtractorBlock::new);
+    public static final RegistryObject<ExtractorBlock> COAL_EXTRACTOR_BLOCK = registryBlock("coal_extractor", T2ExtractorBlock::new);
 
     // регистрация блока
     public static <T extends Block> RegistryObject<T> registryBlock(String name, Supplier<T> block, boolean addToolTip){

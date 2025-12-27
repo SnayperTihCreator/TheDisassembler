@@ -15,7 +15,7 @@ import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
-import snaypertihcreator.thedisassembler.blocks.CoalExtractorBlock;
+import snaypertihcreator.thedisassembler.blocks.T2ExtractorBlock;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
 
 public class Tier2ExtractorBlockEntity extends ExtractorBlockEntity {
@@ -64,12 +64,13 @@ public class Tier2ExtractorBlockEntity extends ExtractorBlockEntity {
     }
 
     @Override
-    protected float getTargetTemperature() {
-        boolean isOpen = getBlockState().getValue(CoalExtractorBlock.OPEN);
-        if (!isOpen) return super.getTargetTemperature();
+    protected float calcActualTemp() {
+        boolean isOpen = getBlockState().getValue(T2ExtractorBlock.OPEN);
+        if (!isOpen) return getAmbientTemp();
         if (burnTime > 0) return 600f;
-        return super.getTargetTemperature();
+        return getAmbientTemp();
     }
+
 
     @Override
     protected float getHeatSpeed() {
@@ -84,7 +85,7 @@ public class Tier2ExtractorBlockEntity extends ExtractorBlockEntity {
 
     @Override
     protected float getCoolingSpeed() {
-        boolean isOpen = getBlockState().getValue(CoalExtractorBlock.OPEN);
+        boolean isOpen = getBlockState().getValue(T2ExtractorBlock.OPEN);
         return isOpen ? 0.3f : 0.06f;
     }
 

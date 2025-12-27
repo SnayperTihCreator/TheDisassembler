@@ -40,6 +40,7 @@ public class ModRuLangProvider extends LanguageProvider {
         add("tooltip.thedisassembler.material.teeth", "Зубья: %s");
         add("tooltip.thedisassembler.core.description", "Сердцевина для пилы");
         add("tooltip.thedisassembler.teeth.description", "Зуб для пилы");
+        add("tooltip.thedisassembler.temperature", "Текущая температура %s °C");
 
         add("item.thedisassembler.saw_name", "%s Пила (%s зубья)");
         add("tooltip.thedisassembler.durability", "Прочность: %s/%s");
@@ -56,5 +57,10 @@ public class ModRuLangProvider extends LanguageProvider {
             if (ModItems.CORE_ITEMS.containsKey(material)) add(ModItems.CORE_ITEMS.get(material).get(), "%s сердцевина".formatted(name.feminine()));
             if (ModItems.TEETH_ITEMS.containsKey(material)) add(ModItems.TEETH_ITEMS.get(material).get(), "%s зубья".formatted(name.plural()));
         });
+
+        add(ModItems.BREWING_SEDIMENT.get(), "Варочный осадок");
+        add(ModItems.GLASS_DISTILLATION.get(), "Стеклянный набор для дистилляции");
+        add(ModItems.REINFORCED_DISTILLATION.get(), "Улучшенный набор для дистилляции");
+        add(ModItems.DIAMOND_DISTILLATION.get(), "Продвинутый набор для дистилляции");
     }
 }
