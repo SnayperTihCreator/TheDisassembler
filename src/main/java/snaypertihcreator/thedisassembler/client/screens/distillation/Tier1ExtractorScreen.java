@@ -9,7 +9,7 @@ import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.menus.distillation.PrimitiveExtractorMenu;
 
 public class Tier1ExtractorScreen extends ExtractorScreen<PrimitiveExtractorMenu>{
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "textures/gui/disassembler_gui_tier1.png"); // TODO поменять текстуру на его
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "textures/gui/extractor_gui_tier1.png"); //
 
     public Tier1ExtractorScreen(PrimitiveExtractorMenu menu, Inventory inventory, Component component){
         super(menu, inventory, component);
@@ -28,7 +28,13 @@ public class Tier1ExtractorScreen extends ExtractorScreen<PrimitiveExtractorMenu
         /* TODO добавить шкалу (градусник). Нарисуйте вертикальную полоску. Здеся рисуйте заполнение этой полоски на основе getTemp(). */
         
         int progressWidth = menu.getScaledProgress(22);
-        guiGraphics.blit(TEXTURE, x + 78, y + 43, 177, 0, progressWidth, 15);
+        var currentTempure = menu.getCurrentTemp();
+        if (currentTempure > 0) {
+            var progressFire = (int)(66 * currentTempure) / 600;
+            guiGraphics.blit(TEXTURE, x + 52, y + 44 + 12 - progressFire, 177, 66 - progressFire, 14, progressFire + 1);
+        }
+
+        guiGraphics.blit(TEXTURE, x + 19, y + 77, 177, 0, progressWidth, 15);
 
     }
 
