@@ -12,6 +12,7 @@ import snaypertihcreator.thedisassembler.blocksEntity.disassembler.DisassemblerB
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier1DisassemblerBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier2DisassemblerBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier3DisassemblerBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.distillation.CoalExtractorBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.distillation.ExtractorBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.distillation.PrimitiveExtractorBlockEntity;
 
@@ -30,7 +31,8 @@ public class ModBlocksEntity {
 
     public static final RegistryObject<BlockEntityType<? extends ExtractorBlockEntity>> TIER1_DISTILLATION_BE =
             registerBE("tier1_distillation", PrimitiveExtractorBlockEntity::new, ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK);
-
+    public static final RegistryObject<BlockEntityType<? extends ExtractorBlockEntity>> TIER2_DISTILLATION_BE =
+            registerBE("tier2_distillation", CoalExtractorBlockEntity::new);
     @SafeVarargs
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<? extends T>> registerBE(
             String name,

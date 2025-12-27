@@ -9,7 +9,7 @@ import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.menus.distillation.PrimitiveExtractorMenu;
 
 public class Tier1ExtractorScreen extends ExtractorScreen<PrimitiveExtractorMenu>{
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "textures/gui/extractor_gui_tier1.png"); //
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "textures/gui/extractor_gui_tier1.png");
 
     public Tier1ExtractorScreen(PrimitiveExtractorMenu menu, Inventory inventory, Component component){
         super(menu, inventory, component);

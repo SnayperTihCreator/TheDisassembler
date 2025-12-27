@@ -1,5 +1,6 @@
 package snaypertihcreator.thedisassembler.blocksEntity.distillation;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -9,17 +10,23 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.CoalExtractorBlock;
+import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
 import snaypertihcreator.thedisassembler.menus.distillation.CoalExtractorMenu;
 import snaypertihcreator.thedisassembler.menus.distillation.PrimitiveExtractorMenu;
 
 public class CoalExtractorBlockEntity extends ExtractorBlockEntity {
     private int burnTime;
     private int burnDuration;
+
+    public CoalExtractorBlockEntity(BlockPos pos, BlockState state){
+        super(ModBlocksEntity.TIER2_DISTILLATION_BE.get(), pos, state, 4);
+    }
 
 
     @Override
@@ -60,27 +67,27 @@ public class CoalExtractorBlockEntity extends ExtractorBlockEntity {
 
     @Override
     protected float getTargetTemperature() {
-        var isOpen = getBlockState().getValue(CoalExtractorBlock.OPEN);
-        if (!isOpen){
-            return super.getTargetTemperature();
-        }
-        if (burnTime > 0){
-            return 600f;
-        }
+        boolean isOpen = getBlockState().getValue(CoalExtractorBlock.OPEN);
+        if (!isOpen) return super.getTargetTemperature();
+        if (burnTime > 0) return 600f;
         return super.getTargetTemperature();
     }
 
     @Override
     protected float getHeatSpeed() {
-        var isOpen = getBlockState().getValue(CoalExtractorBlock.OPEN);
-        if (isOpen){
+        if (level == null) return 0.5f;
+        ResourceLocation dimId = level.dimension().location();
 
-        }
+        if (dimId.equals(Level.NETHER.location())) return 1.2f; // Нагревается очень быстро
+        if (dimId.equals(Level.END.location())) return 0.2f;    // В пустоте трудно нагреть блок
+
+        return 0.5f;
     }
 
     @Override
     protected float getCoolingSpeed() {
-        return 0.3f;
+        boolean isOpen = getBlockState().getValue(CoalExtractorBlock.OPEN);
+        return isOpen ? 0.3f : 0.06f;
     }
 
     @Override
@@ -99,6 +106,7 @@ public class CoalExtractorBlockEntity extends ExtractorBlockEntity {
                     case 2 -> (int) currentTemp;
                     case 3 -> (cachedRecipe != null) ? (int) cachedRecipe.getTemperature() : 0;
                     case 4 -> burnTime;
+                    case 5 -> burnDuration;
                     default -> 0;
                 };
             }
@@ -109,12 +117,14 @@ public class CoalExtractorBlockEntity extends ExtractorBlockEntity {
                     case 0 -> progress = value;
                     case 1 -> maxProgress = value;
                     case 2 -> currentTemp = value;
+                    case 4 -> burnTime = value;
+                    case 5 -> burnDuration = value;
                 }
             }
 
             @Override
             public int getCount() {
-                return 4;
+                return 6;
             }
         };
     }
@@ -135,6 +145,6 @@ public class CoalExtractorBlockEntity extends ExtractorBlockEntity {
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerID, @NotNull Inventory inv, @NotNull Player player) {
-        return new CoalExtractorMenu(containerID, inv, this, this.data);
+        return null; // new CoalExtractorMenu(containerID, inv, this, this.data);
     }
 }

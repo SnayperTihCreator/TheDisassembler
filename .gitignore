@@ -21,6 +21,9 @@ build
 eclipse
 run
 
+# krita
+*-autosave.kra
+
 # Files from Forge MDK
 forge*changelog.txt
 /run-data/
