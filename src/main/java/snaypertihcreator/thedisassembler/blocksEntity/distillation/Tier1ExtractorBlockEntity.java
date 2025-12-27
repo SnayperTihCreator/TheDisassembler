@@ -16,10 +16,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
-import snaypertihcreator.thedisassembler.menus.distillation.PrimitiveExtractorMenu;
+import snaypertihcreator.thedisassembler.menus.distillation.Tier1ExtractorMenu;
 
-public class PrimitiveExtractorBlockEntity extends ExtractorBlockEntity{
-    public PrimitiveExtractorBlockEntity(BlockPos pos, BlockState state){
+public class Tier1ExtractorBlockEntity extends ExtractorBlockEntity{
+    public Tier1ExtractorBlockEntity(BlockPos pos, BlockState state){
         super(ModBlocksEntity.TIER1_DISTILLATION_BE.get(), pos, state, 3);
     }
 
@@ -110,6 +110,6 @@ public class PrimitiveExtractorBlockEntity extends ExtractorBlockEntity{
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int containerID, @NotNull Inventory inv, @NotNull Player player) {
-        return new PrimitiveExtractorMenu(containerID, inv, this, this.data);
+        return new Tier1ExtractorMenu(containerID, inv, this, this.data);
     }
 }

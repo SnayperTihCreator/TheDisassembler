@@ -6,12 +6,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
-import snaypertihcreator.thedisassembler.menus.distillation.PrimitiveExtractorMenu;
+import snaypertihcreator.thedisassembler.menus.distillation.Tier1ExtractorMenu;
 
-public class Tier1ExtractorScreen extends ExtractorScreen<PrimitiveExtractorMenu>{
+public class Tier1ExtractorScreen extends ExtractorScreen<Tier1ExtractorMenu>{
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "textures/gui/extractor_gui_tier1.png");
 
-    public Tier1ExtractorScreen(PrimitiveExtractorMenu menu, Inventory inventory, Component component){
+    public Tier1ExtractorScreen(Tier1ExtractorMenu menu, Inventory inventory, Component component){
         super(menu, inventory, component);
         this.imageWidth = 176;
         this.imageHeight = 189;

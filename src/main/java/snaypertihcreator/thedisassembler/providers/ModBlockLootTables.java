@@ -24,6 +24,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         dropSelf(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get());
 
         dropSelf(ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK.get());
+        dropSelf(ModBlocks.COAL_EXTRACTOR_BLOCK.get());
     }
 
     @Override

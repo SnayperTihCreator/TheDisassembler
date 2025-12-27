@@ -12,9 +12,9 @@ import snaypertihcreator.thedisassembler.blocksEntity.disassembler.DisassemblerB
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier1DisassemblerBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier2DisassemblerBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.disassembler.Tier3DisassemblerBlockEntity;
-import snaypertihcreator.thedisassembler.blocksEntity.distillation.CoalExtractorBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.distillation.Tier2ExtractorBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.distillation.ExtractorBlockEntity;
-import snaypertihcreator.thedisassembler.blocksEntity.distillation.PrimitiveExtractorBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.distillation.Tier1ExtractorBlockEntity;
 
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -30,9 +30,9 @@ public class ModBlocksEntity {
             registerBE("tier3_disassembler", Tier3DisassemblerBlockEntity::new, ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK);
 
     public static final RegistryObject<BlockEntityType<? extends ExtractorBlockEntity>> TIER1_DISTILLATION_BE =
-            registerBE("tier1_distillation", PrimitiveExtractorBlockEntity::new, ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK);
+            registerBE("tier1_distillation", Tier1ExtractorBlockEntity::new, ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK);
     public static final RegistryObject<BlockEntityType<? extends ExtractorBlockEntity>> TIER2_DISTILLATION_BE =
-            registerBE("tier2_distillation", CoalExtractorBlockEntity::new);
+            registerBE("tier2_distillation", Tier2ExtractorBlockEntity::new);
     @SafeVarargs
     private static <T extends BlockEntity> RegistryObject<BlockEntityType<? extends T>> registerBE(
             String name,

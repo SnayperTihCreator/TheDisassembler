@@ -17,14 +17,12 @@ import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.CoalExtractorBlock;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
-import snaypertihcreator.thedisassembler.menus.distillation.CoalExtractorMenu;
-import snaypertihcreator.thedisassembler.menus.distillation.PrimitiveExtractorMenu;
 
-public class CoalExtractorBlockEntity extends ExtractorBlockEntity {
+public class Tier2ExtractorBlockEntity extends ExtractorBlockEntity {
     private int burnTime;
     private int burnDuration;
 
-    public CoalExtractorBlockEntity(BlockPos pos, BlockState state){
+    public Tier2ExtractorBlockEntity(BlockPos pos, BlockState state){
         super(ModBlocksEntity.TIER2_DISTILLATION_BE.get(), pos, state, 4);
     }
 

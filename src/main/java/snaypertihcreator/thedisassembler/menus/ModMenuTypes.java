@@ -9,7 +9,7 @@ import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.menus.disassembler.Tier1DisassemblerMenu;
 import snaypertihcreator.thedisassembler.menus.disassembler.Tier2DisassemblerMenu;
 import snaypertihcreator.thedisassembler.menus.disassembler.Tier3DisassemblerMenu;
-import snaypertihcreator.thedisassembler.menus.distillation.PrimitiveExtractorMenu;
+import snaypertihcreator.thedisassembler.menus.distillation.Tier1ExtractorMenu;
 
 // Регистратор меню
 public class ModMenuTypes {
@@ -19,5 +19,5 @@ public class ModMenuTypes {
     public static final RegistryObject<MenuType<Tier2DisassemblerMenu>> TIER2_DISASSEMBLER_MENU = MENUS.register("disassembler2_menu", () -> IForgeMenuType.create(Tier2DisassemblerMenu::new));
     public static final RegistryObject<MenuType<Tier3DisassemblerMenu>> TIER3_DISASSEMBLER_MENU = MENUS.register("disassembler3_menu", () -> IForgeMenuType.create(Tier3DisassemblerMenu::new));
 
-    public static final RegistryObject<MenuType<PrimitiveExtractorMenu>> TIER1_EXTRACTOR_MENU = MENUS.register("extractor_menu", () -> IForgeMenuType.create(PrimitiveExtractorMenu::new));
+    public static final RegistryObject<MenuType<Tier1ExtractorMenu>> TIER1_EXTRACTOR_MENU = MENUS.register("extractor_menu", () -> IForgeMenuType.create(Tier1ExtractorMenu::new));
 }

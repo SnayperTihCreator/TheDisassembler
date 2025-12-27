@@ -6,17 +6,17 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import snaypertihcreator.thedisassembler.blocksEntity.ModBlocksEntity;
-import snaypertihcreator.thedisassembler.blocksEntity.distillation.CoalExtractorBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.distillation.Tier2ExtractorBlockEntity;
 import snaypertihcreator.thedisassembler.blocksEntity.distillation.ExtractorBlockEntity;
-import snaypertihcreator.thedisassembler.blocksEntity.distillation.PrimitiveExtractorBlockEntity;
+import snaypertihcreator.thedisassembler.blocksEntity.distillation.Tier1ExtractorBlockEntity;
 
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 public enum TierExtractor {
 
-    PRIMITIVE(1, ModBlocksEntity.TIER1_DISTILLATION_BE, PrimitiveExtractorBlockEntity::new),
-    COAL(2, ModBlocksEntity.TIER2_DISTILLATION_BE, CoalExtractorBlockEntity::new);
+    PRIMITIVE(1, ModBlocksEntity.TIER1_DISTILLATION_BE, Tier1ExtractorBlockEntity::new),
+    COAL(2, ModBlocksEntity.TIER2_DISTILLATION_BE, Tier2ExtractorBlockEntity::new);
     // 1. Примитивный: 3 слота, медленно греется, без топлива внутри
 //    PRIMITIVE(0.5f, false, ModBlockEntities.PRIMITIVE_EXTRACTOR, PrimitiveExtractorBlockEntity::new),
     // 2. Угольный: 4 слота, средний нагрев, есть топливо

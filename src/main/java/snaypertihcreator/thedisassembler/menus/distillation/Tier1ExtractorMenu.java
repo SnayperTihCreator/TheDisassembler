@@ -15,12 +15,12 @@ import snaypertihcreator.thedisassembler.menus.ModMenuTypes;
 
 import java.util.Objects;
 
-public class PrimitiveExtractorMenu extends ExtractorMenu{
-    public PrimitiveExtractorMenu(int containerID, Inventory inventory, FriendlyByteBuf buf) {
+public class Tier1ExtractorMenu extends ExtractorMenu{
+    public Tier1ExtractorMenu(int containerID, Inventory inventory, FriendlyByteBuf buf) {
         this(containerID, inventory, Objects.requireNonNull(inventory.player.level().getBlockEntity(buf.readBlockPos())), new SimpleContainerData(4));
     }
 
-    public PrimitiveExtractorMenu(int containerID, Inventory inventory, BlockEntity entity, ContainerData data) {
+    public Tier1ExtractorMenu(int containerID, Inventory inventory, BlockEntity entity, ContainerData data) {
         super(ModMenuTypes.TIER1_EXTRACTOR_MENU.get(), containerID, inventory, entity, data, 4);
 
         entity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler -> {
