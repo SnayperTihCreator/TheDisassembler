@@ -25,20 +25,8 @@ public class PrimitiveExtractorBlockEntity extends ExtractorBlockEntity{
 
     @Override
     protected float getTargetTemperature() {
-        if (level == null) return 20.0f;
-
-        float biomeRawTemp = level.getBiome(worldPosition).value().getBaseTemperature();
-
-        ResourceLocation dimId = level.dimension().location();
-
-        float baseAmbientTemp;
-        if (dimId.equals(Level.NETHER.location())) {
-            baseAmbientTemp = 90.0f + (biomeRawTemp * 12.5f); // Жар Незера: 90°C - 115°C
-        } else if (dimId.equals(Level.END.location())) {
-            baseAmbientTemp = -40.0f; // Холод Энда: стабильные -40°C
-        } else {
-            baseAmbientTemp = (biomeRawTemp - 0.15f) * 35.0f + 12.0f; // Обычный мир: от -15°C до +60°C или другие
-        }
+        float baseAmbientTemp = super.getTargetTemperature();
+        if (level == null) return baseAmbientTemp;
 
         BlockPos belowPos = worldPosition.below();
         BlockState belowState = level.getBlockState(belowPos);
@@ -57,9 +45,6 @@ public class PrimitiveExtractorBlockEntity extends ExtractorBlockEntity{
             if (belowState.hasProperty(CampfireBlock.LIT) && belowState.getValue(CampfireBlock.LIT)) return 250.0f;
         }
 
-        if (dimId.equals(Level.OVERWORLD.location()) && level.isRainingAt(worldPosition)) {
-            baseAmbientTemp -= 15.0f;
-        }
         return baseAmbientTemp;
     }
 

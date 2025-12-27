@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ContainerData;
@@ -100,7 +101,6 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
         data = createContainerData();
     }
 
-    protected abstract float getTargetTemperature();
     protected abstract float getHeatSpeed();
     protected abstract float getCoolingSpeed();
     protected boolean serverTickFuel() {return true;}
@@ -108,6 +108,29 @@ public abstract class ExtractorBlockEntity extends BlockEntity implements MenuPr
     @SuppressWarnings("unused")
     protected void updateBlockState(BlockState state, boolean isWorking, boolean isBurning) {}
     protected abstract ContainerData createContainerData();
+
+
+    protected float getTargetTemperature(){
+        if (level == null) return 20.0f;
+
+        float biomeRawTemp = level.getBiome(worldPosition).value().getBaseTemperature();
+
+        ResourceLocation dimId = level.dimension().location();
+
+        float baseAmbientTemp;
+        if (dimId.equals(Level.NETHER.location())) {
+            baseAmbientTemp = 90.0f + (biomeRawTemp * 12.5f); // Жар Незера: 90°C - 115°C
+        } else if (dimId.equals(Level.END.location())) {
+            baseAmbientTemp = -40.0f; // Холод Энда: стабильные -40°C
+        } else {
+            baseAmbientTemp = (biomeRawTemp - 0.15f) * 35.0f + 12.0f; // Обычный мир: от -15°C до +60°C или другие
+        }
+
+        if (dimId.equals(Level.OVERWORLD.location()) && level.isRainingAt(worldPosition)) {
+            baseAmbientTemp -= 15.0f;
+        }
+        return baseAmbientTemp;
+    }
 
     protected void onInventoryChange(int slot){
         if (slot == SLOT_INPUT) {
