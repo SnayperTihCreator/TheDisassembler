@@ -55,9 +55,8 @@ public class DistillationKitItem extends Item {
             case INDUSTRIAL -> ChatFormatting.GREEN;
         };
 
-        tooltipComponents.add(Component.translatable("tooltip.thedisassembler.max_efficiency")
-                .append(": ")
-                .append(Component.literal(percent).withStyle(color))
-                .withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(
+                Component.translatable("tooltip.thedisassembler.max_efficiency",
+                                Component.literal(percent).withStyle(color)).withStyle(ChatFormatting.GRAY));
     }
 }

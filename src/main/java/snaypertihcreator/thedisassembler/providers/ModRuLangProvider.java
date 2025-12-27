@@ -46,6 +46,7 @@ public class ModRuLangProvider extends LanguageProvider {
         add("tooltip.thedisassembler.durability", "Прочность: %s/%s");
         add("tooltip.thedisassembler.speedMod", "Скорость распила: %s%%");
         add("tooltip.thedisassembler.luckMod", "Бонус к удаче: %s%%");
+        add("tooltip.thedisassembler.max_efficiency", "Эффективность: %s");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
             var name = material.getLang().getRuName();

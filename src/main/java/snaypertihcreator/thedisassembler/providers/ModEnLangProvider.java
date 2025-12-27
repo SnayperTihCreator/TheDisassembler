@@ -48,6 +48,7 @@ public class ModEnLangProvider extends LanguageProvider {
         add("tooltip.thedisassembler.durability", "Durability: %s/%s");
         add("tooltip.thedisassembler.speedMod", "Processing Speed: %s%%");
         add("tooltip.thedisassembler.luckMod", "Luck Modifier: %s%%");
+        add("tooltip.thedisassembler.max_efficiency", "Efficiency: %s");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
             String name = material.getLang().getEnName();
@@ -60,6 +61,8 @@ public class ModEnLangProvider extends LanguageProvider {
         });
 
         add(ModItems.BREWING_SEDIMENT.get(), "Brewing Sediment");
-        add(ModItems.GLASS_DISTILLATION.get(), "Glass Distillation Set");
+        add(ModItems.GLASS_DISTILLATION.get(), "Glass distillation set");
+        add(ModItems.REINFORCED_DISTILLATION.get(), "Improved distillation kit");
+        add(ModItems.DIAMOND_DISTILLATION.get(), "Advanced distillation kit");
     }
 }
