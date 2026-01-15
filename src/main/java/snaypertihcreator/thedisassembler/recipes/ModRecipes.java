@@ -18,6 +18,9 @@ public class ModRecipes {
     // Тип сериализатора для кастомного предмета
     public static final RegistryObject<RecipeSerializer<DisassemblingRecipe>> DISASSEMBLING_SERIALIZER =
             SERIALIZERS.register("disassembling", () -> DisassemblingRecipe.Serializer.INSTANCE);
+    public static final RegistryObject<RecipeSerializer<JSDisassembingRecipe>> JS_DISASSEMBLING_SERIALIZER =
+            SERIALIZERS.register("js_disassembling", () -> JSDisassembingRecipe.Serializer.INSTANCE);
+
     // 2. Сериализатор для разбора пилы (Специальная логика Java) - ДОБАВЛЕНО
     public static final RegistryObject<RecipeSerializer<SawDisassemblingRecipe>> SAW_DISASSEMBLING_SERIALIZER =
             SERIALIZERS.register("saw_disassembling", SawDisassemblingRecipe.Serializer::new);

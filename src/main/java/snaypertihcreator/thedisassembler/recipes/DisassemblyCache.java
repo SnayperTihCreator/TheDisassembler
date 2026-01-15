@@ -5,6 +5,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -27,6 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Mod.EventBusSubscriber(modid = TheDisassemblerMod.MODID)
 public class DisassemblyCache {
 
+    // TODO почему-то не рабатает разборка фееверков
+
     private static final Map<Item, DisassemblingRecipe> recipeMap = new HashMap<>(); //Хранить найдены рецепты
 
     // Запускается при запуске сервера
@@ -40,6 +43,12 @@ public class DisassemblyCache {
 
         craftingRecipes.forEach(recipe -> {
             ItemStack resultStack = recipe.getResultItem(level.registryAccess());
+
+            if(resultStack.is(Items.FIREWORK_ROCKET)){
+                System.out.println("-----");
+                System.out.println(resultStack);
+                System.out.println(resultStack.getTag());
+            }
 
             if (isExclude(resultStack, excludedConfigItems)) return;
             if (resultStack.isEmpty()) return;

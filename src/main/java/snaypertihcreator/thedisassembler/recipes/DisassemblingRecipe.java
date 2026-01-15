@@ -184,4 +184,9 @@ public class DisassemblingRecipe implements Recipe<SimpleContainer> {
             });
         }
     }
+
+    @Override
+    public String toString() {
+        return "DisassemblingRecipe(%s:%s -- %s)".formatted(input.getItems(), countInput, results);
+    }
 }

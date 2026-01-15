@@ -28,6 +28,9 @@ public class ModRuLangProvider extends LanguageProvider {
         add("menu.thedisassembler.base_block", "Базовый разборщик");
         add("menu.thedisassembler.advanced_disassembler", "Улучшенный разборщик");
         add("menu.thedisassembler.progressive_disassembler", "Продвинутый разборщик");
+
+        add("menu.%s.primitive_extractor".formatted(TheDisassemblerMod.MODID), "Примитивный Экстрактор");
+
         add("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID), "Разборка");
         add("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID), "Дистилляция");
         add("tooltip.thedisassembler.no_recipe", "Не найден рецепт");

@@ -9,6 +9,8 @@ public class ModCommonConfig {
     public static final ForgeConfigSpec SPEC;
 
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXCLUDED_ITEMS;
+    public static final ForgeConfigSpec.ConfigValue<String> EXTERNAL_JS_PATH;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> JS_TARGETS;
 
     static {
         BUILDER.push("Common config from The Disassembler");
@@ -19,8 +21,10 @@ public class ModCommonConfig {
                         "#minecraft:trim_templates",
                         "minecraft:netherite_upgrade_smithing_template" // Исключения предметов
                 ), entry -> true);
+        EXTERNAL_JS_PATH = BUILDER.comment("Path external scripts").
+                define("external_js_path", "config/disassemble");
+        JS_TARGETS = BUILDER.defineList("js_targets", List.of("minecraft:firework_rocket"), entry -> true);
         BUILDER.pop();
-
         SPEC = BUILDER.build();
 
     }

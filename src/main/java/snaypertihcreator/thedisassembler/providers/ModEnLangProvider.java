@@ -30,6 +30,9 @@ public class ModEnLangProvider extends LanguageProvider {
         add("menu.thedisassembler.base_block", "Basic Disassembler");
         add("menu.thedisassembler.advanced_disassembler", "Advanced Disassembler");
         add("menu.thedisassembler.progressive_disassembler", "Progressive Disassembler");
+
+        add("menu.%s.primitive_extractor".formatted(TheDisassemblerMod.MODID), "Primitive Extractor");
+
         add("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID), "Disassembly");
         add("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID), "Distillation");
         add("tooltip.thedisassembler.no_recipe", "Recipe not found");
