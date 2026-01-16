@@ -68,7 +68,7 @@ public class Tier3DisassemblerBlockEntity extends DisassemblerBlockEntity {
     protected float getLuckModifier() {
         ItemStack disk = handler.getStackInSlot(1);
         if (!(disk.getItem() instanceof HandSawItem sawItem)) return 0;
-        return sawItem.getLuckModifier(disk);
+        return sawItem.getLuckModifier(disk)+0.10F;
     }
 
     @Override

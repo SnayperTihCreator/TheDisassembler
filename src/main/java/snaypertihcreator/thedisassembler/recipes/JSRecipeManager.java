@@ -1,204 +1,167 @@
 package snaypertihcreator.thedisassembler.recipes;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.ForgeRegistries;
-import snaypertihcreator.thedisassembler.ModCommonConfig;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
+import snaypertihcreator.thedisassembler.items.ModItems;
 
 import javax.script.*;
 import java.io.File;
-import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class JSRecipeManager {
     private static final JSRecipeManager INSTANCE = new JSRecipeManager();
-    private final Map<String, CompiledScript> recipes = new HashMap<>();
+    private final Map<Item, CompiledScript> itemToScript = new HashMap<>();
+    private ScriptEngine engine;
+    private Compilable compilable;
 
-    private final ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-    private final Compilable compilable = (Compilable) engine;
+    public static JSRecipeManager getInstance() { return INSTANCE; }
 
-    private JSRecipeManager(){
-        engine.put("modid", TheDisassemblerMod.MODID);
-    }
+    private JSRecipeManager() {
+        try {
+            ClassLoader loader = getClass().getClassLoader();
+            ScriptEngineManager manager = new ScriptEngineManager(loader);
+            this.engine = manager.getEngineByName("nashorn");
 
-    public static JSRecipeManager getInstance() {
-        return INSTANCE;
-    }
-
-    public void loadScripts() {
-        recipes.clear();
-        loadDefaultScripts();
-        loadExternalScripts(ModCommonConfig.EXTERNAL_JS_PATH.get());
-    }
-
-    private void loadDefaultScripts(){
-        List<String> defaultScripts = List.of("firework.js");
-
-        defaultScripts.forEach(scriptFile -> {
-            try{
-                String scriptName = scriptFile.replace(".js", "");
-                String scriptContent = loadResource("extra_recipe/"+scriptFile);
-                registerScript(scriptName, scriptContent);
-            } catch (IOException | ScriptException e) {
-                TheDisassemblerMod.LOGGER.error("Не удалось загрузить дефолтный JS: {}", scriptFile, e);
+            if (this.engine == null) {
+                Class<?> factoryClass = Class.forName("org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory", true, loader);
+                this.engine = (ScriptEngine) factoryClass.getMethod("getScriptEngine").invoke(factoryClass.getDeclaredConstructor().newInstance());
             }
-        });
 
-    }
-
-    private String loadResource(String resourcePath) throws IOException{
-        var inputStream = getClass().getClassLoader().getResourceAsStream(resourcePath);
-        if (inputStream == null) throw new IOException("Ресурс не найден: " + resourcePath);
-
-        return new String(inputStream.readAllBytes());
-    }
-
-    private void loadExternalScripts(String path){
-        File dir = new File(path);
-        if (!dir.exists()) {
-            dir.mkdir();
-            return;
-        }
-
-        File[] files = dir.listFiles(file -> file.getName().endsWith(".js"));
-        if (files == null) return;
-
-        Arrays.stream(files).forEach(file -> {
-            try {
-                String scriptName = file.getName().replace(".js", "");
-                String scriptContent = Files.readString(file.toPath());
-                registerScript(scriptName, scriptContent);
-            } catch (IOException e) {
-                TheDisassemblerMod.LOGGER.error("Не удалось загрузить JS: {}", file, e);
-            } catch (ScriptException e) {
-                TheDisassemblerMod.LOGGER.error("Ошибка компиляции JS рецепта {}", file.getName(), e);
+            if (this.engine instanceof Compilable c) {
+                this.compilable = c;
+                TheDisassemblerMod.LOGGER.info("Nashorn JS Engine успешно загружен!");
             }
-        });
-    }
-
-    private void registerScript(String name, String scriptContent) throws ScriptException {
-        CompiledScript compiled = compilable.compile(scriptContent);
-        recipes.put(name, compiled);
-    }
-
-    public List<ItemStack> disassemble(ItemStack stack) {
-        String scriptId = getScriptId(stack);
-        CompiledScript script = recipes.get(scriptId);
-        if (script == null) {
-            TheDisassemblerMod.LOGGER.warn("JS рецепт не найден для: {}", ForgeRegistries.ITEMS.getKey(stack.getItem()));
-            return List.of();
+        } catch (Exception e) {
+            TheDisassemblerMod.LOGGER.error("Ошибка инициализации JS движка: ", e);
         }
+    }
+
+    public void reload(ResourceManager rm, File configDir) {
+        itemToScript.clear();
+        if (compilable == null) return;
+
+        // Вшитые рецепты
+        registerBuiltin(Items.FIREWORK_ROCKET, "fireworks.js", rm);
+        ModItems.SAW_ITEMS.values().forEach(item -> registerBuiltin(item.get(), "saw.js", rm));
+
+        loadExternalScripts(configDir);
+    }
+
+    private void loadExternalScripts(File configDir){
+        // Внешние рецепты
+        File mappingFile = new File(configDir, "recipe_mapping.json");
+        if (!mappingFile.exists()) return;
 
         try {
-            // Создаём контекст для выполнения
-            ScriptContext context = new SimpleScriptContext();
-            Bindings bindings = context.getBindings(ScriptContext.ENGINE_SCOPE);
-
-            // Передаём ItemStack в JS через обёртку
-            ItemStackJSWrapper wrapper = new ItemStackJSWrapper(stack);
-            bindings.put("stack", wrapper);
-
-            // Выполняем скрипт
-            script.eval(context);
-
-            // Вызываем функцию disassemble()
-            Invocable invocable = (Invocable) engine;
-            Object result = invocable.invokeFunction("disassemble", wrapper);
-
-            return convertResult(result);
-
-        } catch (NoSuchMethodException e) {
-            TheDisassemblerMod.LOGGER.error("Функция disassemble() не найдена в скрипте: {}", scriptId, e);
-        } catch (ScriptException | IllegalArgumentException e) {
-            TheDisassemblerMod.LOGGER.error("Ошибка выполнения JS для {}: {}", scriptId, stack, e);
+            JsonObject mapping = JsonParser.parseString(Files.readString(mappingFile.toPath())).getAsJsonObject();
+            for (String itemId : mapping.keySet()) {
+                File file = new File(new File(configDir, "scripts_extra"), mapping.get(itemId).getAsString());
+                Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(itemId));
+                if (file.exists() && item != null) {
+                    itemToScript.put(item, compilable.compile(Files.readString(file.toPath())));
+                }
+            }
+        } catch (Exception e) {
+            TheDisassemblerMod.LOGGER.error("Ошибка загрузки рецептов из конфига: {}", e.getMessage());
         }
-        return List.of();
     }
 
-    private String getScriptId(ItemStack stack) {
-        String itemId = Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(stack.getItem())).toString();
-        String scriptName = itemId.substring(itemId.indexOf(":") + 1);
-
-        // Проверяем точное совпадение
-        if (recipes.containsKey(scriptName)) {
-            return scriptName;
-        }
-
-        return scriptName;
+    private void registerBuiltin(Item item, String name, ResourceManager rm) {
+        ResourceLocation loc = ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "scripts/" + name);
+        rm.getResource(loc).ifPresent(res -> {
+            try (var reader = new InputStreamReader(res.open(), StandardCharsets.UTF_8)) {
+                itemToScript.put(item, compilable.compile(reader));
+            } catch (Exception e) {
+                TheDisassemblerMod.LOGGER.error("Ошибка компиляции {}: {}", name, e.getMessage());
+            }
+        });
     }
 
-    private List<ItemStack> convertResult(Object jsResult) {
-        if (!(jsResult instanceof List)) {
-            TheDisassemblerMod.LOGGER.warn("JS вернул неправильный тип результата: {}", jsResult.getClass());
-            return List.of();
-        }
+    /**
+     * Универсальный метод вызова JS функций
+     */
+    private Object safeInvoke(Item item, String function, Object... args) {
+        CompiledScript script = itemToScript.get(item);
+        if (script == null) return null;
 
-        List<?> jsList = (List<?>) jsResult;
-        return jsList.stream()
-                .filter(obj -> obj instanceof Map)
-                .map(obj -> (Map<String, Object>) obj)
-                .map(this::mapToItemStack)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
-    }
-
-    private ItemStack mapToItemStack(Map<String, Object> dropMap) {
-        String id = (String) dropMap.get("id");
-        if (id == null) return null;
-
-        ResourceLocation resLoc = ResourceLocation.tryParse(id);
-        if (resLoc == null) {
-            TheDisassemblerMod.LOGGER.warn("Неверный ID предмета в JS: {}", id);
+        try {
+            // КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ:
+            // Сначала выполняем скрипт БЕЗ кастомных Bindings, чтобы функции сели в глобальный контекст
+            script.eval();
+            return ((Invocable) engine).invokeFunction(function, args);
+        } catch (Exception e) {
+            TheDisassemblerMod.LOGGER.error("Ошибка в JS ({}) для {}: {}", function, item, e.getMessage());
             return null;
         }
+    }
 
-        Item item = ForgeRegistries.ITEMS.getValue(resLoc);
-        if (item == null) {
-            TheDisassemblerMod.LOGGER.warn("Предмет не найден: {}", id);
-            return null;
+    public List<ItemStack> disassemble(ItemStack input, Random random, float luck) {
+        Object result = safeInvoke(input.getItem(), "disassemble", new ItemStackJSWrapper(input), luck, random);
+
+        // ЛОГ ДЛЯ ПРОВЕРКИ
+        TheDisassemblerMod.LOGGER.debug("JS Raw Result: {}", result);
+
+        List<ItemStack> list = new ArrayList<>();
+        Collection<?> itemsCollection = null;
+
+        // 1. Пытаемся достать коллекцию (Nashorn может вернуть List или Map)
+        if (result instanceof List<?> jsList) {
+            itemsCollection = jsList;
+        } else if (result instanceof Map<?, ?> jsMap) {
+            itemsCollection = jsMap.values();
         }
 
-        int count = dropMap.containsKey("count")
-                ? Math.max(1, ((Number) dropMap.get("count")).intValue())
-                : 1;
+        if (itemsCollection != null) {
+            for (Object obj : itemsCollection) {
+                // JS объект приходит как Map
+                if (obj instanceof Map<?, ?> map) {
+                    try {
+                        Object idObj = map.get("id");
+                        if (idObj == null) continue;
 
-        return new ItemStack(item, Math.min(count, item.getMaxStackSize()));
-    }
+                        // Важно: парсим ID
+                        ResourceLocation resLoc = ResourceLocation.tryParse(idObj.toString());
+                        if (resLoc == null) continue;
 
-    // Геттер для отладки
-    public Map<String, CompiledScript> getLoadedRecipes() {
-        return Collections.unmodifiableMap(recipes);
-    }
+                        Item item = ForgeRegistries.ITEMS.getValue(resLoc);
 
-    public boolean supportsItem(ItemStack stack) {
-        return ModCommonConfig.JS_TARGETS.get().stream()
-                .anyMatch(id -> matches(stack, id));
-    }
+                        // Безопасно достаем число (даже если оно 3.0 или "3")
+                        Object countObj = map.get("count");
+                        int count = 1;
+                        if (countObj instanceof Number n) {
+                            count = n.intValue();
+                        } else if (countObj instanceof String s) {
+                            count = Integer.parseInt(s);
+                        }
 
-    public boolean supportsItemId(String itemId) {
-        return ModCommonConfig.JS_TARGETS.get().stream()
-                .anyMatch(target -> matchesItemId(itemId, target));
-    }
-
-    public static boolean isJSTarget(Item item) {
-        String itemId = Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)).toString();
-        return getInstance().supportsItemId(itemId);
-    }
-
-    private boolean matches(ItemStack stack, String targetId) {
-        if (targetId.startsWith("#")) {
-            return false;
+                        if (item != null && item != Items.AIR) {
+                            list.add(new ItemStack(item, count));
+                        }
+                    } catch (Exception e) {
+                        TheDisassemblerMod.LOGGER.error("Ошибка парсинга предмета из JS: {}", e.getMessage());
+                    }
+                }
+            }
         }
-        return Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(stack.getItem())).toString().equals(targetId);
+
+        TheDisassemblerMod.LOGGER.debug("Final list size: {}", list.size());
+        return list;
     }
 
-    private boolean matchesItemId(String itemId, String targetId) {
-        if (targetId.startsWith("#")) return false;
-        return itemId.equals(targetId);
+    public int getMinInput(Item item) {
+        Object res = safeInvoke(item, "getMinInput");
+        return (res instanceof Number n) ? n.intValue() : 1;
     }
 
+    public boolean hasScript(Item item) { return itemToScript.containsKey(item); }
 }

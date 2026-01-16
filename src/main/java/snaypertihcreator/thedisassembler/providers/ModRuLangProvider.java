@@ -1,13 +1,17 @@
 package snaypertihcreator.thedisassembler.providers;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.ModItems;
 import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.function.BiConsumer;
 
 /**
  * Провайдер для русской локализации
@@ -21,35 +25,35 @@ public class ModRuLangProvider extends LanguageProvider {
         add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get(), "Улучшенный разборщик");
         add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get(), "Продвинутый разборщик");
 
-        add("tooltip.%s.basic_disassembler".formatted(TheDisassemblerMod.MODID), "Бонус разборки: нет");
-        add("tooltip.%s.advanced_disassembler".formatted(TheDisassemblerMod.MODID), "Бонус разборки: бонус пилы");
-        add("tooltip.%s.progressive_disassembler".formatted(TheDisassemblerMod.MODID), "Бонус разборки: бонус пилы + 5%");
+        addBlockInfo(ModBlocks.BASIC_DISASSEMBLER_BLOCK, this::addToolTipTranslation, "Бонус разборки: нет");
+        addBlockInfo(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK, this::addToolTipTranslation, "Бонус разборки: бонус пилы");
+        addBlockInfo(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK, this::addToolTipTranslation, "Бонус разборки: бонус пилы + 10%");
 
-        add("menu.thedisassembler.base_block", "Базовый разборщик");
-        add("menu.thedisassembler.advanced_disassembler", "Улучшенный разборщик");
-        add("menu.thedisassembler.progressive_disassembler", "Продвинутый разборщик");
+        addBlockInfo(ModBlocks.BASIC_DISASSEMBLER_BLOCK, this::addMenuTranslation, "Базовый разборщик");
+        addBlockInfo(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK, this::addMenuTranslation, "Улучшенный разборщик");
+        addBlockInfo(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK, this::addMenuTranslation, "Продвинутый разборщик");
 
-        add("menu.%s.primitive_extractor".formatted(TheDisassemblerMod.MODID), "Примитивный Экстрактор");
+        addBlockInfo(ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK, this::addMenuTranslation, "Примитивный Экстрактор");
 
         add("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID), "Разборка");
         add("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID), "Дистилляция");
-        add("tooltip.thedisassembler.no_recipe", "Не найден рецепт");
-        add("tooltip.%s.empty_sediment".formatted(TheDisassemblerMod.MODID), "Пустой осадок");
-        add("tooltip.%s.sediment_contains".formatted(TheDisassemblerMod.MODID), "Осадки");
+        addToolTipTranslation("no_recipe", "Не найден рецепт");
+        addToolTipTranslation("empty_sediment", "Пустой осадок");
+        addToolTipTranslation("sediment_contains", "Осадки");
 
-        add("tooltip.thedisassembler.hold_shift", "Нажмите на Shift для подробностей");
-        add("tooltip.thedisassembler.saw.description", "Пилы, используемые для автоматических разборщиков");
-        add("tooltip.thedisassembler.material.core", "Основа: %s");
-        add("tooltip.thedisassembler.material.teeth", "Зубья: %s");
-        add("tooltip.thedisassembler.core.description", "Сердцевина для пилы");
-        add("tooltip.thedisassembler.teeth.description", "Зуб для пилы");
-        add("tooltip.thedisassembler.temperature", "Текущая температура %s °C");
+        addToolTipTranslation("hold_shift", "Нажмите на Shift для подробностей");
+        addToolTipTranslation("saw.description", "Пилы, используемые для автоматических разборщиков");
+        addToolTipTranslation("material.core", "Основа: %s");
+        addToolTipTranslation("material.teeth", "Зубья: %s");
+        addToolTipTranslation("core.description", "Сердцевина для пилы");
+        addToolTipTranslation("teeth.description", "Зуб для пилы");
+        addToolTipTranslation("temperature", "Текущая температура %s °C");
 
         add("item.thedisassembler.saw_name", "%s Пила (%s зубья)");
-        add("tooltip.thedisassembler.durability", "Прочность: %s/%s");
-        add("tooltip.thedisassembler.speedMod", "Скорость распила: %s%%");
-        add("tooltip.thedisassembler.luckMod", "Бонус к удаче: %s%%");
-        add("tooltip.thedisassembler.max_efficiency", "Эффективность: %s");
+        addToolTipTranslation("durability", "Прочность: %s/%s");
+        addToolTipTranslation("speedMod", "Скорость распила: %s%%");
+        addToolTipTranslation("luckMod", "Бонус к удаче: %s%%");
+        addToolTipTranslation("max_efficiency", "Эффективность: %s");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
             var name = material.getLang().getRuName();
@@ -66,5 +70,18 @@ public class ModRuLangProvider extends LanguageProvider {
         add(ModItems.GLASS_DISTILLATION.get(), "Стеклянный набор для дистилляции");
         add(ModItems.REINFORCED_DISTILLATION.get(), "Улучшенный набор для дистилляции");
         add(ModItems.DIAMOND_DISTILLATION.get(), "Продвинутый набор для дистилляции");
+    }
+
+    private void addToolTipTranslation(String tooltipKey, String tooltip){
+        add("tooltip.%s.%s".formatted(TheDisassemblerMod.MODID, tooltipKey), tooltip);
+    }
+
+    private void addMenuTranslation(String tooltipKey, String tooltip){
+        add("menu.%s.%s".formatted(TheDisassemblerMod.MODID, tooltipKey), tooltip);
+    }
+
+    private void addBlockInfo(RegistryObject<? extends Block> block, BiConsumer<String, String> adder, String tooltip){
+        String blockID = Objects.requireNonNull(block.getId()).getPath();
+        adder.accept(blockID, tooltip);
     }
 }

@@ -114,9 +114,6 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
 
         ItemStack inputStack = handler.getStackInSlot(getInputSlot());
 
-        System.out.println(inputStack);
-        System.out.println(inputStack.getTag());
-
         if (inputStack.isEmpty()) return;
 
         SimpleContainer tempContainer = new SimpleContainer(1);
@@ -126,8 +123,6 @@ public abstract class DisassemblerBlockEntity extends BlockEntity implements Men
                 .getRecipeFor(ModRecipes.DISASSEMBLING_TYPE.get(), tempContainer, level);
 
         cachedRecipe = custom.orElseGet(() -> DisassemblyCache.getRecipe(inputStack));
-
-        System.out.println(cachedRecipe);
     }
 
     // проверка рецепта на возможность разборки

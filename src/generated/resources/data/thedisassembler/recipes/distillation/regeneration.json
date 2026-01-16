@@ -1,8 +1,0 @@
-{
-  "type": "thedisassembler:distillation",
-  "potion": "minecraft:regeneration",
-  "result": {
-    "item": "minecraft:ghast_tear"
-  },
-  "temperature": 300.0
-}

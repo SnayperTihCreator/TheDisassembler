@@ -1,8 +1,0 @@
-{
-  "type": "thedisassembler:distillation",
-  "potion": "minecraft:fire_resistance",
-  "result": {
-    "item": "minecraft:magma_cream"
-  },
-  "temperature": 250.0
-}

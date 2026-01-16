@@ -41,7 +41,7 @@ public enum SawMaterial {
     public float getSpeedMultiplier() {return 1.0f + (this.speedLevel * 0.2f);}
 
     // Дерево (tier 1) = 0%, Незерит (tier 5) = 20%
-    public float getLuckModifier() {return (this.tierLevel - 1) * 0.25f;}
+    public float getLuckModifier() {return (this.tierLevel - 1) * 0.05f;}
 
     // имя материала
     public String getName() { return name; }

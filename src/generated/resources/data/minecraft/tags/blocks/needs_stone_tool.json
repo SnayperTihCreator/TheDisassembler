@@ -1,6 +1,0 @@
-{
-  "values": [
-    "thedisassembler:basic_disassembler",
-    "thedisassembler:primitive_extractor"
-  ]
-}

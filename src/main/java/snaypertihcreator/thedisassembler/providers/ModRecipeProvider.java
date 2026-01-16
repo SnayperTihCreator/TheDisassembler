@@ -1,27 +1,24 @@
 package snaypertihcreator.thedisassembler.providers;
 
-import com.google.gson.JsonObject;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.*;
 import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
 import snaypertihcreator.thedisassembler.recipes.DistillationRecipeBuilder;
 import snaypertihcreator.thedisassembler.recipes.ModRecipes;
-import snaypertihcreator.thedisassembler.recipes.SawDisassemblingRecipeBuilder;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -40,9 +37,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         // Рецепт СБОРКИ пилы на верстаке
         SpecialRecipeBuilder.special(ModRecipes.SAW_ASSEMBLY.get())
                 .save(consumer, "%s:saw_assembly_manual".formatted(TheDisassemblerMod.MODID));
-
-        // Рецепт РАЗБОРА пилы
-        SawDisassemblingRecipeBuilder.disassembling().save(consumer, ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "hand_saw_disassembling"));
 
         Arrays.stream(SawMaterial.values()).forEach(mat -> {
                     ItemLike teeth = ModItems.TEETH_ITEMS.get(mat).get();
@@ -117,7 +111,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     }
 
     private void addDistil(Consumer<FinishedRecipe> consumer, Potion potion, ItemLike result, float temp) {
-        String name = ForgeRegistries.POTIONS.getKey(potion).getPath();
+        String name = Objects.requireNonNull(ForgeRegistries.POTIONS.getKey(potion)).getPath();
         DistillationRecipeBuilder.distil(potion, result, temp)
                 .save(consumer, ResourceLocation.fromNamespaceAndPath(TheDisassemblerMod.MODID, "distillation/" + name));
     }

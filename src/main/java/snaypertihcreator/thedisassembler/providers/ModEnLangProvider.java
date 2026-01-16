@@ -1,14 +1,17 @@
 package snaypertihcreator.thedisassembler.providers;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.data.LanguageProvider;
+import net.minecraftforge.registries.RegistryObject;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
 import snaypertihcreator.thedisassembler.items.ModItems;
 import snaypertihcreator.thedisassembler.items.disassembler.SawMaterial;
-import snaypertihcreator.thedisassembler.recipes.DisassemblingRecipe;
 
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.function.BiConsumer;
 
 /**
  * Провайдер для англиской локализации
@@ -22,36 +25,35 @@ public class ModEnLangProvider extends LanguageProvider {
         add(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK.get(), "Advanced Disassembler");
         add(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK.get(), "Progressive Disassembler");
 
-        add("tooltip.%s.basic_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly bonus: no");
-        add("tooltip.%s.advanced_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly bonus: saw blade bonus");
-        add("tooltip.%s.progressive_disassembler".formatted(TheDisassemblerMod.MODID), "Disassembly Bonus: saw blade bonus + 5%");
+        addBlockInfo(ModBlocks.BASIC_DISASSEMBLER_BLOCK, this::addToolTipTranslation, "Disassembly bonus: no");
+        addBlockInfo(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK, this::addToolTipTranslation, "Disassembly bonus: saw blade bonus");
+        addBlockInfo(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK, this::addToolTipTranslation, "Disassembly Bonus: saw blade bonus + 10%");
 
-        // TODO поправить переводы
-        add("menu.thedisassembler.base_block", "Basic Disassembler");
-        add("menu.thedisassembler.advanced_disassembler", "Advanced Disassembler");
-        add("menu.thedisassembler.progressive_disassembler", "Progressive Disassembler");
+        addBlockInfo(ModBlocks.BASIC_DISASSEMBLER_BLOCK, this::addMenuTranslation, "Basic Disassembler");
+        addBlockInfo(ModBlocks.ADVANCED_DISASSEMBLER_BLOCK, this::addMenuTranslation, "Advanced Disassembler");
+        addBlockInfo(ModBlocks.PROGRESSIVE_DISASSEMBLER_BLOCK, this::addMenuTranslation, "Progressive Disassembler");
 
-        add("menu.%s.primitive_extractor".formatted(TheDisassemblerMod.MODID), "Primitive Extractor");
+        addBlockInfo(ModBlocks.PRIMITIVE_EXTRACTOR_BLOCK, this::addMenuTranslation, "Primitive Extractor");
 
         add("%s.disassembler_creative_tab".formatted(TheDisassemblerMod.MODID), "Disassembly");
         add("%s.distillation_creative_tab".formatted(TheDisassemblerMod.MODID), "Distillation");
-        add("tooltip.thedisassembler.no_recipe", "Recipe not found");
-        add("tooltip.%s.empty_sediment".formatted(TheDisassemblerMod.MODID), "Empty Sediment");
-        add("tooltip.%s.sediment_contains".formatted(TheDisassemblerMod.MODID), "Sediments");
+        addToolTipTranslation("no_recipe", "Recipe not found");
+        addToolTipTranslation("empty_sediment", "Empty Sediment");
+        addToolTipTranslation("sediment_contains", "Sediments");
 
-        add("tooltip.thedisassembler.hold_shift", "Click on Shift for details");
-        add("tooltip.thedisassembler.saw.description", "Saws that are used for automatic disassemblers");
-        add("tooltip.thedisassembler.core.description", "Core for the saw");
-        add("tooltip.thedisassembler.teeth.description", "Saw tooth");
-        add("tooltip.thedisassembler.material.core", "Core Material: %s");
-        add("tooltip.thedisassembler.material.teeth", "Teeth Material: %s");
-        add("tooltip.thedisassembler.temperature", "Current temperature %s °C");
+        addToolTipTranslation("hold_shift", "Click on Shift for details");
+        addToolTipTranslation("saw.description", "Saws that are used for automatic disassemblers");
+        addToolTipTranslation("core.description", "Core for the saw");
+        addToolTipTranslation("teeth.description", "Saw tooth");
+        addToolTipTranslation("material.core", "Core Material: %s");
+        addToolTipTranslation("material.teeth", "Teeth Material: %s");
+        addToolTipTranslation("temperature", "Current temperature %s °C");
 
-        add("item.thedisassembler.saw_name", "%s Saw (%s teeth)");
-        add("tooltip.thedisassembler.durability", "Durability: %s/%s");
-        add("tooltip.thedisassembler.speedMod", "Processing Speed: %s%%");
-        add("tooltip.thedisassembler.luckMod", "Luck Modifier: %s%%");
-        add("tooltip.thedisassembler.max_efficiency", "Efficiency: %s");
+        add("item.%s.saw_name".formatted(TheDisassemblerMod.MODID), "%s Saw (%s teeth)");
+        addToolTipTranslation("durability", "Durability: %s/%s");
+        addToolTipTranslation("speedMod", "Processing Speed: %s%%");
+        addToolTipTranslation("luckMod", "Luck Modifier: %s%%");
+        addToolTipTranslation("max_efficiency", "Efficiency: %s");
 
         Arrays.stream(SawMaterial.values()).forEach(material -> {
             String name = material.getLang().getEnName();
@@ -67,5 +69,18 @@ public class ModEnLangProvider extends LanguageProvider {
         add(ModItems.GLASS_DISTILLATION.get(), "Glass distillation set");
         add(ModItems.REINFORCED_DISTILLATION.get(), "Improved distillation kit");
         add(ModItems.DIAMOND_DISTILLATION.get(), "Advanced distillation kit");
+    }
+
+    private void addToolTipTranslation(String tooltipKey, String tooltip){
+        add("tooltip.%s.%s".formatted(TheDisassemblerMod.MODID, tooltipKey), tooltip);
+    }
+
+    private void addMenuTranslation(String tooltipKey, String tooltip){
+        add("menu.%s.%s".formatted(TheDisassemblerMod.MODID, tooltipKey), tooltip);
+    }
+
+    private void addBlockInfo(RegistryObject<? extends Block> block, BiConsumer<String, String> adder, String tooltip){
+        String blockID = Objects.requireNonNull(block.getId()).getPath();
+        adder.accept(blockID, tooltip);
     }
 }

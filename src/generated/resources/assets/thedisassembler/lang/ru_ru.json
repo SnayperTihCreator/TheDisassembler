@@ -60,7 +60,7 @@
   "tooltip.thedisassembler.material.teeth": "Зубья: %s",
   "tooltip.thedisassembler.max_efficiency": "Эффективность: %s",
   "tooltip.thedisassembler.no_recipe": "Не найден рецепт",
-  "tooltip.thedisassembler.progressive_disassembler": "Бонус разборки: бонус пилы + 5%",
+  "tooltip.thedisassembler.progressive_disassembler": "Бонус разборки: бонус пилы + 10%",
   "tooltip.thedisassembler.saw.description": "Пилы, используемые для автоматических разборщиков",
   "tooltip.thedisassembler.sediment_contains": "Осадки",
   "tooltip.thedisassembler.speedMod": "Скорость распила: %s%%",

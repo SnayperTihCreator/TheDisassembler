@@ -1,8 +1,0 @@
-{
-  "type": "thedisassembler:distillation",
-  "potion": "minecraft:leaping",
-  "result": {
-    "item": "minecraft:rabbit_foot"
-  },
-  "temperature": 130.0
-}

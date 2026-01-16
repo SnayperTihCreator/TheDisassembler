@@ -1,4 +1,4 @@
-// 1.20.1	2025-12-27T00:29:46.6149746	Recipes
+// 1.20.1	2026-01-16T04:08:40.4881044	Recipes
 bad6fe9c7eceb6195648b2e93589144fccd3c1aa data/thedisassembler/advancements/recipes/misc/advanced_disassembler.json
 9d0737aa224012df44c62580d522aa644a9ec227 data/thedisassembler/advancements/recipes/misc/basic_disassembler.json
 273aadcb985f9002be5436aa80d55c214b5bf49d data/thedisassembler/advancements/recipes/misc/diamond_blade.json
@@ -41,7 +41,6 @@ e0dfde0190ad17aa48fa903542acee2be265b759 data/thedisassembler/recipes/distillati
 0e58ca2addc157c7ddb64f27f260f838ef8e63e6 data/thedisassembler/recipes/gold_blade.json
 da6f4fb96a2aa025fa6cc012349658294ca87bc9 data/thedisassembler/recipes/gold_saw.json
 dc10f81f568374f85ed26a2ddffd74f910907535 data/thedisassembler/recipes/gold_teeth.json
-f24b3937b572b1a8279498a622bd7921baf5469d data/thedisassembler/recipes/hand_saw_disassembling.json
 7669db6716d6edffe85aa088438815845d52427d data/thedisassembler/recipes/iron_blade.json
 e988f45e09ac76f3389d2b5cb5e1327c6ca56507 data/thedisassembler/recipes/iron_saw.json
 3d164c811541846447804597fef5b4bfbf49ffac data/thedisassembler/recipes/iron_teeth.json

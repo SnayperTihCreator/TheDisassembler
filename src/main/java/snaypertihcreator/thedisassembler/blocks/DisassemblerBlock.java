@@ -1,15 +1,18 @@
 package snaypertihcreator.thedisassembler.blocks;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.network.NetworkHooks;
@@ -30,6 +34,7 @@ public class DisassemblerBlock extends Block implements EntityBlock {
 
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final BooleanProperty WORKING = BooleanProperty.create("working");
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public DisassemblerBlock(TierTheDisassembler tier) {
         super(Properties.of().strength(3.5F).requiresCorrectToolForDrops()
@@ -39,13 +44,20 @@ public class DisassemblerBlock extends Block implements EntityBlock {
         registerDefaultState(stateDefinition.any()
                 .setValue(LIT, false)
                 .setValue(WORKING, false)
+                .setValue(FACING, Direction.NORTH)
         );
+    }
+
+    // Это заставит блок поворачиваться к игроку при установке
+    @Override
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     // состояния блока
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(LIT, WORKING);
+        builder.add(LIT, WORKING, FACING);
     }
 
     // метод для создания блока контролера

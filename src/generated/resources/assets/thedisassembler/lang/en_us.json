@@ -60,7 +60,7 @@
   "tooltip.thedisassembler.material.teeth": "Teeth Material: %s",
   "tooltip.thedisassembler.max_efficiency": "Efficiency: %s",
   "tooltip.thedisassembler.no_recipe": "Recipe not found",
-  "tooltip.thedisassembler.progressive_disassembler": "Disassembly Bonus: saw blade bonus + 5%",
+  "tooltip.thedisassembler.progressive_disassembler": "Disassembly Bonus: saw blade bonus + 10%",
   "tooltip.thedisassembler.saw.description": "Saws that are used for automatic disassemblers",
   "tooltip.thedisassembler.sediment_contains": "Sediments",
   "tooltip.thedisassembler.speedMod": "Processing Speed: %s%%",

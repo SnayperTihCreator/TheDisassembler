@@ -18,9 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.blocks.ModBlocks;
-import snaypertihcreator.thedisassembler.items.ModItems;
 import snaypertihcreator.thedisassembler.recipes.DisassemblingRecipe;
-import snaypertihcreator.thedisassembler.recipes.SawDisassemblingRecipe;
 
 import java.util.List;
 
@@ -77,14 +75,7 @@ public class DisassemblerRecipeCategory implements IRecipeCategory<Disassembling
         if (inputs.length > 0) {
             ItemStack stackInput = inputs[0].copyWithCount(recipe.getCountInput());
             builder.addSlot(RecipeIngredientRole.INPUT, 1, 26).addItemStack(stackInput);
-        }
-        else if (recipe instanceof SawDisassemblingRecipe) {
-            builder.addSlot(RecipeIngredientRole.INPUT, 1, 26)
-                    .addItemStacks(ModItems.SAW_ITEMS.values().stream()
-                            .map(reg -> reg.get().getDefaultInstance())
-                            .toList());
-        }
-        else return;
+        } else return;
 
         List<DisassemblingRecipe.Result> results = recipe.getResults();
         if (results == null || results.isEmpty()) return;

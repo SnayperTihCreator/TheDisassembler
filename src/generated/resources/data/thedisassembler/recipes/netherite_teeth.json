@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 2,
-  "ingredient": {
-    "item": "minecraft:netherite_ingot"
-  },
-  "result": "thedisassembler:netherite_teeth"
-}

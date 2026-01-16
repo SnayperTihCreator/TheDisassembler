@@ -1,8 +1,0 @@
-{
-  "type": "thedisassembler:distillation",
-  "potion": "minecraft:weakness",
-  "result": {
-    "item": "minecraft:fermented_spider_eye"
-  },
-  "temperature": 120.0
-}

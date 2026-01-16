@@ -1,12 +1,36 @@
 {
   "multipart": [
     {
-      "when": { "lit": false },
+      "when": { "facing": "north", "lit": false },
       "apply": { "model": "thedisassembler:block/advanced_disassembler" }
     },
     {
-      "when": { "lit": true },
+      "when": { "facing": "south", "lit": false },
+      "apply": { "model": "thedisassembler:block/advanced_disassembler", "y": 180 }
+    },
+    {
+      "when": { "facing": "west", "lit": false },
+      "apply": { "model": "thedisassembler:block/advanced_disassembler", "y": 270 }
+    },
+    {
+      "when": { "facing": "east", "lit": false },
+      "apply": { "model": "thedisassembler:block/advanced_disassembler", "y": 90 }
+    },
+    {
+      "when": { "facing": "north", "lit": true },
       "apply": { "model": "thedisassembler:block/advanced_disassembler_on" }
+    },
+    {
+      "when": { "facing": "south", "lit": true },
+      "apply": { "model": "thedisassembler:block/advanced_disassembler_on", "y": 180 }
+    },
+    {
+      "when": { "facing": "west", "lit": true },
+      "apply": { "model": "thedisassembler:block/advanced_disassembler_on", "y": 270 }
+    },
+    {
+      "when": { "facing": "east", "lit": true },
+      "apply": { "model": "thedisassembler:block/advanced_disassembler_on", "y": 90 }
     }
   ]
 }

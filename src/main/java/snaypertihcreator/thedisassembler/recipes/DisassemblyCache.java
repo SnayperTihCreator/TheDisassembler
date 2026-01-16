@@ -7,18 +7,21 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.ForgeRegistries;
 import snaypertihcreator.thedisassembler.ModCommonConfig;
 import snaypertihcreator.thedisassembler.TheDisassemblerMod;
 import snaypertihcreator.thedisassembler.items.disassembler.HandSawItem;
 
 import javax.annotation.Nullable;
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,8 +30,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Mod.EventBusSubscriber(modid = TheDisassemblerMod.MODID)
 public class DisassemblyCache {
-
-    // TODO почему-то не рабатает разборка фееверков
 
     private static final Map<Item, DisassemblingRecipe> recipeMap = new HashMap<>(); //Хранить найдены рецепты
 
@@ -41,35 +42,42 @@ public class DisassemblyCache {
         List<CraftingRecipe> craftingRecipes = level.getRecipeManager().getAllRecipesFor(RecipeType.CRAFTING);
         List<? extends String> excludedConfigItems = ModCommonConfig.EXCLUDED_ITEMS.get();
 
+        File configDir = new File(FMLPaths.CONFIGDIR.get().toFile(), TheDisassemblerMod.MODID);
+        JSRecipeManager.getInstance().reload(event.getServer().getResourceManager(), configDir);
+
         craftingRecipes.forEach(recipe -> {
             ItemStack resultStack = recipe.getResultItem(level.registryAccess());
 
-            if(resultStack.is(Items.FIREWORK_ROCKET)){
-                System.out.println("-----");
-                System.out.println(resultStack);
-                System.out.println(resultStack.getTag());
-            }
-
+            if (recipeMap.containsKey(resultStack.getItem())) return;
             if (isExclude(resultStack, excludedConfigItems)) return;
             if (resultStack.isEmpty()) return;
-            if (resultStack.getItem() instanceof HandSawItem) return;
 
-            AtomicInteger inputCount = new AtomicInteger(0);
+            if (JSRecipeManager.getInstance().hasScript(resultStack.getItem())) {
+                recipeMap.put(resultStack.getItem(), new JSDisassemblingRecipe(recipe.getId(), resultStack.getItem()));
+                return;
+            }
+
+            int inputCount = 0;
             Set<Item> uniqueIngredients = new HashSet<>();
-            recipe.getIngredients().forEach(ingredient -> {
-                if (ingredient.isEmpty()) return;
-                inputCount.set(inputCount.get() + 1);
+
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                if (ingredient.isEmpty()) continue;
+
+                inputCount++;
+
                 ItemStack[] items = ingredient.getItems();
-                if (items.length > 0) uniqueIngredients.add(items[0].getItem());
-            });
+                if (items.length > 0) {
+                    uniqueIngredients.add(items[0].getItem());
+                }
+            }
 
             int outputCount = resultStack.getCount();
 
-            if (inputCount.get() == 1 && outputCount == 9) return;
-            if (inputCount.get() == 9 && outputCount == 1 && uniqueIngredients.size() == 1) return;
+            if (inputCount == 1 && outputCount == 9) return;
+            if (inputCount == 9 && outputCount == 1 && uniqueIngredients.size() == 1) return;
 
             Item resultItem = resultStack.getItem();
-            if (!recipeMap.containsKey(resultItem)) recipeMap.put(resultItem, DisassemblingRecipe.fromCrafting(recipe, level));
+            recipeMap.put(resultItem, DisassemblingRecipe.fromCrafting(recipe, level));
         });
     }
 

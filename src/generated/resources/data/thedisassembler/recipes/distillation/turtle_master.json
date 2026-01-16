@@ -1,8 +1,0 @@
-{
-  "type": "thedisassembler:distillation",
-  "potion": "minecraft:turtle_master",
-  "result": {
-    "item": "minecraft:turtle_helmet"
-  },
-  "temperature": 400.0
-}
